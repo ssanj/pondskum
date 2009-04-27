@@ -8,7 +8,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
 
-public final class LinkTraverserImpl {
+public final class LinkTraverserImpl implements LinkTraverser {
 
     private final DefaultHttpClient httpClient;
 

@@ -1,8 +1,11 @@
 package com.googlecode.teltra.gui.simplecmd;
 
+import com.googlecode.pinthura.annotation.SuppressionReason;
 import com.googlecode.teltra.client.BigpondUsageInformation;
 import com.googlecode.teltra.config.SystemPropertyRetrieverImpl;
 
+@SuppressWarnings({"MethodReturnOfConcreteClass"})
+@SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
 public final class SimpleCMDBuilder {
 
     private final String lineSeparator;
@@ -14,8 +17,9 @@ public final class SimpleCMDBuilder {
         stringBuilder = new StringBuilder();
 
         stringBuilder.append("connecting...");
-        stringBuilder.append(lineSeparator);        
+        stringBuilder.append(lineSeparator);
     }
+
 
     public SimpleCMDBuilder withUsageInformation(final BigpondUsageInformation usageInformation) {
         this.usageInformation = usageInformation;

@@ -15,25 +15,9 @@
  */
 package com.googlecode.teltra.client;
 
-public interface BigpondAccountInformation {
+import com.googlecode.teltra.client.logger.LinkDetailLogger;
+
+public interface LinkTraverser {
     
-    String getAccountName();
-
-    void setAccountName(String accountName);
-
-    String getAccountNumber();
-
-    void setAccountNumber(String accountNumber);
-
-    String getCurrentPlan();
-
-    void setCurrentPlan(String currentPlan);
-
-    String getMonthlyAllowance();
-
-    void setMonthlyAllowance(String monthlyAllowance);
-
-    String getMonthlyPlanFee();
-
-    void setMonthlyPlanFee(String monthlyPlanFee);
+    void traverse(String url, LinkDetailLogger logger) throws LinkTraverserException;
 }

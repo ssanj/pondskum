@@ -1,11 +1,16 @@
 package com.googlecode.teltra.client;
 
-import java.util.Map;
+import com.googlecode.pinthura.annotation.SuppressionReason;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public final class BigpondInformationFiller implements InformationFiller {
 
     private final Map<String, String> accountInfoMap;
+
+    @SuppressWarnings({"InstanceVariableOfConcreteClass"})
+    @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
     private final BigpondUsageInfomationBuilder infomationBuilder;
 
     public BigpondInformationFiller() {
