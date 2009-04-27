@@ -24,16 +24,16 @@
             <outputDirectory>/lib</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/scripts</directory>
+            <directory>${project.basedir}/resources/scripts</directory>
             <outputDirectory>/bin</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/etc</directory>
+            <directory>${project.basedir}/resources/etc</directory>
             <outputDirectory>/etc</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/tmp</directory>
+            <directory>${project.basedir}/resources/tmp</directory>
             <outputDirectory>/tmp</outputDirectory>
             <directoryMode>0755</directoryMode>
         </fileSet>
