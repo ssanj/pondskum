@@ -1,51 +1,35 @@
+/*
+ * Copyright 2008 Sanjiv Sahayam
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.googlecode.teltra.client;
 
-public final class BigpondUsage {
+public interface BigpondUsage {
+    
+    String getDownloadUsage();
 
-    private String downloadUsage;
-    private String uploadUsage;
-    private String totalUsage;
-    private String unmeteredUsage;
+    void setDownloadUsage(String downloadUsage);
 
-    public String getDownloadUsage() {
-        return downloadUsage;
-    }
+    String getUploadUsage();
 
-    public void setDownloadUsage(final String downloadUsage) {
-        this.downloadUsage = downloadUsage;
-    }
+    void setUploadUsage(String uploadUsage);
 
-    public String getUploadUsage() {
-        return uploadUsage;
-    }
+    String getTotalUsage();
 
-    public void setUploadUsage(final String uploadUsage) {
-        this.uploadUsage = uploadUsage;
-    }
+    void setTotalUsage(String totalUsage);
 
-    public String getTotalUsage() {
-        return totalUsage;
-    }
+    String getUnmeteredUsage();
 
-    public void setTotalUsage(final String totalUsage) {
-        this.totalUsage = totalUsage;
-    }
-
-    public String getUnmeteredUsage() {
-        return unmeteredUsage;
-    }
-
-    public void setUnmeteredUsage(final String unmeteredUsage) {
-        this.unmeteredUsage = unmeteredUsage;
-    }
-
-    @Override
-    public String toString() {
-        return "BigpondUsage{" +
-                "downloadUsage='" + downloadUsage + '\'' +
-                ", uploadUsage='" + uploadUsage + '\'' +
-                ", totalUsage='" + totalUsage + '\'' +
-                ", unmeteredUsage='" + unmeteredUsage + '\'' +
-                '}';
-    }
+    void setUnmeteredUsage(String unmeteredUsage);
 }

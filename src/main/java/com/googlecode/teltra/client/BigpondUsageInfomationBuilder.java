@@ -1,8 +1,12 @@
 package com.googlecode.teltra.client;
 
+import com.googlecode.pinthura.annotation.SuppressionReason;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"InstanceVariableOfConcreteClass", "MethodReturnOfConcreteClass", "MethodParameterOfConcreteClass"})
+@SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
 public final class BigpondUsageInfomationBuilder {
 
     private final List<BigpondMonthlyUsageBuilder> monthlyUsageBuilderList;
@@ -24,7 +28,7 @@ public final class BigpondUsageInfomationBuilder {
         return monthlyUsageBuilder;
     }
 
-    public BigpondUsageBuilderImpl withTotalUsage() {
+    public BigpondUsageBuilder withTotalUsage() {
         totalUsageBuilder = new BigpondUsageBuilderImpl(this);
         return totalUsageBuilder;
     }
@@ -36,7 +40,7 @@ public final class BigpondUsageInfomationBuilder {
             monthlyUsageList.add(bigpondUsageBuilder.build());
         }
 
-        return new BigpondUsageInformation(informationBuilder.build(), monthlyUsageList, totalUsageBuilder.build());
+        return new BigpondUsageInformationImpl(informationBuilder.build(), monthlyUsageList, totalUsageBuilder.build());
     }
 
     public static final class BigpondMonthlyUsageBuilder implements BigpondUsageBuilder {
@@ -44,6 +48,8 @@ public final class BigpondUsageInfomationBuilder {
         private final BigpondUsageBuilderImpl telstraUsageBuilder;
         private String month;
 
+        @SuppressWarnings({"MethodParameterOfConcreteClass"})
+        @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
         public BigpondMonthlyUsageBuilder(final BigpondUsageBuilderImpl telstraUsageBuilder) {
             this.telstraUsageBuilder = telstraUsageBuilder;
         }
@@ -74,7 +80,7 @@ public final class BigpondUsageInfomationBuilder {
         }
 
         private BigpondMonthlyUsage build() {
-            return new BigpondMonthlyUsage(month, telstraUsageBuilder.build());
+            return new BigpondMonthlyUsageImpl(month, telstraUsageBuilder.build());
         }
     }
 
@@ -99,6 +105,8 @@ public final class BigpondUsageInfomationBuilder {
         private String totalUsage;
         private String unmeteredUsage;
 
+        @SuppressWarnings({"MethodParameterOfConcreteClass"})
+        @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
         public BigpondUsageBuilderImpl(final BigpondUsageInfomationBuilder parent) {
             this.parent = parent;
         }
@@ -128,7 +136,7 @@ public final class BigpondUsageInfomationBuilder {
         }
 
         private BigpondUsage build() {
-            final BigpondUsage usage = new BigpondUsage();
+            final BigpondUsageImpl usage = new BigpondUsageImpl();
             usage.setDownloadUsage(downloadUsage);
             usage.setUploadUsage(uploadUsage);
             usage.setUnmeteredUsage(unmeteredUsage);
@@ -146,6 +154,8 @@ public final class BigpondUsageInfomationBuilder {
         private String monthlyAllowance;
         private String monthlyPlanFee;
 
+        @SuppressWarnings({"MethodParameterOfConcreteClass"})
+        @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
         public BigpondAccountInformationBuilder(final BigpondUsageInfomationBuilder parent) {
             this.parent = parent;
         }
@@ -179,8 +189,8 @@ public final class BigpondUsageInfomationBuilder {
             return parent;
         }
 
-        private BigpondAccountInformation build() {
-            final BigpondAccountInformation accountInformation = new BigpondAccountInformation();
+        private BigpondAccountInformationImpl build() {
+            final BigpondAccountInformationImpl accountInformation = new BigpondAccountInformationImpl();
             accountInformation.setAccountName(accountName);
             accountInformation.setAccountNumber(accountNumber);
             accountInformation.setCurrentPlan(currentPlan);

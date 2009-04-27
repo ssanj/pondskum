@@ -1,11 +1,8 @@
 package com.googlecode.teltra.gui.swing.tablet;
 
-import com.googlecode.teltra.client.BigpondConnector;
 import com.googlecode.teltra.client.BigpondMonthlyUsage;
-import com.googlecode.teltra.client.BigpondUsageInformation;
 import com.googlecode.teltra.client.BigpondUsage;
-import com.googlecode.teltra.config.ConfigFileLoaderImpl;
-import com.googlecode.teltra.config.SystemPropertyRetrieverImpl;
+import com.googlecode.teltra.client.BigpondUsageInformation;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -21,8 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Properties;
-import java.io.Serializable;
 
 public class Tablet extends JDialog {
 

@@ -15,10 +15,10 @@
  */
 package com.googlecode.teltra.gui.swing.tablet;
 
+import com.googlecode.teltra.client.BigpondConnectorImpl;
+import com.googlecode.teltra.client.BigpondUsageInformation;
 import com.googlecode.teltra.config.ConfigFileLoaderImpl;
 import com.googlecode.teltra.config.SystemPropertyRetrieverImpl;
-import com.googlecode.teltra.client.BigpondUsageInformation;
-import com.googlecode.teltra.client.BigpondConnector;
 
 import java.util.Properties;
 
@@ -26,7 +26,7 @@ public final class TabletRunner {
 
     public static void main(String[] args) {
         Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
-        BigpondUsageInformation usageInformation = new BigpondConnector(properties).connect();
+        BigpondUsageInformation usageInformation = new BigpondConnectorImpl(properties).connect();
 
         Tablet dialog = new Tablet();
         dialog.setTabletData(usageInformation);
