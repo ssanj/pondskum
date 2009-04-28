@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.teltra.gui.swing.tablet;
+package com.googlecode.pondskum.gui.swing.tablet;
 
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.teltra.config.ConfigFileLoaderImpl;
-import com.googlecode.teltra.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 
 import java.util.Properties;
 

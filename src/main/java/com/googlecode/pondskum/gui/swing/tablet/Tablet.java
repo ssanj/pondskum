@@ -1,4 +1,4 @@
-package com.googlecode.teltra.gui.swing.tablet;
+package com.googlecode.pondskum.gui.swing.tablet;
 
 import com.googlecode.pondskum.client.BigpondMonthlyUsage;
 import com.googlecode.pondskum.client.BigpondUsage;
