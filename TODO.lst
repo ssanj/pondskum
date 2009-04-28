@@ -1,0 +1,7 @@
+TODO List
+---------
+
+1. Stub out BigpondAccountInformation to allow to fix Intellij form-bug
+2. Add error logging.
+3. Add status information to gui.
+4. Create gnome gui.
