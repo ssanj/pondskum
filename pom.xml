@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode</groupId>
     <artifactId>pondskum</artifactId>
+    <name>pondskum</name>
     <version>1.0</version>
     <build>
         <plugins>
@@ -28,7 +29,7 @@
                     <descriptors>
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
-                </configuration>                
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -47,6 +48,12 @@
             <groupId>com.googlecode.pinthura</groupId>
             <artifactId>pinthura-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij.uiDesigner</groupId>
+            <artifactId>core</artifactId>
+            <version>8.9732</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

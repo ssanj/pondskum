@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.teltra.gui.simplecmd;
+package com.googlecode.pondskum.gui.simplecmd;
 
 import com.googlecode.pinthura.annotation.SuppressionReason;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.teltra.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 
 @SuppressWarnings({"MethodReturnOfConcreteClass"})
 @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
