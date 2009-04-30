@@ -15,6 +15,14 @@
             </excludes>
             <outputDirectory>/lib</outputDirectory>
         </dependencySet>
+        <!--<dependencySet>-->
+            <!--<unpack>false</unpack>-->
+            <!--<scope>runtime</scope>-->
+            <!--<includes>-->
+                <!--<include>com.intellij.uiDesigner:core</include>-->
+            <!--</includes>-->
+            <!--<outputDirectory>/lib</outputDirectory>-->
+        <!--</dependencySet>-->
     </dependencySets>
     <fileSets>
         <fileSet>
