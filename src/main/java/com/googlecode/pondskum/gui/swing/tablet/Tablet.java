@@ -50,7 +50,7 @@ public class Tablet extends JDialog {
 
     public void setTabletData(final BigpondUsageInformation usageInformation) {
         setAccountInfo(usageInformation);
-        usageTable.setModel(new BigPondTableModel(usageInformation));
+        usageTable.setModel(new BigpondTableModel(usageInformation));
     }
 
     private void setAccountInfo(final BigpondUsageInformation usageInformation) {
@@ -193,70 +193,5 @@ public class Tablet extends JDialog {
      */
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
-    }
-
-    private final class BigPondTableModel extends AbstractTableModel {
-
-        private static final long serialVersionUID = 550659947871203828L;
-
-        private final BigpondUsageInformation bigpondUsageInformation;
-        private final String[] columnNames;
-
-        private BigPondTableModel(final BigpondUsageInformation bigpondUsageInformation) {
-            this.bigpondUsageInformation = bigpondUsageInformation;
-            columnNames = new String[]{"Month", "Download", "Upload", "Unmetered", "Total"};
-        }
-
-        @Override
-        public Object getValueAt(final int row, final int column) {
-            if (row == bigpondUsageInformation.getMonthlyUsageList().size()) {
-                BigpondUsage usage = bigpondUsageInformation.getTotalUsage();
-                switch (column) {
-                    case 0:
-                        return "Total";
-                    case 1:
-                        return usage.getDownloadUsage();
-                    case 2:
-                        return usage.getUploadUsage();
-                    case 3:
-                        return usage.getUnmeteredUsage();
-                    case 4:
-                        return usage.getTotalUsage();
-                    default:
-                        return "N/A";
-                }
-            }
-
-            BigpondMonthlyUsage usage = bigpondUsageInformation.getMonthlyUsageList().get(row);
-            switch (column) {
-                case 0:
-                    return usage.getMonth();
-                case 1:
-                    return usage.getBigpondUsage().getDownloadUsage();
-                case 2:
-                    return usage.getBigpondUsage().getUploadUsage();
-                case 3:
-                    return usage.getBigpondUsage().getUnmeteredUsage();
-                case 4:
-                    return usage.getBigpondUsage().getTotalUsage();
-                default:
-                    return "N/A";
-            }
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public String getColumnName(final int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public int getRowCount() {
-            return bigpondUsageInformation.getMonthlyUsageList().size() + 1;
-        }
     }
 }
