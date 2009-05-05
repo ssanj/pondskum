@@ -1,7 +1,5 @@
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import com.googlecode.pondskum.client.BigpondMonthlyUsage;
-import com.googlecode.pondskum.client.BigpondUsage;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -16,13 +14,13 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.JScrollPane;
-import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Insets;
+import java.awt.Color;
 
 public class Tablet extends JDialog {
 
@@ -45,12 +43,18 @@ public class Tablet extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(updateButton);
 
+
         addEventListeners();
     }
 
     public void setTabletData(final BigpondUsageInformation usageInformation) {
+        BigpondTableModel bigpondTableModel = new BigpondTableModel(usageInformation);
+        Color totalsColor = new Color(255, 186, 0);
+        usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer(bigpondTableModel.getRowCount(), totalsColor));
+        usageTable.setDefaultRenderer(String.class, new UsageStringRenderer(bigpondTableModel.getRowCount(), totalsColor));
+
         setAccountInfo(usageInformation);
-        usageTable.setModel(new BigpondTableModel(usageInformation));
+        usageTable.setModel(bigpondTableModel);
     }
 
     private void setAccountInfo(final BigpondUsageInformation usageInformation) {

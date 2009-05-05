@@ -50,7 +50,7 @@ public final class BigpondTableModel extends AbstractTableModel {
     }
 
     private Object getUsageValue(final int column, final BigpondUsage usage) {
-        String usageValue = N_A;
+        String usageValue = "-1";
 
         switch (column) {
             case 1:
@@ -67,7 +67,7 @@ public final class BigpondTableModel extends AbstractTableModel {
                 break;
         }
 
-        return (usageValue.equals(N_A) ? usageValue : usageValue + " mb");
+        return new UsageTableValue(Integer.parseInt(usageValue));
     }
 
     @Override
@@ -78,6 +78,11 @@ public final class BigpondTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(final int column) {
         return columnNames[column];
+    }
+
+    @Override
+    public Class<?> getColumnClass(final int columnIndex) {
+        return columnIndex == 0 ? String.class : UsageTableValue.class;
     }
 
     @Override
