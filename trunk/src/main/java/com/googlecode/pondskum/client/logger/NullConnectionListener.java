@@ -20,7 +20,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public final class NullConnectionListener implements ConnectionListener {
 
-    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) {
+    public void onEvent(final DefaultHttpClient httpClient, final HttpResponse response) {
+        //do nothing.
+    }
+
+    @Override
+    public void onError(final String error, final Exception e) {
         //do nothing.
     }
 }
