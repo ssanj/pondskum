@@ -17,21 +17,20 @@ package com.googlecode.pondskum.stub;
 
 import com.googlecode.pondskum.client.BigpondAccountInformation;
 import com.googlecode.pondskum.client.BigpondAccountInformationImpl;
+import com.googlecode.pondskum.client.BigpondMonthlyUsage;
+import com.googlecode.pondskum.client.BigpondMonthlyUsageImpl;
+import com.googlecode.pondskum.client.BigpondUsage;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.client.BigpondUsageInformationImpl;
-import com.googlecode.pondskum.client.BigpondMonthlyUsageImpl;
-import com.googlecode.pondskum.client.BigpondUsageImpl;
-import com.googlecode.pondskum.client.BigpondUsage;
-import com.googlecode.pondskum.client.BigpondMonthlyUsage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class StubbyBigpondUsageInformationBuilder {
+public final class StubbyNewMonthBigpondUsageInformationBuilder {
 
     private final StubInformationCreator informationCreator;
 
-    public StubbyBigpondUsageInformationBuilder() {
+    public StubbyNewMonthBigpondUsageInformationBuilder() {
         informationCreator = new StubInformationCreator();
     }
 
@@ -44,11 +43,8 @@ public final class StubbyBigpondUsageInformationBuilder {
         accountInformation.setMonthlyPlanFee("$1,000,000");
 
         List<BigpondMonthlyUsage> bigpondUsageList = new ArrayList<BigpondMonthlyUsage>();
-        bigpondUsageList.add(new BigpondMonthlyUsageImpl("Jan", informationCreator.createUsage("1000", "500", "250", "1750")));
         bigpondUsageList.add(new BigpondMonthlyUsageImpl("Feb", informationCreator.createUsage("-", "-", "-", "-")));
-        bigpondUsageList.add(new BigpondMonthlyUsageImpl("Mar", informationCreator.createUsage("5000", "1000", "50", "6050")));
-
-        BigpondUsage totalUsage = informationCreator.createUsage("6000", "1500", "300", "7800");
+        BigpondUsage totalUsage = informationCreator.createUsage("-", "-", "-", "-");
 
         return new BigpondUsageInformationImpl(accountInformation, bigpondUsageList, totalUsage);
     }

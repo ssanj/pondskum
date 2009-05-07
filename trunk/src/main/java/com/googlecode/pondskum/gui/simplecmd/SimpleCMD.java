@@ -19,6 +19,8 @@ import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
+import com.googlecode.pondskum.stub.StubbyNewMonthBigpondUsageInformationBuilder;
 
 import java.util.Properties;
 

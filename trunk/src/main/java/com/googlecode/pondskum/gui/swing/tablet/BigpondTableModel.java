@@ -18,6 +18,8 @@ package com.googlecode.pondskum.gui.swing.tablet;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.client.BigpondUsage;
 import com.googlecode.pondskum.client.BigpondMonthlyUsage;
+import com.googlecode.pondskum.util.NumericUtil;
+import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -28,10 +30,12 @@ public final class BigpondTableModel extends AbstractTableModel {
 
     private final BigpondUsageInformation bigpondUsageInformation;
     private final String[] columnNames;
+    private final NumericUtil numericUtil;
 
     public BigpondTableModel(final BigpondUsageInformation bigpondUsageInformation) {
         this.bigpondUsageInformation = bigpondUsageInformation;
         columnNames = new String[]{"Month", "Download", "Upload", "Unmetered", "Total"};
+        numericUtil = new NumericUtilImpl();
     }
 
     @Override
@@ -67,7 +71,7 @@ public final class BigpondTableModel extends AbstractTableModel {
                 break;
         }
 
-        return new UsageTableValue(Integer.parseInt(usageValue));
+        return new UsageTableValue(numericUtil.getNumber(usageValue));
     }
 
     @Override
