@@ -15,18 +15,6 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import com.googlecode.pondskum.client.BigpondConnectorImpl;
-import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.client.BigpondConnector;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
-import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
-
-import javax.swing.SwingWorker;
-import java.util.Properties;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 public final class TabletRunner {
 
     public static void main(String[] args) {
@@ -35,42 +23,5 @@ public final class TabletRunner {
         new TabletSwingWorker(dialog).execute();
         dialog.setVisible(true);
         System.exit(0);
-    }
-
-    private static final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements Updatable {
-
-        private final Tablet tablet;
-
-        private TabletSwingWorker(final Tablet tablet) {
-            this.tablet = tablet;
-        }
-
-        @Override
-        protected BigpondUsageInformation doInBackground() throws Exception {
-            Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
-            BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
-            return bigpondConnector.connect(new ConsoleConnectionListener(this));
-        }
-
-        @Override
-        protected void process(final List<String> updateList) {
-            for (String update : updateList) {
-                tablet.update(update);
-            }
-        }
-
-        @Override
-        protected void done() {
-            try {
-                tablet.setTabletData(get());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void update(final String update) {
-          publish(update);
-        }
     }
 }

@@ -215,6 +215,7 @@
                   <background color="-16777216"/>
                   <font name="Lucida Sans" size="10" style="0"/>
                   <foreground color="-10053376"/>
+                  <rows value="10"/>
                 </properties>
               </component>
             </children>
