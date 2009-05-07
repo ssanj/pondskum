@@ -57,7 +57,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         this.resourceBundle = resourceBundle;
     }
 
-    public com.googlecode.pondskum.client.BigpondUsageInformation connect() throws BigpondConnectorException {
+    public BigpondUsageInformation connect() throws BigpondConnectorException {
 
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();

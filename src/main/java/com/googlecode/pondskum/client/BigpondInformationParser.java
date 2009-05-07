@@ -27,10 +27,10 @@ public final class BigpondInformationParser {
         this.usageFilePath = usageFilePath;
     }
 
-    public com.googlecode.pondskum.client.BigpondUsageInformation parse() throws com.googlecode.pondskum.client.BigpondInformationParserException {
+    public BigpondUsageInformation parse() throws BigpondInformationParserException {
 
         try {
-            final com.googlecode.pondskum.client.InformationFiller filler = new BigpondInformationFiller();
+            final InformationFiller filler = new BigpondInformationFiller();
 
             final String data = new StringExtractor(usageFilePath).extractStrings(false);
             final String[] strings = data.split(NEWLINE);
@@ -53,7 +53,7 @@ public final class BigpondInformationParser {
 
             return filler.getFilledInformation();
         } catch (Exception e) {
-            throw new com.googlecode.pondskum.client.BigpondInformationParserException(e);
+            throw new BigpondInformationParserException(e);
         }
     }
 }

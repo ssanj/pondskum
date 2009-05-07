@@ -20,13 +20,13 @@ import com.googlecode.pinthura.annotation.SuppressionReason;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class BigpondInformationFiller implements com.googlecode.pondskum.client.InformationFiller {
+public final class BigpondInformationFiller implements InformationFiller {
 
     private final Map<String, String> accountInfoMap;
 
     @SuppressWarnings({"InstanceVariableOfConcreteClass"})
     @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
-    private final com.googlecode.pondskum.client.BigpondUsageInfomationBuilder infomationBuilder;
+    private final BigpondUsageInfomationBuilder infomationBuilder;
 
     public BigpondInformationFiller() {
         accountInfoMap = new HashMap<String, String>();
@@ -36,7 +36,7 @@ public final class BigpondInformationFiller implements com.googlecode.pondskum.c
         accountInfoMap.put("Monthly Plan Allowance:", "N/A");
         accountInfoMap.put("Monthly Plan Fee:", "N/A");
 
-        infomationBuilder = new com.googlecode.pondskum.client.BigpondUsageInfomationBuilder();
+        infomationBuilder = new BigpondUsageInfomationBuilder();
     }
 
     public void fillAccountInfo(final String[] data, final int index) {

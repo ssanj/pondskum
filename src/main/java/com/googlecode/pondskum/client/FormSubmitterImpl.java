@@ -34,19 +34,19 @@ public final class FormSubmitterImpl {
         this.httpClient = httpClient;
     }
 
-    public void submit(final String url, final LinkDetailLogger logger, final com.googlecode.pondskum.client.NameValuePairBuilder nameValuePairBuilder) {
+    public void submit(final String url, final LinkDetailLogger logger, final NameValuePairBuilder nameValuePairBuilder) {
         try {
             HttpPost httpost = openConnection(url, nameValuePairBuilder);
             HttpResponse response = httpClient.execute(httpost);
             logger.log(httpClient, response);
             closeConnection(response);
         } catch (Exception e) {
-            throw new com.googlecode.pondskum.client.FormSubmitterException("Could not submit form to url -> " + url + ", with properties -> " +
+            throw new FormSubmitterException("Could not submit form to url -> " + url + ", with properties -> " +
                     nameValuePairBuilder.build(), e);
         }
     }
 
-    private HttpPost openConnection(final String url, final com.googlecode.pondskum.client.NameValuePairBuilder nameValuePairBuilder) throws UnsupportedEncodingException {
+    private HttpPost openConnection(final String url, final NameValuePairBuilder nameValuePairBuilder) throws UnsupportedEncodingException {
         HttpPost httpost = new HttpPost(url);
         httpost.setEntity(new UrlEncodedFormEntity(nameValuePairBuilder.build(), HTTP.UTF_8));
         return httpost;
