@@ -18,6 +18,8 @@ package com.googlecode.pondskum.gui.simplecmd;
 import com.googlecode.pinthura.annotation.SuppressionReason;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.util.NumericUtil;
+import com.googlecode.pondskum.util.NumericUtilImpl;
 
 @SuppressWarnings({"MethodReturnOfConcreteClass"})
 @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
@@ -25,11 +27,13 @@ public final class SimpleCMDBuilder {
 
     private final String lineSeparator;
     private final StringBuilder stringBuilder;
+    private final NumericUtil numericUtil;
     private BigpondUsageInformation usageInformation;
 
     public SimpleCMDBuilder() {
         lineSeparator = new SystemPropertyRetrieverImpl().retrieveProperty("line.separator");
         stringBuilder = new StringBuilder();
+        numericUtil = new NumericUtilImpl();
 
         stringBuilder.append("connecting...");
         stringBuilder.append(lineSeparator);
@@ -73,8 +77,8 @@ public final class SimpleCMDBuilder {
         return stringBuilder.toString();
     }
 
-    private static String getUsage(final String usage) {
-        Double numericUsage = Double.parseDouble(usage);
+    private String getUsage(final String usage) {
+        int numericUsage = numericUtil.getNumber(usage);
         return  (numericUsage / 1000) + " GB ";
     }
 }
