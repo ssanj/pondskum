@@ -1,6 +1,8 @@
 package com.googlecode.pondskum.gui.swing.tablet;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
+import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.config.PropertyRetriever;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -14,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Font;
@@ -24,7 +27,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Tablet extends JDialog {
+public class Tablet extends JDialog implements Updatable {
 
     private static final long serialVersionUID = -1033331705617879856L;
 
@@ -107,6 +110,11 @@ public class Tablet extends JDialog {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    @Override
+    public void update(final String update) {
+        notificationTextArea.append(update + "\n");
     }
 
     {

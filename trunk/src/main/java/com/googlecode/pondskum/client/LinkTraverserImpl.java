@@ -33,8 +33,10 @@ public final class LinkTraverserImpl implements LinkTraverser {
 
     public void traverse(final String url, final ConnectionListener listener) throws LinkTraverserException {
         try {
+            listener.updateStatus("Connecting to url -> " + url);
             HttpResponse response = openConnection(httpClient, url);
-            listener.onEvent(httpClient, response);
+            listener.handleEvent(httpClient, response);
+            listener.updateStatus("closing connection to url -> " + url);
             closeConnection(response);
         } catch (Exception e) {
             String error = "There was an error connecting to url -> " + url;

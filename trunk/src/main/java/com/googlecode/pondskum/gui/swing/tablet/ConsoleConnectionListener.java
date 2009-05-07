@@ -13,24 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client.logger;
+package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pondskum.client.logger.ConnectionListener;
+import com.googlecode.pondskum.client.logger.ConnectionListenerException;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public final class NullConnectionListener implements ConnectionListener {
+public final class ConsoleConnectionListener implements ConnectionListener {
 
-    public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) {
+    private final Updatable updatable;
+
+    public ConsoleConnectionListener(final Updatable updatable) {
+        this.updatable = updatable;
+    }
+
+    @Override
+    public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
         //do nothing.
     }
 
     @Override
     public void onError(final String error, final Exception e) {
-        //do nothing.
+        updatable.update(error);
     }
 
     @Override
     public void updateStatus(final String statusMessage) {
-        //do nothing.
+        updatable.update(statusMessage);
     }
 }

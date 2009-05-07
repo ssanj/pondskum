@@ -38,7 +38,7 @@ public final class FileWritingConnectionListener implements ConnectionListener {
         fileTextWriter = new FileTextWriterImpl(new FileWriterFactoryImpl());
     }
 
-    public void onEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
+    public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
         try {
             final HttpEntity entity = response.getEntity();
             if (entity != null) {
@@ -51,6 +51,11 @@ public final class FileWritingConnectionListener implements ConnectionListener {
 
     @Override
     public void onError(final String error, final Exception e) {
+        //do nothing.
+    }
+
+    @Override
+    public void updateStatus(final String statusMessage) {
         //do nothing.
     }
 

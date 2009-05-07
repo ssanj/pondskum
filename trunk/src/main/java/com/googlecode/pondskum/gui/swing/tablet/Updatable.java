@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client.logger;
+package com.googlecode.pondskum.gui.swing.tablet;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.impl.client.DefaultHttpClient;
+public interface Updatable {
 
-public interface ConnectionListener {
-
-    void handleEvent(DefaultHttpClient httpClient, HttpResponse response) throws ConnectionListenerException;
-
-    void onError(String error, Exception e);
-
-    void updateStatus(String statusMessage);
+    void update(String update); 
 }
