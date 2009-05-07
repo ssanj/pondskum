@@ -18,10 +18,14 @@ package com.googlecode.pondskum.client;
 import com.googlecode.pondskum.client.logger.FileWritingConnectionListener;
 import com.googlecode.pondskum.client.logger.ConnectionListener;
 import com.googlecode.pondskum.client.logger.NullConnectionListener;
+import com.googlecode.pondskum.client.logger.CompositeConnectionListener;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.util.Properties;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BigpondConnectorImpl implements BigpondConnector {
 
@@ -57,35 +61,46 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         this.resourceBundle = resourceBundle;
     }
 
-    public BigpondUsageInformation connect() throws BigpondConnectorException {
+    public BigpondUsageInformation connect(final ConnectionListener... userConnectionListeners) throws BigpondConnectorException {
 
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
 
-            LinkTraverserImpl linkTraverser = new LinkTraverserImpl(httpClient);
-            FormSubmitterImpl formSubmitter = new FormSubmitterImpl(httpClient);
-            ConnectionListener nullLogger = new NullConnectionListener();
+            LinkTraverser linkTraverser = new LinkTraverserImpl(httpClient);
+            FormSubmitter formSubmitter = new FormSubmitterImpl(httpClient);
 
-            linkTraverser.traverse(HOME_URL, nullLogger);
-
-            NameValuePairBuilder nameValuePairBuilder = new NameValuePairBuilder();
-            nameValuePairBuilder.withName(USER_FORM_ELEMENT).withValue(resourceBundle.getProperty(USER_KEY)).
-                            withName(USERNAME_FORM_ELEMENT).withValue(resourceBundle.getProperty(USER_KEY)).
-                            withName(PASSWORD_FORM_ELEMENT).withValue(resourceBundle.getProperty(PASSWORD_KEY)).
-                            withName(LOGIN_TYPE_FORM_ELEMENT).withValue(MY_ACCOUNT).
-                            withName(REMEMBER_ME_FORM_ELEMENT).withValue(ON).
-                            withName(GOTO_FORM_ELEMENT).withValue(GOTO_URL);
-
-            formSubmitter.submit(LOGIN_URL, nullLogger, nameValuePairBuilder);
+            ConnectionListener defaultCompositeConnectionListeners = new CompositeConnectionListener(Arrays.asList(userConnectionListeners));
             String tempFileName = createTempFileName();
-            linkTraverser.traverse(USAGE_URL, new FileWritingConnectionListener(tempFileName));
-            linkTraverser.traverse(LOGOUT_URL, nullLogger);
+            ConnectionListener fileWritingCompositeConnectionListener = createFileWriterWithUserListeners(tempFileName, userConnectionListeners);
+
+            linkTraverser.traverse(HOME_URL, defaultCompositeConnectionListeners);
+            formSubmitter.submit(LOGIN_URL, defaultCompositeConnectionListeners, getNameValuePairs());
+            linkTraverser.traverse(USAGE_URL, fileWritingCompositeConnectionListener);
+            linkTraverser.traverse(LOGOUT_URL, defaultCompositeConnectionListeners);
             httpClient.getConnectionManager().shutdown();
 
             return new BigpondInformationParser(tempFileName).parse();
         } catch (Exception e) {
             throw new BigpondConnectorException(e);
         }
+    }
+
+    private NameValuePairBuilder getNameValuePairs() {
+        NameValuePairBuilder nameValuePairBuilder = new NameValuePairBuilder();
+        nameValuePairBuilder.withName(USER_FORM_ELEMENT).withValue(resourceBundle.getProperty(USER_KEY)).
+                            withName(USERNAME_FORM_ELEMENT).withValue(resourceBundle.getProperty(USER_KEY)).
+                            withName(PASSWORD_FORM_ELEMENT).withValue(resourceBundle.getProperty(PASSWORD_KEY)).
+                            withName(LOGIN_TYPE_FORM_ELEMENT).withValue(MY_ACCOUNT).
+                            withName(REMEMBER_ME_FORM_ELEMENT).withValue(ON).
+                            withName(GOTO_FORM_ELEMENT).withValue(GOTO_URL);
+        return nameValuePairBuilder;
+    }
+
+    private ConnectionListener createFileWriterWithUserListeners(final String tempFileName, final ConnectionListener[] userConnectionListeners) {
+        List<ConnectionListener> connectionListenerList = new ArrayList<ConnectionListener>();
+        connectionListenerList.add(new FileWritingConnectionListener(tempFileName));
+        connectionListenerList.addAll(Arrays.asList(userConnectionListeners));
+        return new CompositeConnectionListener(connectionListenerList);
     }
 
     private String createTempFileName() {

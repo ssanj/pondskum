@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client.logger;
+package com.googlecode.pondskum.client;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.googlecode.pondskum.client.logger.ConnectionListener;
 
-public interface ConnectionListener {
+public interface FormSubmitter {
 
-    void onEvent(DefaultHttpClient httpClient, HttpResponse response) throws ConnectionListenerException;
-
-    void onError(String error, Exception e);
+    void submit(String url, ConnectionListener listener, NameValuePairBuilder nameValuePairBuilder);
 }

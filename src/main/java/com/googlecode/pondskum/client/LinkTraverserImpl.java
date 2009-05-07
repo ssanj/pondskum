@@ -31,13 +31,15 @@ public final class LinkTraverserImpl implements LinkTraverser {
         this.httpClient = httpClient;
     }
 
-    public void traverse(final String url, final ConnectionListener logger) throws LinkTraverserException {
+    public void traverse(final String url, final ConnectionListener listener) throws LinkTraverserException {
         try {
             HttpResponse response = openConnection(httpClient, url);
-            logger.listen(httpClient, response);
+            listener.onEvent(httpClient, response);
             closeConnection(response);
         } catch (Exception e) {
-            throw new LinkTraverserException("There was an error connecting to url -> " + url, e);
+            String error = "There was an error connecting to url -> " + url;
+            listener.onError(error, e);
+            throw new LinkTraverserException(error, e);
         }
     }
 

@@ -38,16 +38,20 @@ public final class FileWritingConnectionListener implements ConnectionListener {
         fileTextWriter = new FileTextWriterImpl(new FileWriterFactoryImpl());
     }
 
-    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
+    public void onEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
         try {
             final HttpEntity entity = response.getEntity();
             if (entity != null) {
                 fileTextWriter.write(fileName, dumpContent(entity.getContent()));
-//                entity.consumeContent();//move this out into a closeConnection.
             }
         } catch (Exception e) {
             throw new ConnectionListenerException(e);
         }
+    }
+
+    @Override
+    public void onError(final String error, final Exception e) {
+        //do nothing.
     }
 
     private static List<String> dumpContent(final InputStream incoming) throws IOException {

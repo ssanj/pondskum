@@ -25,7 +25,7 @@ import java.util.List;
 
 public final class DebuggingConnectionListener implements ConnectionListener {
 
-    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) {
+    public void onEvent(final DefaultHttpClient httpClient, final HttpResponse response) {
         System.out.println("statusline-> " + response.getStatusLine());
         System.out.println("headers-> " + Arrays.toString(response.getAllHeaders()));
         HttpEntity entity = response.getEntity();
@@ -41,5 +41,10 @@ public final class DebuggingConnectionListener implements ConnectionListener {
                 }
             }
         }
+    }
+
+    @Override
+    public void onError(final String error, final Exception e) {
+        //do nothing.
     }
 }

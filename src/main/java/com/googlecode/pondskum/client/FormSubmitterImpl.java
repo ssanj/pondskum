@@ -26,7 +26,7 @@ import org.apache.http.protocol.HTTP;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-public final class FormSubmitterImpl {
+public final class FormSubmitterImpl implements FormSubmitter {
 
     private final DefaultHttpClient httpClient;
 
@@ -38,7 +38,7 @@ public final class FormSubmitterImpl {
         try {
             HttpPost httpost = openConnection(url, nameValuePairBuilder);
             HttpResponse response = httpClient.execute(httpost);
-            logger.listen(httpClient, response);
+            logger.onEvent(httpClient, response);
             closeConnection(response);
         } catch (Exception e) {
             throw new FormSubmitterException("Could not submit form to url -> " + url + ", with properties -> " +
