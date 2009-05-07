@@ -15,9 +15,9 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.logger.FileWritingLogger;
-import com.googlecode.pondskum.client.logger.LinkDetailLogger;
-import com.googlecode.pondskum.client.logger.NullLogger;
+import com.googlecode.pondskum.client.logger.FileWritingConnectionListener;
+import com.googlecode.pondskum.client.logger.ConnectionListener;
+import com.googlecode.pondskum.client.logger.NullConnectionListener;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
@@ -64,7 +64,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
             LinkTraverserImpl linkTraverser = new LinkTraverserImpl(httpClient);
             FormSubmitterImpl formSubmitter = new FormSubmitterImpl(httpClient);
-            LinkDetailLogger nullLogger = new NullLogger();
+            ConnectionListener nullLogger = new NullConnectionListener();
 
             linkTraverser.traverse(HOME_URL, nullLogger);
 
@@ -78,7 +78,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
             formSubmitter.submit(LOGIN_URL, nullLogger, nameValuePairBuilder);
             String tempFileName = createTempFileName();
-            linkTraverser.traverse(USAGE_URL, new FileWritingLogger(tempFileName));
+            linkTraverser.traverse(USAGE_URL, new FileWritingConnectionListener(tempFileName));
             linkTraverser.traverse(LOGOUT_URL, nullLogger);
             httpClient.getConnectionManager().shutdown();
 

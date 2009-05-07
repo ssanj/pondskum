@@ -15,10 +15,20 @@
  */
 package com.googlecode.pondskum.client.logger;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.impl.client.DefaultHttpClient;
+public final class ConnectionListenerException extends RuntimeException {
 
-public interface LinkDetailLogger {
+    private static final long serialVersionUID = 3839522759978247399L;
 
-    void log(DefaultHttpClient httpClient, HttpResponse response) throws LinkDetailLoggerException;
+    public ConnectionListenerException(final String message) {
+        super(message);
+    }
+
+    public ConnectionListenerException(final Throwable cause) {
+        super(cause);
+    }
+
+
+    public ConnectionListenerException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

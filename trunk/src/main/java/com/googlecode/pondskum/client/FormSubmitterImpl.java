@@ -15,7 +15,7 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.logger.LinkDetailLogger;
+import com.googlecode.pondskum.client.logger.ConnectionListener;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -34,11 +34,11 @@ public final class FormSubmitterImpl {
         this.httpClient = httpClient;
     }
 
-    public void submit(final String url, final LinkDetailLogger logger, final NameValuePairBuilder nameValuePairBuilder) {
+    public void submit(final String url, final ConnectionListener logger, final NameValuePairBuilder nameValuePairBuilder) {
         try {
             HttpPost httpost = openConnection(url, nameValuePairBuilder);
             HttpResponse response = httpClient.execute(httpost);
-            logger.log(httpClient, response);
+            logger.listen(httpClient, response);
             closeConnection(response);
         } catch (Exception e) {
             throw new FormSubmitterException("Could not submit form to url -> " + url + ", with properties -> " +

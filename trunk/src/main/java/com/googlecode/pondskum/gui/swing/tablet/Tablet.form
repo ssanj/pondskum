@@ -70,6 +70,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="Dialog" size="14" style="0"/>
                   <text value="Account Name"/>
                 </properties>
               </component>
@@ -78,6 +79,7 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="DejaVu Sans" size="12" style="1"/>
                   <text value="N/A"/>
                 </properties>
               </component>
@@ -86,6 +88,7 @@
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="Dialog" size="14" style="0"/>
                   <text value="Account Number"/>
                 </properties>
               </component>
@@ -94,6 +97,7 @@
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="DejaVu Sans" size="12" style="1"/>
                   <text value="N/A"/>
                 </properties>
               </component>
@@ -102,6 +106,7 @@
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="Dialog" size="14" style="0"/>
                   <text value="Current Plan"/>
                 </properties>
               </component>
@@ -110,6 +115,7 @@
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="DejaVu Sans" size="12" style="1"/>
                   <text value="N/A"/>
                 </properties>
               </component>
@@ -118,6 +124,7 @@
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="Dialog" size="14" style="0"/>
                   <text value="Monthly Allowance"/>
                 </properties>
               </component>
@@ -126,6 +133,7 @@
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="DejaVu Sans" size="12" style="1"/>
                   <text value="N/A"/>
                 </properties>
               </component>
@@ -134,6 +142,7 @@
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="Dialog" size="14" style="0"/>
                   <text value="Monthly Plan Fee"/>
                 </properties>
               </component>
@@ -142,6 +151,7 @@
                   <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <font name="DejaVu Sans" size="12" style="1"/>
                   <text value="N/A"/>
                 </properties>
               </component>
@@ -164,12 +174,19 @@
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <font/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <component id="5dd69" class="javax.swing.JTable" binding="usageTable">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <font name="SansSerif" size="14" style="0"/>
+                      <intercellSpacing width="1" height="3"/>
+                      <showHorizontalLines value="false"/>
+                      <toolTipText value="Usage data"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
@@ -194,7 +211,11 @@
             <children>
               <component id="2e746" class="javax.swing.JTextArea" binding="notificationTextArea">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <background color="-16777216"/>
+                  <font name="Lucida Sans" size="10" style="0"/>
+                  <foreground color="-10053376"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

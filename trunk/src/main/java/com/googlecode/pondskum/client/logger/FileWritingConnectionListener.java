@@ -28,25 +28,25 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-public final class FileWritingLogger implements LinkDetailLogger {
+public final class FileWritingConnectionListener implements ConnectionListener {
 
     private final String fileName;
     private final FileTextWriter fileTextWriter;
 
-    public FileWritingLogger(final String fileName) {
+    public FileWritingConnectionListener(final String fileName) {
         this.fileName = fileName;
         fileTextWriter = new FileTextWriterImpl(new FileWriterFactoryImpl());
     }
 
-    public void log(final DefaultHttpClient httpClient, final HttpResponse response) throws LinkDetailLoggerException{
+    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
         try {
             final HttpEntity entity = response.getEntity();
             if (entity != null) {
                 fileTextWriter.write(fileName, dumpContent(entity.getContent()));
-                entity.consumeContent();
+//                entity.consumeContent();//move this out into a closeConnection.
             }
         } catch (Exception e) {
-            throw new LinkDetailLoggerException(e);
+            throw new ConnectionListenerException(e);
         }
     }
 
