@@ -1,8 +1,8 @@
 package com.googlecode.pondskum.gui.swing.tablet;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.config.PropertyRetriever;
+import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -16,11 +16,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
-import javax.swing.SwingWorker;
 import java.awt.Color;
-import java.awt.Insets;
-import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -41,8 +40,10 @@ public class Tablet extends JDialog implements Updatable {
     private JTable usageTable;
     private JTextArea notificationTextArea;
     private JLabel monthlyAllowanceLabel;
+    private PropertyRetriever propertyRetriever;
 
     public Tablet() {
+        propertyRetriever = new SystemPropertyRetrieverImpl();
         setTitle("Bigpond Connection Tablet");
         setContentPane(contentPane);
         setModal(true);
@@ -100,21 +101,16 @@ public class Tablet extends JDialog implements Updatable {
     }
 
     private void onUpdate() {
-// add your code here
-        dispose();
+        System.out.println("Implement me!");
     }
 
     private void onExit() {
         dispose();
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
     @Override
     public void update(final String update) {
-        notificationTextArea.append(update + "\n");
+        notificationTextArea.append(update + propertyRetriever.retrieveProperty("line.separator"));
     }
 
     {
@@ -217,6 +213,7 @@ public class Tablet extends JDialog implements Updatable {
         notificationTextArea.setBackground(new Color(-16777216));
         notificationTextArea.setFont(new Font("Lucida Sans", Font.PLAIN, 10));
         notificationTextArea.setForeground(new Color(-10053376));
+        notificationTextArea.setRows(10);
         scrollPane2.setViewportView(notificationTextArea);
     }
 
