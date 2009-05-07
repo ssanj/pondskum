@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client;
+package com.googlecode.pondskum.client.logger;
 
-import com.googlecode.pondskum.client.logger.ConnectionListener;
+import org.apache.http.HttpResponse;
+import org.apache.http.impl.client.DefaultHttpClient;
 
-public interface LinkTraverser {
+public final class NullConnectionListener implements ConnectionListener {
 
-    void traverse(String url, ConnectionListener logger) throws LinkTraverserException;
+    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) {
+        //do nothing.
+    }
 }

@@ -19,14 +19,16 @@ import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
 
 import java.util.Properties;
 
 public final class TabletRunner {
 
     public static void main(String[] args) {
-        Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
-        BigpondUsageInformation usageInformation = new BigpondConnectorImpl(properties).connect();
+//        Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
+//        BigpondUsageInformation usageInformation = new BigpondConnectorImpl(properties).connect();
+        BigpondUsageInformation usageInformation = new StubbyBigpondUsageInformationBuilder().build();
 
         Tablet dialog = new Tablet();
         dialog.setTabletData(usageInformation);

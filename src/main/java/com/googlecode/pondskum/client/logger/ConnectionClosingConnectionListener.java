@@ -15,12 +15,20 @@
  */
 package com.googlecode.pondskum.client.logger;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpEntity;
 
-public final class NullLogger implements LinkDetailLogger {
-
-    public void log(final DefaultHttpClient httpClient, final HttpResponse response) {
-        //do nothing.
+public final class ConnectionClosingConnectionListener implements ConnectionListener {
+    @Override
+    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
+        try {
+            final HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                entity.consumeContent();//move this out into a closeConnection.
+            }
+        } catch (Exception e) {
+            throw new ConnectionListenerException(e);
+        }
     }
 }

@@ -15,7 +15,7 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.logger.LinkDetailLogger;
+import com.googlecode.pondskum.client.logger.ConnectionListener;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,10 +31,10 @@ public final class LinkTraverserImpl implements LinkTraverser {
         this.httpClient = httpClient;
     }
 
-    public void traverse(final String url, final LinkDetailLogger logger) throws LinkTraverserException {
+    public void traverse(final String url, final ConnectionListener logger) throws LinkTraverserException {
         try {
             HttpResponse response = openConnection(httpClient, url);
-            logger.log(httpClient, response);
+            logger.listen(httpClient, response);
             closeConnection(response);
         } catch (Exception e) {
             throw new LinkTraverserException("There was an error connecting to url -> " + url, e);

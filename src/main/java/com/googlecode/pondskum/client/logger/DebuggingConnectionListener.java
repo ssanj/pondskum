@@ -23,9 +23,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.util.Arrays;
 import java.util.List;
 
-public final class DebugLogger implements LinkDetailLogger {
+public final class DebuggingConnectionListener implements ConnectionListener {
 
-    public void log(final DefaultHttpClient httpClient, final HttpResponse response) {
+    public void listen(final DefaultHttpClient httpClient, final HttpResponse response) {
         System.out.println("statusline-> " + response.getStatusLine());
         System.out.println("headers-> " + Arrays.toString(response.getAllHeaders()));
         HttpEntity entity = response.getEntity();
