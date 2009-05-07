@@ -18,6 +18,7 @@ package com.googlecode.pondskum.client;
 import com.googlecode.pondskum.client.logger.ConnectionListener;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -25,6 +26,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public final class FormSubmitterImpl implements FormSubmitter {
 
@@ -41,8 +43,10 @@ public final class FormSubmitterImpl implements FormSubmitter {
             logger.onEvent(httpClient, response);
             closeConnection(response);
         } catch (Exception e) {
-            throw new FormSubmitterException("Could not submit form to url -> " + url + ", with properties -> " +
-                    nameValuePairBuilder.build(), e);
+            List<NameValuePair> nameValuePairList = nameValuePairBuilder.build();
+            String error = "Could not submit form to url -> " + url + ", with properties -> " + nameValuePairList;
+            logger.onError(error, e);
+            throw new FormSubmitterException(error, e);
         }
     }
 
