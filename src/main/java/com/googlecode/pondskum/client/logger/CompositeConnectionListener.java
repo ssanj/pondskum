@@ -30,9 +30,9 @@ public final class CompositeConnectionListener implements ConnectionListener {
     }
 
     @Override
-    public void onEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
+    public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
         for (ConnectionListener connectionListener : connectionListeners) {
-            connectionListener.onEvent(httpClient, response);
+            connectionListener.handleEvent(httpClient, response);
         }
     }
 
@@ -40,6 +40,13 @@ public final class CompositeConnectionListener implements ConnectionListener {
     public void onError(final String error, final Exception e) {
         for (ConnectionListener connectionListener : connectionListeners) {
             connectionListener.onError(error, e);
+        }
+    }
+
+    @Override
+    public void updateStatus(final String statusMessage) {
+        for (ConnectionListener connectionListener : connectionListeners) {
+            connectionListener.updateStatus(statusMessage);
         }
     }
 }

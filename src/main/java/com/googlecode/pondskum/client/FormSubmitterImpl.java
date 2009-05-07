@@ -36,16 +36,19 @@ public final class FormSubmitterImpl implements FormSubmitter {
         this.httpClient = httpClient;
     }
 
-    public void submit(final String url, final ConnectionListener logger, final NameValuePairBuilder nameValuePairBuilder) {
+    public void submit(final String url, final ConnectionListener listener, final NameValuePairBuilder nameValuePairBuilder) {
         try {
+            listener.updateStatus("Connecting to url -> " + url);
             HttpPost httpost = openConnection(url, nameValuePairBuilder);
+            listener.updateStatus("Submitting form");
             HttpResponse response = httpClient.execute(httpost);
-            logger.onEvent(httpClient, response);
+            listener.handleEvent(httpClient, response);
+            listener.updateStatus("Closing connecting to url -> " + url);
             closeConnection(response);
         } catch (Exception e) {
             List<NameValuePair> nameValuePairList = nameValuePairBuilder.build();
             String error = "Could not submit form to url -> " + url + ", with properties -> " + nameValuePairList;
-            logger.onError(error, e);
+            listener.onError(error, e);
             throw new FormSubmitterException(error, e);
         }
     }
@@ -60,6 +63,6 @@ public final class FormSubmitterImpl implements FormSubmitter {
         final HttpEntity entity = response.getEntity();
         if (entity != null) {
              entity.consumeContent();
-         }
+        }
     }
 }
