@@ -13,11 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client;
+package com.googlecode.pondskum.util;
 
-public interface BigpondMonthlyUsage {
+//TODO: move to Pinthura.
+public final class Timer {
 
-    String getMonth();
+    private long startTime;
 
-    BigpondUsage getBigpondUsage();
+    public void start() {
+        startTime = System.currentTimeMillis();
+    }
+
+    public long getTime() {
+        long currentTime = System.currentTimeMillis();
+        long timeDifference = (currentTime - startTime);
+        startTime = currentTime;
+        return timeDifference;
+    }
 }

@@ -17,12 +17,11 @@ package com.googlecode.pondskum.stub;
 
 import com.googlecode.pondskum.client.BigpondAccountInformation;
 import com.googlecode.pondskum.client.BigpondAccountInformationImpl;
+import com.googlecode.pondskum.client.BigpondMonthlyUsage;
+import com.googlecode.pondskum.client.BigpondMonthlyUsageImpl;
+import com.googlecode.pondskum.client.BigpondUsage;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.client.BigpondUsageInformationImpl;
-import com.googlecode.pondskum.client.BigpondMonthlyUsageImpl;
-import com.googlecode.pondskum.client.BigpondUsageImpl;
-import com.googlecode.pondskum.client.BigpondUsage;
-import com.googlecode.pondskum.client.BigpondMonthlyUsage;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,5 +17,5 @@ package com.googlecode.pondskum.client;
 
 public interface BigpondConnector {
 
-    com.googlecode.pondskum.client.BigpondUsageInformation connect() throws com.googlecode.pondskum.client.BigpondConnectorException;
+    BigpondUsageInformation connect() throws BigpondConnectorException;
 }

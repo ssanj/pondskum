@@ -15,14 +15,12 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.BigpondMonthlyUsage;
-
 public final class BigpondMonthlyUsageImpl implements BigpondMonthlyUsage {
 
     private final String month;
-    private final com.googlecode.pondskum.client.BigpondUsage bigpondUsage;
+    private final BigpondUsage bigpondUsage;
 
-    public BigpondMonthlyUsageImpl(final String month, final com.googlecode.pondskum.client.BigpondUsage bigpondUsage) {
+    public BigpondMonthlyUsageImpl(final String month, final BigpondUsage bigpondUsage) {
         this.bigpondUsage = bigpondUsage;
         this.month = month;
     }
@@ -31,7 +29,7 @@ public final class BigpondMonthlyUsageImpl implements BigpondMonthlyUsage {
         return month;
     }
 
-    public com.googlecode.pondskum.client.BigpondUsage getBigpondUsage() {
+    public BigpondUsage getBigpondUsage() {
         return bigpondUsage;
     }
 
