@@ -43,9 +43,9 @@ public final class StubbyBigpondUsageInformationBuilder {
         accountInformation.setMonthlyPlanFee("$1,000,000");
 
         List<BigpondMonthlyUsage> bigpondUsageList = new ArrayList<BigpondMonthlyUsage>();
-        bigpondUsageList.add(new BigpondMonthlyUsageImpl("Jan", informationCreator.createUsage("1000", "500", "250", "1750")));
-        bigpondUsageList.add(new BigpondMonthlyUsageImpl("Feb", informationCreator.createUsage("-", "-", "-", "-")));
-        bigpondUsageList.add(new BigpondMonthlyUsageImpl("Mar", informationCreator.createUsage("5000", "1000", "50", "6050")));
+        bigpondUsageList.add(new BigpondMonthlyUsageImpl("01 Jan 2009", informationCreator.createUsage("1000", "500", "250", "1750")));
+        bigpondUsageList.add(new BigpondMonthlyUsageImpl("22 Feb 2009", informationCreator.createUsage("-", "-", "-", "-")));
+        bigpondUsageList.add(new BigpondMonthlyUsageImpl("14 Mar 2009", informationCreator.createUsage("5000", "1000", "50", "6050")));
 
         BigpondUsage totalUsage = informationCreator.createUsage("6000", "1500", "300", "7800");
 

@@ -15,23 +15,32 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
-
 import java.awt.Dimension;
 
-public final class TabletRunner {
+public final class TabletRunner implements TabletUpateListener {
 
     public static void main(String[] args) {
+        new TabletRunner().run();
+    }
+
+    private void run() {
         Tablet dialog = new Tablet();
-        dialog.setSize(new Dimension(500,400));
+        dialog.setUpdateListener(this);
+        dialog.setSize(new Dimension(600,400));
         dialog.setResizable(false);
-        //new TabletSwingWorker(dialog).execute();
-        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
-        dialog.update("line 1"); //move this to a builder.
-        dialog.update("line 2");
-        dialog.update("line 3");
-        dialog.update("line 4");
+        executeUpdate(dialog);
         dialog.setVisible(true);
         System.exit(0);
+    }
+
+    @Override
+    public void updateClicked(final Tablet tablet) {
+        tablet.update("Reconnecting...");
+        executeUpdate(tablet);
+    }
+
+    private void executeUpdate(final Tablet dialog) {
+        new TabletSwingWorker(dialog).execute();
+//        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
     }
 }
