@@ -15,7 +15,7 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-public interface TabletUpateListener {
+public interface StatusUpdatable {
 
-    void updateClicked(UpdatableTablet tablet);
+    void updateStatus(String update);
 }

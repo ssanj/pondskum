@@ -15,7 +15,10 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-public interface Updatable {
+import com.googlecode.pondskum.client.BigpondUsageInformation;
 
-    void update(String update); 
+public interface Reconnectable {
+
+    void setTabletData(BigpondUsageInformation usageInformation);
+    void setUpdateListener(TabletUpateListener listener);
 }

@@ -25,11 +25,11 @@ import javax.swing.SwingWorker;
 import java.util.List;
 import java.util.Properties;
 
-public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements Updatable {
+public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements StatusUpdatable {
 
-    private final Tablet tablet;
+    private final UpdatableTablet tablet;
 
-    TabletSwingWorker(final Tablet tablet) {
+    TabletSwingWorker(final UpdatableTablet tablet) {
         this.tablet = tablet;
     }
 
@@ -43,7 +43,7 @@ public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation
     @Override
     protected void process(final List<String> updateList) {
         for (String update : updateList) {
-            tablet.update(update);
+            tablet.updateStatus(update);
         }
     }
 
@@ -57,7 +57,7 @@ public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation
     }
 
     @Override
-    public void update(final String update) {
+    public void updateStatus(final String update) {
         publish(update);
     }
 }

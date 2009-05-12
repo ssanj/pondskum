@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Tablet extends JDialog implements Updatable {
+public class Tablet extends JDialog implements UpdatableTablet {
 
     private static final long serialVersionUID = -1033331705617879856L;
 
@@ -53,6 +53,7 @@ public class Tablet extends JDialog implements Updatable {
         addEventListeners();
     }
 
+    @Override
     public void setTabletData(final BigpondUsageInformation usageInformation) {
         BigpondTableModel bigpondTableModel = new BigpondTableModel(usageInformation);
         Color totalsColor = new Color(255, 186, 0);
@@ -110,10 +111,11 @@ public class Tablet extends JDialog implements Updatable {
     }
 
     @Override
-    public void update(final String update) {
+    public void updateStatus(final String update) {
         notificationTextArea.append(update + propertyRetriever.retrieveProperty("line.separator"));
     }
 
+    @Override
     public void setUpdateListener(final TabletUpateListener listener) {
         this.listener = listener;
     }
