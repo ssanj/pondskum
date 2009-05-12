@@ -18,17 +18,18 @@ package com.googlecode.pondskum.gui.swing.tablet;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import java.awt.Color;
 import java.awt.Component;
 
 public final class UsageQuotaRenderer extends DefaultTableCellRenderer {
 
     private final int rowCount;
-    private TotalsRenderer totalsRenderer;
+    private final TableCellRenderer totalsRenderer;
 
-    public UsageQuotaRenderer(final int rowCount, final Color totalsColor) {
+    public UsageQuotaRenderer(final int rowCount, final Color totalsColour) {
         this.rowCount = rowCount;
-        totalsRenderer = new TotalsRenderer(totalsColor);
+        totalsRenderer = new TotalsRenderer(totalsColour, RIGHT);
     }
 
     @Override
@@ -45,22 +46,4 @@ public final class UsageQuotaRenderer extends DefaultTableCellRenderer {
 
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
-
-    private static class TotalsRenderer extends DefaultTableCellRenderer {
-
-        private final Color totalsColor;
-
-        public TotalsRenderer(final Color totalsColor) {
-            this.totalsColor = totalsColor;
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-            JLabel component = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            component.setHorizontalAlignment(RIGHT);
-            component.setBackground(totalsColor);
-            return component;
-        }
-    }
-
 }

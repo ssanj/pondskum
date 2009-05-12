@@ -18,30 +18,32 @@ package com.googlecode.pondskum.gui.swing.tablet;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
-public final class UsageStringRenderer extends DefaultTableCellRenderer {
+public final class TotalsRenderer extends DefaultTableCellRenderer {
 
-    private final int rowCount;
-    private final TableCellRenderer totalsRenderer;
+    private final Color totalsColor;
+    private final int alignment;
 
-    public UsageStringRenderer(int rowCount, final Color totalsColour) {
-        this.rowCount = rowCount;
-        totalsRenderer = new TotalsRenderer(totalsColour, CENTER);
+    public TotalsRenderer(final Color totalsColor, int alignment) {
+        this.totalsColor = totalsColor;
+        this.alignment = alignment;
     }
 
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus,
                                                    final int row, final int column) {
-        if (row == (rowCount - 1)) {
-            return totalsRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        }
-
         JLabel component = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        component.setHorizontalAlignment(CENTER);
+        component.setHorizontalAlignment(alignment);
+        component.setBackground(totalsColor);
 
+        if (!component.getFont().isBold()) {
+            component.setFont(table.getFont().deriveFont(Font.BOLD));
+        }
+        
         return component;
     }
 }
+

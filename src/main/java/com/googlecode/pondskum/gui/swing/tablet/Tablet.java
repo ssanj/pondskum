@@ -211,9 +211,13 @@ public class Tablet extends JDialog implements Updatable {
         panel6.add(scrollPane2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         notificationTextArea = new JTextArea();
         notificationTextArea.setBackground(new Color(-16777216));
+        notificationTextArea.setEditable(false);
         notificationTextArea.setFont(new Font("Lucida Sans", Font.PLAIN, 10));
         notificationTextArea.setForeground(new Color(-10053376));
+        notificationTextArea.setLineWrap(true);
         notificationTextArea.setRows(10);
+        notificationTextArea.setToolTipText("Notication Area");
+        notificationTextArea.setWrapStyleWord(false);
         scrollPane2.setViewportView(notificationTextArea);
     }
 
