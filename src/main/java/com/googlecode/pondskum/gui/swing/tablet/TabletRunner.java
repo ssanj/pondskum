@@ -34,12 +34,12 @@ public final class TabletRunner implements TabletUpateListener {
     }
 
     @Override
-    public void updateClicked(final Tablet tablet) {
-        tablet.update("Reconnecting...");
+    public void updateClicked(final UpdatableTablet tablet) {
+        tablet.updateStatus("Reconnecting...");
         executeUpdate(tablet);
     }
 
-    private void executeUpdate(final Tablet dialog) {
+    private void executeUpdate(final UpdatableTablet dialog) {
         new TabletSwingWorker(dialog).execute();
 //        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
     }

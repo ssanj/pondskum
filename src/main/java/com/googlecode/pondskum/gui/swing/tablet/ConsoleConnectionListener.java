@@ -22,10 +22,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public final class ConsoleConnectionListener implements ConnectionListener {
 
-    private final Updatable updatable;
+    private final StatusUpdatable statusUpdatable;
 
-    public ConsoleConnectionListener(final Updatable updatable) {
-        this.updatable = updatable;
+    public ConsoleConnectionListener(final StatusUpdatable statusUpdatable) {
+        this.statusUpdatable = statusUpdatable;
     }
 
     @Override
@@ -35,11 +35,11 @@ public final class ConsoleConnectionListener implements ConnectionListener {
 
     @Override
     public void onError(final String error, final Exception e) {
-        updatable.update(error);
+        statusUpdatable.updateStatus(error);
     }
 
     @Override
     public void updateStatus(final String statusMessage) {
-        updatable.update(statusMessage);
+        statusUpdatable.updateStatus(statusMessage);
     }
 }

@@ -15,7 +15,5 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-public interface TabletUpateListener {
-
-    void updateClicked(UpdatableTablet tablet);
+public interface UpdatableTablet extends Reconnectable, StatusUpdatable {
 }
