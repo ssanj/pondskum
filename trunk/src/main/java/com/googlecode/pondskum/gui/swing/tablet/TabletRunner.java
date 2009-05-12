@@ -15,12 +15,22 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
+
+import java.awt.Dimension;
+
 public final class TabletRunner {
 
     public static void main(String[] args) {
         Tablet dialog = new Tablet();
-        dialog.pack();
-        new TabletSwingWorker(dialog).execute();
+        dialog.setSize(new Dimension(500,400));
+        dialog.setResizable(false);
+        //new TabletSwingWorker(dialog).execute();
+        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
+        dialog.update("line 1"); //move this to a builder.
+        dialog.update("line 2");
+        dialog.update("line 3");
+        dialog.update("line 4");
         dialog.setVisible(true);
         System.exit(0);
     }

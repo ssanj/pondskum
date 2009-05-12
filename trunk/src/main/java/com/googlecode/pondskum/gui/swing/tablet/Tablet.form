@@ -213,9 +213,13 @@
                 <constraints/>
                 <properties>
                   <background color="-16777216"/>
+                  <editable value="false"/>
                   <font name="Lucida Sans" size="10" style="0"/>
                   <foreground color="-10053376"/>
+                  <lineWrap value="true"/>
                   <rows value="10"/>
+                  <toolTipText value="Notication Area"/>
+                  <wrapStyleWord value="false"/>
                 </properties>
               </component>
             </children>
