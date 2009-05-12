@@ -41,6 +41,7 @@ public class Tablet extends JDialog implements Updatable {
     private JTextArea notificationTextArea;
     private JLabel monthlyAllowanceLabel;
     private PropertyRetriever propertyRetriever;
+    private TabletUpateListener listener;
 
     public Tablet() {
         propertyRetriever = new SystemPropertyRetrieverImpl();
@@ -73,7 +74,7 @@ public class Tablet extends JDialog implements Updatable {
 
     private void addEventListeners() {
         updateButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 onUpdate();
             }
         });
@@ -101,7 +102,7 @@ public class Tablet extends JDialog implements Updatable {
     }
 
     private void onUpdate() {
-        System.out.println("Implement me!");
+        listener.updateClicked(this);
     }
 
     private void onExit() {
@@ -111,6 +112,10 @@ public class Tablet extends JDialog implements Updatable {
     @Override
     public void update(final String update) {
         notificationTextArea.append(update + propertyRetriever.retrieveProperty("line.separator"));
+    }
+
+    public void setUpdateListener(final TabletUpateListener listener) {
+        this.listener = listener;
     }
 
     {
