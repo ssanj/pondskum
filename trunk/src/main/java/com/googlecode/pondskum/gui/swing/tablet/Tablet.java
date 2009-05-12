@@ -49,7 +49,6 @@ public class Tablet extends JDialog implements Updatable {
         setModal(true);
         getRootPane().setDefaultButton(updateButton);
 
-
         addEventListeners();
     }
 
@@ -58,6 +57,7 @@ public class Tablet extends JDialog implements Updatable {
         Color totalsColor = new Color(255, 186, 0);
         usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer(bigpondTableModel.getRowCount(), totalsColor));
         usageTable.setDefaultRenderer(String.class, new UsageStringRenderer(bigpondTableModel.getRowCount(), totalsColor));
+        usageTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
 
         setAccountInfo(usageInformation);
         usageTable.setModel(bigpondTableModel);
