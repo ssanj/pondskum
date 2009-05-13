@@ -15,6 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
+
 import java.awt.Dimension;
 
 public final class TabletRunner implements TabletUpateListener {
@@ -40,7 +42,7 @@ public final class TabletRunner implements TabletUpateListener {
     }
 
     private void executeUpdate(final UpdatableTablet dialog) {
-        new TabletSwingWorker(dialog).execute();
-//        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
+//        new TabletSwingWorker(dialog).execute();
+        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
     }
 }

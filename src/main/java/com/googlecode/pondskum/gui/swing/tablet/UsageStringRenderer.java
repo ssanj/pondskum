@@ -24,6 +24,8 @@ import java.awt.Component;
 
 public final class UsageStringRenderer extends DefaultTableCellRenderer {
 
+    private static final long serialVersionUID = 6842505980441774633L;
+
     private final int rowCount;
     private final TableCellRenderer totalsRenderer;
 
