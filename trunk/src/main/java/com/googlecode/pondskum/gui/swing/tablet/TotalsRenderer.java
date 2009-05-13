@@ -24,6 +24,8 @@ import java.awt.Font;
 
 public final class TotalsRenderer extends DefaultTableCellRenderer {
 
+    private static final long serialVersionUID = 1858148660255313682L;
+
     private final Color totalsColor;
     private final int alignment;
 
@@ -42,7 +44,7 @@ public final class TotalsRenderer extends DefaultTableCellRenderer {
         if (!component.getFont().isBold()) {
             component.setFont(table.getFont().deriveFont(Font.BOLD));
         }
-        
+
         return component;
     }
 }

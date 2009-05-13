@@ -15,20 +15,26 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import sun.swing.table.DefaultTableCellHeaderRenderer;
-
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
-public final class TableHeaderRenderer extends DefaultTableCellHeaderRenderer {
+public final class TableHeaderRenderer extends DefaultTableCellRenderer {
+
+    private static final long serialVersionUID = -5922036445853578030L;
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        JLabel component = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         component.setFont(new Font("DejaVu Sans", Font.BOLD, 16));
         component.setBackground(new Color(131, 203, 146));
+        component.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
+        component.setHorizontalAlignment(SwingConstants.CENTER);
         return component;
     }
 }
