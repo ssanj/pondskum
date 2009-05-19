@@ -2,4 +2,12 @@ TODO List
 ---------
 
 1. Add error logging and debug information
-2. Add script to auto-generate lib path.
+2. Add LICENSE file to jar file
+3. Remove gnome gui classes
+4. Add time taken for update to status for tablet.
+5. Format simpleCMD output
+6. Minimize button
+7. Test on Windows
+8. Deploy to googlecode.
+9. Update googlecode wiki.
+10. Fix all warnings

@@ -15,19 +15,17 @@
             </excludes>
             <outputDirectory>/lib</outputDirectory>
         </dependencySet>
-        <!--<dependencySet>-->
-            <!--<unpack>false</unpack>-->
-            <!--<scope>runtime</scope>-->
-            <!--<includes>-->
-                <!--<include>com.intellij.uiDesigner:core</include>-->
-            <!--</includes>-->
-            <!--<outputDirectory>/lib</outputDirectory>-->
-        <!--</dependencySet>-->
     </dependencySets>
     <fileSets>
         <fileSet>
             <includes>
                 <include>${project.build.outputDirectory}/*.jar</include>
+            </includes>
+            <outputDirectory>/lib</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <includes>
+                <include>${project.build.outputDirectory}/licenses/*.txt</include>
             </includes>
             <outputDirectory>/lib</outputDirectory>
         </fileSet>
