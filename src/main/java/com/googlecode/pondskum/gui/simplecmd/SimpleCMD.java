@@ -40,6 +40,7 @@ public final class SimpleCMD {
                     build());
 
             System.out.print("Time taken: " + ((System.currentTimeMillis() - startTime) / SECONDS_IN_MILLISECONDS) + " seconds");
+            System.out.println();
         } catch (Exception e) {
             dumpException(e);
         }

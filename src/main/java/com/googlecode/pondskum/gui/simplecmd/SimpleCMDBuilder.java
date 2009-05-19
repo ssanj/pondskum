@@ -79,6 +79,6 @@ public final class SimpleCMDBuilder {
 
     private String getUsage(final String usage) {
         int numericUsage = numericUtil.getNumber(usage);
-        return  (numericUsage / 1000) + " GB ";
+        return String.format("%1$5.2g GB", (numericUsage / 1000.00));
     }
 }
