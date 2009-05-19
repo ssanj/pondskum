@@ -24,8 +24,9 @@
             <outputDirectory>/lib</outputDirectory>
         </fileSet>
         <fileSet>
+            <directory>${project.basedir}/licenses</directory>
             <includes>
-                <include>${project.build.outputDirectory}/licenses/*.txt</include>
+                <include>*.txt</include>
             </includes>
             <outputDirectory>/lib</outputDirectory>
         </fileSet>
