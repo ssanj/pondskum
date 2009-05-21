@@ -15,8 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import com.googlecode.pondskum.client.logger.ConnectionListener;
-import com.googlecode.pondskum.client.logger.ConnectionListenerException;
+import com.googlecode.pondskum.client.listener.ConnectionListener;
+import com.googlecode.pondskum.client.listener.ConnectionListenerException;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 

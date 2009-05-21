@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client.logger;
+package com.googlecode.pondskum.client.listener;
 
-public final class ConnectionListenerException extends RuntimeException {
+import org.apache.http.HttpResponse;
+import org.apache.http.impl.client.DefaultHttpClient;
 
-    private static final long serialVersionUID = 3839522759978247399L;
+public interface ConnectionListener {
 
-    public ConnectionListenerException(final String message) {
-        super(message);
-    }
+    void handleEvent(DefaultHttpClient httpClient, HttpResponse response) throws ConnectionListenerException;
 
-    public ConnectionListenerException(final Throwable cause) {
-        super(cause);
-    }
+    void onError(String error, Exception e);
 
-
-    public ConnectionListenerException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
+    void updateStatus(String statusMessage);
 }

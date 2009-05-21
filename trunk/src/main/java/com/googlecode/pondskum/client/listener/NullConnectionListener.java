@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client.logger;
+package com.googlecode.pondskum.client.listener;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public interface ConnectionListener {
+public final class NullConnectionListener implements ConnectionListener {
 
-    void handleEvent(DefaultHttpClient httpClient, HttpResponse response) throws ConnectionListenerException;
+    public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) {
+        //do nothing.
+    }
 
-    void onError(String error, Exception e);
+    @Override
+    public void onError(final String error, final Exception e) {
+        //do nothing.
+    }
 
-    void updateStatus(String statusMessage);
+    @Override
+    public void updateStatus(final String statusMessage) {
+        //do nothing.
+    }
 }

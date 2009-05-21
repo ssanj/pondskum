@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.client.logger;
+package com.googlecode.pondskum.client.listener;
 
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.HttpResponse;
+import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class CompositeConnectionListener implements ConnectionListener {
 
