@@ -15,17 +15,16 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.logger.FileWritingConnectionListener;
-import com.googlecode.pondskum.client.logger.ConnectionListener;
-import com.googlecode.pondskum.client.logger.NullConnectionListener;
-import com.googlecode.pondskum.client.logger.CompositeConnectionListener;
+import com.googlecode.pondskum.client.listener.CompositeConnectionListener;
+import com.googlecode.pondskum.client.listener.ConnectionListener;
+import com.googlecode.pondskum.client.listener.FileWritingConnectionListener;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
-import java.util.Properties;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public final class BigpondConnectorImpl implements BigpondConnector {
 

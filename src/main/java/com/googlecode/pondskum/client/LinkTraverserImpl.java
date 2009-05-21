@@ -15,7 +15,7 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.logger.ConnectionListener;
+import com.googlecode.pondskum.client.listener.ConnectionListener;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

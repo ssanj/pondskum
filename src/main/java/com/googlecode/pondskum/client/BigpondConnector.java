@@ -15,9 +15,9 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.logger.ConnectionListener;
+import com.googlecode.pondskum.client.listener.ConnectionListener;
 
 public interface BigpondConnector {
 
-    BigpondUsageInformation connect(final ConnectionListener... userConnectionListeners) throws BigpondConnectorException;
+    BigpondUsageInformation connect(ConnectionListener... userConnectionListeners) throws BigpondConnectorException;
 }
