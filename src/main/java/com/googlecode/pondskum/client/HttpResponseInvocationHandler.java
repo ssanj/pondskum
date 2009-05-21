@@ -35,7 +35,6 @@ public final class HttpResponseInvocationHandler implements InvocationHandler {
         this.httpEntity = httpEntity;
     }
 
-
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         if ("getContent".equals(method.getName())) {
@@ -46,6 +45,7 @@ public final class HttpResponseInvocationHandler implements InvocationHandler {
             return new ByteArrayInputStream(content.getBytes());
         }
 
+        //delegate for all other methods.
         return method.invoke(httpEntity, args);
     }
 
@@ -61,7 +61,7 @@ public final class HttpResponseInvocationHandler implements InvocationHandler {
 
             content = sb.toString();
         } catch (IOException e) {
-            //return NO_CONTENT
+            //use NO_CONTENT
         }
     }
 }
