@@ -8,3 +8,9 @@ username = your_username@bigpond.com
 
 #Your bigpond password.
 password = your_password
+
+#uncomment these 2 lines when you need detailed logging
+#detail = true
+#log = ../logs/ps.log
+
+

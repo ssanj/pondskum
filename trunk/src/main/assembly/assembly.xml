@@ -44,5 +44,10 @@
             <outputDirectory>/tmp</outputDirectory>
             <directoryMode>0755</directoryMode>
         </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/resources/logs</directory>
+            <outputDirectory>/logs</outputDirectory>
+            <directoryMode>0755</directoryMode>
+        </fileSet>
     </fileSets>
 </assembly>
