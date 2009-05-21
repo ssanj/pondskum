@@ -15,9 +15,12 @@
  */
 package com.googlecode.pondskum.client.listener;
 
+import com.googlecode.pondskum.client.HttpResponseInvocationHandler;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,15 @@ public final class CompositeConnectionListener implements ConnectionListener {
     @Override
     public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) throws ConnectionListenerException {
         for (ConnectionListener connectionListener : connectionListeners) {
+
+            //proxy the entity content so it can be queried more than once.
+            if (response.getEntity() != null) {
+                HttpEntity proxiedEntity = (HttpEntity) Proxy.newProxyInstance(getClass().getClassLoader(),
+                                            new Class<?>[]{HttpEntity.class},
+                                            new HttpResponseInvocationHandler(response.getEntity()));
+                response.setEntity(proxiedEntity);
+            }
+
             connectionListener.handleEvent(httpClient, response);
         }
     }

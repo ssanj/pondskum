@@ -19,6 +19,7 @@ import com.googlecode.pondskum.client.listener.CompositeConnectionListener;
 import com.googlecode.pondskum.client.listener.ConnectionListener;
 import com.googlecode.pondskum.client.listener.DetailedConnectionListener;
 import com.googlecode.pondskum.client.listener.FileWritingConnectionListener;
+import com.googlecode.pondskum.client.listener.NullConnectionListener;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
@@ -69,10 +70,15 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             LinkTraverser linkTraverser = new LinkTraverserImpl(httpClient);
             FormSubmitter formSubmitter = new FormSubmitterImpl(httpClient);
 
+            ConnectionListener details = new NullConnectionListener();
+            if (asBoolean(resourceBundle.getProperty("detail"))) {
+                details = new DetailedConnectionListener(resourceBundle.getProperty("log"));
+            }
+
             ConnectionListener defaultCompositeConnectionListeners = new CompositeConnectionListener(
-                    createDefaultConnectionListeners(userConnectionListeners));
+                    createUserConnectionListeners(details, userConnectionListeners));
             String tempFileName = createTempFileName();
-            ConnectionListener fileWritingCompositeConnectionListener = createFileWriterWithUserListeners(tempFileName,
+            ConnectionListener fileWritingCompositeConnectionListener = createFileWriterWithUserListeners(details, tempFileName,
                     userConnectionListeners);
 
             linkTraverser.traverse(HOME_URL, defaultCompositeConnectionListeners);
@@ -87,9 +93,10 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         }
     }
 
-    private List<ConnectionListener> createDefaultConnectionListeners(final ConnectionListener... userConnectionListeners) {
+    private List<ConnectionListener> createUserConnectionListeners(final ConnectionListener details,
+                                                                   final ConnectionListener... userConnectionListeners) {
         List<ConnectionListener> listenerList = new ArrayList<ConnectionListener>();
-        addDetailedConnectedListener(listenerList);
+        listenerList.add(details);
         listenerList.addAll(Arrays.asList(userConnectionListeners));
         return listenerList;
     }
@@ -112,18 +119,13 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         return nameValuePairBuilder;
     }
 
-    private ConnectionListener createFileWriterWithUserListeners(final String tempFileName, final ConnectionListener[] userConnectionListeners) {
+    private ConnectionListener createFileWriterWithUserListeners(final ConnectionListener details, final String tempFileName,
+                                                                 final ConnectionListener[] userConnectionListeners) {
         List<ConnectionListener> connectionListenerList = new ArrayList<ConnectionListener>();
-        addDetailedConnectedListener(connectionListenerList);
+        connectionListenerList.add(details);
         connectionListenerList.add(new FileWritingConnectionListener(tempFileName));
         connectionListenerList.addAll(Arrays.asList(userConnectionListeners));
         return new CompositeConnectionListener(connectionListenerList);
-    }
-
-    private void addDetailedConnectedListener(final List<ConnectionListener> connectionListenerList) {
-        if (asBoolean(resourceBundle.getProperty("detail"))) {
-            connectionListenerList.add(new DetailedConnectionListener(resourceBundle.getProperty("log")));
-        }
     }
 
     private String createTempFileName() {
