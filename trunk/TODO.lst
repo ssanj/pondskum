@@ -8,3 +8,6 @@ TODO List
 5. Deploy to googlecode.
 6. Update googlecode wiki.
 7. Fix all warnings
+8. Move new line character to Pinthura. Make it usage such as: systemProperty.getNewLine()
+9. Fix up Windows bat files.
+10. Add copyright and disclaimers to all scripts.
