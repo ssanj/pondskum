@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +36,8 @@ public final class DetailedConnectionListener implements ConnectionListener {
     private final Logger logger;
 
     public DetailedConnectionListener(final String fileName) {
-        logger = Logger.getLogger("com.googlecode.pondskum");
+        removeRootHandlers();
+        logger = Logger.getLogger(getClass().getPackage().getName());
         logger.setLevel(Level.INFO);
         try {
             logger.addHandler(new FileHandler(fileName, true));
@@ -58,6 +60,13 @@ public final class DetailedConnectionListener implements ConnectionListener {
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "Couldn't write content due to an Exception. See below for details", e);
             }
+        }
+    }
+
+    private void removeRootHandlers() {
+        Logger rootLogger = Logger.getLogger("");
+        for (Handler handler : rootLogger.getHandlers()) {
+            rootLogger.removeHandler(handler);
         }
     }
 

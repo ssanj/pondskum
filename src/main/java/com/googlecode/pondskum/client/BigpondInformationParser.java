@@ -15,25 +15,29 @@
  */
 package com.googlecode.pondskum.client;
 
+import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import org.htmlparser.parserapplications.StringExtractor;
 
 public final class BigpondInformationParser {
 
-    private static final String NEWLINE = "\n";
     private static final String USAGE_SECTION = "Usage";
+
     private final String usageFilePath;
+    private final String lineSeparator;
 
     public BigpondInformationParser(final String usageFilePath) {
         this.usageFilePath = usageFilePath;
+        lineSeparator = new SystemPropertyRetrieverImpl().retrieveProperty("line.separator");
     }
 
     public BigpondUsageInformation parse() throws BigpondInformationParserException {
+
 
         try {
             final InformationFiller filler = new BigpondInformationFiller();
 
             final String data = new StringExtractor(usageFilePath).extractStrings(false);
-            final String[] strings = data.split(NEWLINE);
+            final String[] strings = data.split(lineSeparator);
 
             //We do a two pass parse. First check for the account information.
             for (int x = 0; x < strings.length; x++) {
