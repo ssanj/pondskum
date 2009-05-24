@@ -70,6 +70,8 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             LinkTraverser linkTraverser = new LinkTraverserImpl(httpClient);
             FormSubmitter formSubmitter = new FormSubmitterImpl(httpClient);
 
+            //TODO: MOve this into a builder.
+
             ConnectionListener details = new NullConnectionListener();
             if (asBoolean(resourceBundle.getProperty("detail"))) {
                 details = new DetailedConnectionListener(resourceBundle.getProperty("log"));
