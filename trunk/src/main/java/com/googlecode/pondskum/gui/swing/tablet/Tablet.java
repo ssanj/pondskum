@@ -112,7 +112,7 @@ public class Tablet extends JDialog implements UpdatableTablet {
 
     @Override
     public void updateStatus(final String update) {
-        notificationTextArea.append(update + propertyRetriever.retrieveProperty("line.separator"));
+        notificationTextArea.append(update + propertyRetriever.getLineSeparator());
     }
 
     @Override

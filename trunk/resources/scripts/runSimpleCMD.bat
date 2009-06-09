@@ -1,3 +1,4 @@
+REM 
 echo "setting configuration parameters"
 
 set BIGPOND_CONFIG_FILE_LOCATION=..\etc

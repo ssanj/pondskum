@@ -31,7 +31,7 @@ public final class SimpleCMDBuilder {
     private BigpondUsageInformation usageInformation;
 
     public SimpleCMDBuilder() {
-        lineSeparator = new SystemPropertyRetrieverImpl().retrieveProperty("line.separator");
+        lineSeparator = new SystemPropertyRetrieverImpl().getLineSeparator();
         stringBuilder = new StringBuilder();
         numericUtil = new NumericUtilImpl();
 

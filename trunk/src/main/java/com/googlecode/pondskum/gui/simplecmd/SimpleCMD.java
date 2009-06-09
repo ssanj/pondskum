@@ -48,7 +48,7 @@ public final class SimpleCMD {
 
     private static void dumpException(final Exception e) {
         System.out.println("There seems to have been a problem. See below for details.");
-        String lineSeparator = new SystemPropertyRetrieverImpl().retrieveProperty("line.separator");
+        String lineSeparator = new SystemPropertyRetrieverImpl().getLineSeparator();
         System.out.println(lineSeparator);
         System.out.println(e.getMessage());
         System.out.println(lineSeparator);
