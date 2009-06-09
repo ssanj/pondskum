@@ -28,4 +28,14 @@ public final class SystemPropertyRetrieverImpl implements PropertyRetriever {
 
         return propertyValue;
     }
+
+    @Override
+    public String getLineSeparator() throws PropertyRetrieverException {
+        return retrieveProperty("line.separator");
+    }
+
+    @Override
+    public String getFileSeparator() throws PropertyRetrieverException {
+        return retrieveProperty("file.separator");
+    }
 }

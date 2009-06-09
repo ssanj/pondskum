@@ -27,7 +27,7 @@ public final class BigpondInformationParser {
 
     public BigpondInformationParser(final String usageFilePath) {
         this.usageFilePath = usageFilePath;
-        lineSeparator = new SystemPropertyRetrieverImpl().retrieveProperty("line.separator");
+        lineSeparator = new SystemPropertyRetrieverImpl().getLineSeparator();
     }
 
     public BigpondUsageInformation parse() throws BigpondInformationParserException {

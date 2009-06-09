@@ -18,4 +18,8 @@ package com.googlecode.pondskum.config;
 public interface PropertyRetriever {
 
     String retrieveProperty(String propertyName) throws PropertyRetrieverException;
+
+    String getLineSeparator() throws PropertyRetrieverException;
+
+    String getFileSeparator() throws PropertyRetrieverException;
 }

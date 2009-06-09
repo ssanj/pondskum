@@ -15,7 +15,6 @@
  */
 package com.googlecode.pondskum.config;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -36,7 +35,7 @@ public final class ConfigFileLoaderImpl implements ConfigFileLoader {
             String propertyValue = propertyRetriever.retrieveProperty(propertyName);
             String configFile = new StringBuilder().
                                         append(propertyValue).
-                                        append(File.separator).
+                                        append(propertyRetriever.getFileSeparator()).
                                         append(CONFIG_FILE_NAME).
                                         toString();
 
