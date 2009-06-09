@@ -15,11 +15,11 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnector;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.util.Timer;
 
 import javax.swing.SwingWorker;

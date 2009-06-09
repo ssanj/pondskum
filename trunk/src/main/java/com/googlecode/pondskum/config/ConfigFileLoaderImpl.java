@@ -15,6 +15,8 @@
  */
 package com.googlecode.pondskum.config;
 
+import com.googlecode.pinthura.util.SystemPropertyRetriever;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -23,16 +25,16 @@ public final class ConfigFileLoaderImpl implements ConfigFileLoader {
 
     private static final String CONFIG_FILE_NAME = "bigpond_config.properties";
 
-    private final PropertyRetriever propertyRetriever;
+    private final SystemPropertyRetriever propertyRetriever;
 
-    public ConfigFileLoaderImpl(final PropertyRetriever propertyRetriever) {
+    public ConfigFileLoaderImpl(final SystemPropertyRetriever propertyRetriever) {
         this.propertyRetriever = propertyRetriever;
     }
 
     public Properties loadProperties(final String propertyName) throws ConfigFileLoaderException {
         Properties properties;
         try {
-            String propertyValue = propertyRetriever.retrieveProperty(propertyName);
+            String propertyValue = propertyRetriever.getProperty(propertyName);
             String configFile = new StringBuilder().
                                         append(propertyValue).
                                         append(propertyRetriever.getFileSeparator()).
