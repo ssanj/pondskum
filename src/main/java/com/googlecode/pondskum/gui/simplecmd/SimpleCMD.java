@@ -15,10 +15,10 @@
  */
 package com.googlecode.pondskum.gui.simplecmd;
 
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 
 import java.util.Properties;
 

@@ -2,12 +2,8 @@ TODO List
 ---------
 
 1. Add LICENSE file to jar file
-2. Add time taken for update to status for tablet.
-3. Minimize button
-4. Test on Windows
-5. Deploy to googlecode.
-6. Update googlecode wiki.
-7. Fix all warnings
-8. Move new line character to Pinthura. Make it usage such as: systemProperty.getNewLine()
-9. Fix up Windows bat files.
-10. Add copyright and disclaimers to all scripts.
+2. Minimize button
+3. Update googlecode wiki.
+4. Fix all warnings
+5. Fix up Windows bat files.
+6. Add copyright and disclaimers to all scripts.

@@ -1,8 +1,8 @@
 package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pinthura.util.SystemPropertyRetriever;
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.PropertyRetriever;
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -40,7 +40,7 @@ public class Tablet extends JDialog implements UpdatableTablet {
     private JTable usageTable;
     private JTextArea notificationTextArea;
     private JLabel monthlyAllowanceLabel;
-    private PropertyRetriever propertyRetriever;
+    private SystemPropertyRetriever propertyRetriever;
     private TabletUpateListener listener;
 
     public Tablet() {

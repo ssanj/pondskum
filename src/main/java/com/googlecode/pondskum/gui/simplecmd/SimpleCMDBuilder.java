@@ -16,8 +16,8 @@
 package com.googlecode.pondskum.gui.simplecmd;
 
 import com.googlecode.pinthura.annotation.SuppressionReason;
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 

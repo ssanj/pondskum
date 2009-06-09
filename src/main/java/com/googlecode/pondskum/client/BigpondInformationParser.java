@@ -15,7 +15,7 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.config.SystemPropertyRetrieverImpl;
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import org.htmlparser.parserapplications.StringExtractor;
 
 public final class BigpondInformationParser {
