@@ -1,4 +1,3 @@
-#! /bin/sh
 # Copyright 2008 Sanjiv Sahayam
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,4 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-./scriptRunner.sh tablet.sh
+
+Copy the bigpond_config.sample file to bigpond_config.properties. Update your user information
+ and then run the suitable executable from the bin directory.
+
+ eg.
+
+ cp bigpond_config.sample bigpond_config.properties
+ *make edits in the bigpond_config.properties file*
+
+ cd bin
+ ./runSimpleCMD.sh
