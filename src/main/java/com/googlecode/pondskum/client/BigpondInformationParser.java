@@ -20,7 +20,8 @@ import org.htmlparser.parserapplications.StringExtractor;
 
 public final class BigpondInformationParser {
 
-    private static final String USAGE_SECTION = "Usage";
+    private static final String USAGE_SECTION   = "Usage";
+    private static final int LINES_OF_HEADINGS  = 4;
 
     private final String usageFilePath;
     private final String lineSeparator;
@@ -52,7 +53,7 @@ public final class BigpondInformationParser {
                 }
             }
 
-            x += 4; //jump over the headings.
+            x += LINES_OF_HEADINGS; //jump over the headings.
             filler.fillUsageInfo(strings, x);
 
             return filler.getFilledInformation();

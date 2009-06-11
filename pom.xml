@@ -38,6 +38,16 @@
                     </descriptors>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <failsOnError>true</failsOnError>
+                    <suppressionsLocation>suppressions.xml</suppressionsLocation>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>

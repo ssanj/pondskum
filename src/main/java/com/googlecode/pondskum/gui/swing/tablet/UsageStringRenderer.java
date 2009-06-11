@@ -29,7 +29,7 @@ public final class UsageStringRenderer extends DefaultTableCellRenderer {
     private final int rowCount;
     private final TableCellRenderer totalsRenderer;
 
-    public UsageStringRenderer(int rowCount, final Color totalsColour) {
+    public UsageStringRenderer(final int rowCount, final Color totalsColour) {
         this.rowCount = rowCount;
         totalsRenderer = new TotalsRenderer(totalsColour, CENTER);
     }

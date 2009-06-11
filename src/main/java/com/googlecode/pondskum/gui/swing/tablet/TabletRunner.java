@@ -19,14 +19,14 @@ import java.awt.Dimension;
 
 public final class TabletRunner implements TabletUpateListener {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new TabletRunner().run();
     }
 
     private void run() {
         Tablet dialog = new Tablet();
         dialog.setUpdateListener(this);
-        dialog.setSize(new Dimension(600,400));
+        dialog.setSize(new Dimension(600, 400));
         dialog.setResizable(false);
         executeUpdate(dialog);
         dialog.setVisible(true);

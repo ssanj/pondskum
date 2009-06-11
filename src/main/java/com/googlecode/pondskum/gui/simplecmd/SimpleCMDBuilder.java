@@ -25,6 +25,8 @@ import com.googlecode.pondskum.util.NumericUtilImpl;
 @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
 public final class SimpleCMDBuilder {
 
+    private static final double GIGABYTES = 1000.00;
+
     private final String lineSeparator;
     private final StringBuilder stringBuilder;
     private final NumericUtil numericUtil;
@@ -79,6 +81,6 @@ public final class SimpleCMDBuilder {
 
     private String getUsage(final String usage) {
         int numericUsage = numericUtil.getNumber(usage);
-        return String.format("%1$5.2g GB", (numericUsage / 1000.00));
+        return String.format("%1$5.2g GB", (numericUsage / GIGABYTES));
     }
 }

@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Tablet extends JDialog implements UpdatableTablet {
+public final class Tablet extends JDialog implements UpdatableTablet {
 
     private static final long serialVersionUID = -1033331705617879856L;
 
@@ -81,7 +81,7 @@ public class Tablet extends JDialog implements UpdatableTablet {
         });
 
         exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 onExit();
             }
         });
@@ -89,14 +89,14 @@ public class Tablet extends JDialog implements UpdatableTablet {
 // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(final WindowEvent e) {
                 onExit();
             }
         });
 
 // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 onExit();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);

@@ -35,13 +35,16 @@ public final class UsageQuotaRenderer extends DefaultTableCellRenderer {
     }
 
     @Override
-    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
+    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus,
+                                                   final int row, final int column) {
         if (UsageTableValue.class.isAssignableFrom(value.getClass())) {
             if (row == (rowCount - 1)) {
-                return totalsRenderer.getTableCellRendererComponent(table, ((UsageTableValue) value).getValue(), isSelected, hasFocus, row, column);
+                return totalsRenderer.getTableCellRendererComponent(table, ((UsageTableValue) value).getValue(), isSelected, hasFocus,
+                        row, column);
             }
 
-            JLabel component = (JLabel) super.getTableCellRendererComponent(table, ((UsageTableValue) value).getValue(), isSelected, hasFocus, row, column);
+            JLabel component = (JLabel) super.getTableCellRendererComponent(table, ((UsageTableValue) value).getValue(), isSelected,
+                    hasFocus, row, column);
             component.setHorizontalAlignment(RIGHT);
             return component;
         }
