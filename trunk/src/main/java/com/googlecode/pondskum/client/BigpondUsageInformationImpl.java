@@ -24,7 +24,8 @@ public final class BigpondUsageInformationImpl implements BigpondUsageInformatio
     private List<BigpondMonthlyUsage> monthlyUsageList;
     private BigpondUsage totalUsage;
 
-    public BigpondUsageInformationImpl(final BigpondAccountInformation accountInformation, final List<BigpondMonthlyUsage> monthlyUsageList, final BigpondUsage totalUsage) {
+    public BigpondUsageInformationImpl(final BigpondAccountInformation accountInformation, final List<BigpondMonthlyUsage> monthlyUsageList,
+                                       final BigpondUsage totalUsage) {
         this.accountInformation = accountInformation;
         this.monthlyUsageList = monthlyUsageList;
         this.totalUsage = totalUsage;

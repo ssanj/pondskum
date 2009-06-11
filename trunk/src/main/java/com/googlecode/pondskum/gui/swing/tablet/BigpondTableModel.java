@@ -15,9 +15,9 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.client.BigpondUsage;
 import com.googlecode.pondskum.client.BigpondMonthlyUsage;
+import com.googlecode.pondskum.client.BigpondUsage;
+import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 
@@ -25,8 +25,11 @@ import javax.swing.table.AbstractTableModel;
 
 public final class BigpondTableModel extends AbstractTableModel {
 
-    private static final long serialVersionUID = 550659947871203828L;
-    private static final String N_A = "N/A";
+    private static final long serialVersionUID  = 550659947871203828L;
+    private static final int DOWNLOAD_USAGE     = 1;
+    private static final int UPLOAD_USAGE       = 2;
+    private static final int UMETERED_USAGE     = 3;
+    private static final int TOTAL_USAFE        = 4;
 
     private final BigpondUsageInformation bigpondUsageInformation;
     private final String[] columnNames;
@@ -57,18 +60,19 @@ public final class BigpondTableModel extends AbstractTableModel {
         String usageValue = "-1";
 
         switch (column) {
-            case 1:
+            case DOWNLOAD_USAGE:
                 usageValue = usage.getDownloadUsage();
                 break;
-            case 2:
+            case UPLOAD_USAGE:
                 usageValue = usage.getUploadUsage();
                 break;
-            case 3:
+            case UMETERED_USAGE:
                 usageValue = usage.getUnmeteredUsage();
                 break;
-            case 4:
+            case TOTAL_USAFE:
                 usageValue = usage.getTotalUsage();
                 break;
+            default: break; //use default value.
         }
 
         return new UsageTableValue(numericUtil.getNumber(usageValue));
@@ -91,7 +95,7 @@ public final class BigpondTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return bigpondUsageInformation.getMonthlyUsageList().size() + 1;
+        return bigpondUsageInformation.getMonthlyUsageList().size() + DOWNLOAD_USAGE;
     }
 }
 

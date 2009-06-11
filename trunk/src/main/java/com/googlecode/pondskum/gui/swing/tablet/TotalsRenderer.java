@@ -29,7 +29,7 @@ public final class TotalsRenderer extends DefaultTableCellRenderer {
     private final Color totalsColor;
     private final int alignment;
 
-    public TotalsRenderer(final Color totalsColor, int alignment) {
+    public TotalsRenderer(final Color totalsColor, final int alignment) {
         this.totalsColor = totalsColor;
         this.alignment = alignment;
     }

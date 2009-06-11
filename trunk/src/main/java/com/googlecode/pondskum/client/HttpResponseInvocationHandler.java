@@ -55,7 +55,7 @@ public final class HttpResponseInvocationHandler implements InvocationHandler {
             int readContent;
             StringBuilder sb = new StringBuilder();
 
-            while((readContent = in.read()) != -1) {
+            while ((readContent = in.read()) != -1) {
                 sb.append((char) readContent);
             }
 

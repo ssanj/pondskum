@@ -85,7 +85,7 @@ public final class DetailedConnectionListener implements ConnectionListener {
         int content;
         StringBuilder sb = new StringBuilder();
 
-        while((content = in.read()) != -1) {
+        while ((content = in.read()) != -1) {
             sb.append((char) content);
         }
 

@@ -29,7 +29,8 @@ public final class TableHeaderRenderer extends DefaultTableCellRenderer {
     private static final long serialVersionUID = -5922036445853578030L;
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus,
+                                                   final int row, final int column) {
         JLabel component = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         component.setFont(new Font("DejaVu Sans", Font.BOLD, 16));
         component.setBackground(new Color(131, 203, 146));

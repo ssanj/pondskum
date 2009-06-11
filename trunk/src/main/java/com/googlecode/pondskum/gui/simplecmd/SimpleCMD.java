@@ -26,7 +26,7 @@ public final class SimpleCMD {
 
     private static final int SECONDS_IN_MILLISECONDS = 1000;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             double startTime = System.currentTimeMillis();
             BigpondUsageInformation usageInformation = new BigpondConnectorImpl(loadProperties()).connect();
