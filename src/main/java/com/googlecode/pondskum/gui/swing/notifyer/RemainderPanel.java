@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -32,22 +33,38 @@ public final class RemainderPanel extends JPanel {
         Color backgroundColor = Color.GRAY;
         Color limitColor = Color.WHITE;
         Color percentageColor = Color.BLUE;
-        Color usageColor = Color.RED;
+        double usageRatio = 0.05;
 
         Dimension panelDimension = getSize();
         g.setColor(backgroundColor);
         g.fillRect(0, 0, panelDimension.width, panelDimension.height);
 
-        g.setColor(usageColor);
-        g.fillRect(0, 0, (int) (panelDimension.width * 0.65), panelDimension.height);
+        g.setColor(getUsageColor(usageRatio));
+        g.fillRect(0, 0, (int) (panelDimension.width * usageRatio), panelDimension.height);
 
         g.setColor(limitColor);
+        Font oldFont = getFont();
+        g.setFont(oldFont.deriveFont(Font.BOLD));
         Dimension limitDimension = getLimitLocation(g, "25 GB", panelDimension);
         g.drawString("25 GB", limitDimension.width, limitDimension.height);
+        g.setFont(oldFont);
 
         g.setColor(percentageColor);
-        Dimension centreDimension = getCentreLocation(g, "65%", panelDimension);
-        g.drawString("65%", centreDimension.width, centreDimension.height);
+        String percentageText = ((int) (usageRatio * 100)) + "%";
+        Dimension centreDimension = getCentreLocation(g, percentageText, panelDimension);
+        g.drawString(percentageText, centreDimension.width, centreDimension.height);
+    }
+
+    private Color getUsageColor(final double usageRatio) {
+        if (usageRatio > 0.5) {
+            return Color.GREEN;
+        }
+
+        if (usageRatio > 0.25) {
+            return Color.ORANGE;
+        }
+
+        return Color.RED;
     }
 
     private Dimension getLimitLocation(final Graphics g, final String text, final Dimension parentSize) {
