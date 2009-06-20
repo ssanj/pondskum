@@ -46,17 +46,17 @@ public abstract class AbstractRenderer {
     }
 
     protected void drawString(final Graphics g, final int startIndex, final Dimension centreSize, final String text) {
-        g.drawString(text, startIndex+ centreSize.width, centreSize.height);
+        g.drawString(text, startIndex + centreSize.width, centreSize.height);
     }
 
     protected Dimension findCentre(final Graphics g, final String text, final Dimension size) {
-         float width = (float)g.getFontMetrics().getStringBounds(text, g).getWidth();
+         float width = (float) g.getFontMetrics().getStringBounds(text, g).getWidth();
          LineMetrics lm = g.getFontMetrics().getLineMetrics(text, g);
          float ascent = lm.getAscent();
          float descent = lm.getDescent();
          float height = ascent + descent;               // without the leading
-         float x = Math.max(0, (size.width - width)/2);                 // center text
-         float y = Math.max(0, (size.height + height)/2 - descent);      //    in label
+         float x = Math.max(0, (size.width - width) / 2);                 // center text
+         float y = Math.max(0, (size.height + height) / 2 - descent);      //    in label
          return new Dimension((int) x, (int) y);
     }
 
