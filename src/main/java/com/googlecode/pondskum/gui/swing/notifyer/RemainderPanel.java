@@ -32,20 +32,26 @@ public final class RemainderPanel extends JPanel {
 
     private UsageColourChooser usageColourChooser;
     private double usage;
+    private double limit;
+    private Color backgroundColor;
+    private Color limitColor;
+    private Color percentageColor;
+    private String units;
 
     public RemainderPanel() {
         usageColourChooser = new UsageColourChooser();
         usage = 0;
+        limit = 25;
+        backgroundColor = Color.GRAY;
+        limitColor = Color.WHITE;
+        percentageColor = Color.BLUE;
+        units = "GB";
     }
 
     @Override
     protected void paintComponent(final Graphics g) {
-        Color backgroundColor = Color.GRAY;
-        Color limitColor = Color.WHITE;
-        Color percentageColor = Color.BLUE;
-        double limit = 25;
         double usageRatio = usage / limit;
-
+        System.out.println("usage ratio: " + usageRatio);
         Dimension panelDimension = getSize();
         g.setColor(backgroundColor);
         g.fillRect(0, 0, panelDimension.width, panelDimension.height);
@@ -56,17 +62,23 @@ public final class RemainderPanel extends JPanel {
         g.setColor(limitColor);
         Font oldFont = getFont();
         g.setFont(oldFont.deriveFont(Font.BOLD));
-        Dimension limitDimension = LocationFinder.findRightCorner(g, limit + " GB", panelDimension);
-        g.drawString(limit+" GB", limitDimension.width, limitDimension.height);
+        String limitText = getUnitValue(limit);
+        Dimension limitDimension = LocationFinder.findRightCorner(g, limitText, panelDimension);
+        g.drawString(limitText, limitDimension.width, limitDimension.height);
 
-        Dimension usageDimension = LocationFinder.findLeftCorner(g, usage+ " GB", panelDimension);
-        g.drawString(usage+ " GB", usageDimension.width, limitDimension.height);
+        String usageText = getUnitValue(usage);
+        Dimension usageDimension = LocationFinder.findLeftCorner(g, usageText, panelDimension);
+        g.drawString(usageText, usageDimension.width, limitDimension.height);
         g.setFont(oldFont);
 
         g.setColor(percentageColor);
         String percentageText = ((int) (usageRatio * 100)) + "%";
         Dimension centreDimension = LocationFinder.findCentreLocation(g, percentageText, panelDimension);
         g.drawString(percentageText, centreDimension.width, centreDimension.height);
+    }
+
+    private String getUnitValue(final double value) {
+        return value + " " + units;
     }
 
     public void setUsage() {
