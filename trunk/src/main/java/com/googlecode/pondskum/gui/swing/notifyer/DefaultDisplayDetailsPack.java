@@ -41,12 +41,22 @@ public final class DefaultDisplayDetailsPack implements DisplayDetailsPack {
     }
 
     @Override
-    public String getQuotaMetrics() {
+    public String getQuotaUnits() {
         return "GB";
     }
 
     @Override
     public UsageColourChooser getUsageColourChooser() {
         return new UsageColourChooser();
+    }
+
+    @Override
+    public Double getQuotaLimit() {
+        return 25d;
+    }
+
+    @Override
+    public String getQuotaLimitWithUnits() {
+        return getQuotaLimit() + " " +getQuotaUnits();
     }
 }

@@ -29,12 +29,9 @@ public final class RemainderPanel extends JPanel {
 
     private static final int HUNDRED = 100;
     private double usage;
-    private double limit;
     private final DisplayDetailsPack displayDetailsPack;
 
     public RemainderPanel() {
-        usage = 15;
-        limit = 25;
         displayDetailsPack = new DefaultDisplayDetailsPack();
     }
 
@@ -42,9 +39,14 @@ public final class RemainderPanel extends JPanel {
         this.displayDetailsPack = displayDetailsPack;
     }
 
+    public void setUsage(final Double usage) {
+        this.usage = usage;
+        repaint();
+    }
+
     @Override
     protected void paintComponent(final Graphics g) {
-        double usageRatio = usage / limit;
+        double usageRatio = usage / displayDetailsPack.getQuotaLimit();
         Dimension panelDimension = getSize();
         g.setColor(displayDetailsPack.getBackgroundColour());
         g.fill3DRect(0, 0, panelDimension.width, panelDimension.height, false);
@@ -55,11 +57,11 @@ public final class RemainderPanel extends JPanel {
         g.setColor(displayDetailsPack.getLimitTextColour());
         Font oldFont = getFont();
         g.setFont(displayDetailsPack.getQuotaFont());
-        String limitText = getUnitValue(limit);
+        String limitText = displayDetailsPack.getQuotaLimitWithUnits();
         Dimension limitDimension = LocationFinder.findRightCorner(g, limitText, panelDimension);
         g.drawString(limitText, limitDimension.width, limitDimension.height);
 
-        String usageText = getUnitValue(usage);
+        String usageText = usage + " " + displayDetailsPack.getQuotaUnits();
         Dimension usageDimension = LocationFinder.findLeftCorner(g, usageText, panelDimension);
         g.drawString(usageText, usageDimension.width, limitDimension.height);
         g.setFont(oldFont);
@@ -68,10 +70,6 @@ public final class RemainderPanel extends JPanel {
         String percentageText = ((int) (usageRatio * HUNDRED)) + "%";
         Dimension centreDimension = LocationFinder.findCentreLocation(g, percentageText, panelDimension);
         g.drawString(percentageText, centreDimension.width, centreDimension.height);
-    }
-
-    private String getUnitValue(final double value) {
-        return value + " " + displayDetailsPack.getQuotaMetrics();
     }
 
     public static void main(String[] args) {
