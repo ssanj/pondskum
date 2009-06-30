@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -28,45 +27,34 @@ import java.awt.event.WindowEvent;
 
 public final class RemainderPanel extends JPanel {
 
-    private UsageColourChooser usageColourChooser;
+    private static final int HUNDRED = 100;
     private double usage;
     private double limit;
-    private Color backgroundColor;
-    private Color limitColor;
-    private Color percentageColor;
-    private String units;
-    private DisplayDetailsPack displayDetailsPack;
-    private Font quotaFont;
+    private final DisplayDetailsPack displayDetailsPack;
 
     public RemainderPanel() {
-        usageColourChooser = new UsageColourChooser();
         usage = 15;
         limit = 25;
-//        backgroundColor = Color.GRAY;
-//        limitColor = Color.WHITE;
-//        percentageColor = Color.BLUE;
-//        units = "GB";
         displayDetailsPack = new DefaultDisplayDetailsPack();
-        backgroundColor = displayDetailsPack.getBackgroundColour();
-        limitColor = displayDetailsPack.getLimitTextColour();
-        percentageColor = displayDetailsPack.getPercentageUsageTextColour();
-        units = displayDetailsPack.getQuotaMetrics();
-        quotaFont = displayDetailsPack.getQuotaFont();
+    }
+
+    public RemainderPanel(final DisplayDetailsPack displayDetailsPack) {
+        this.displayDetailsPack = displayDetailsPack;
     }
 
     @Override
     protected void paintComponent(final Graphics g) {
         double usageRatio = usage / limit;
         Dimension panelDimension = getSize();
-        g.setColor(backgroundColor);
+        g.setColor(displayDetailsPack.getBackgroundColour());
         g.fill3DRect(0, 0, panelDimension.width, panelDimension.height, false);
 
-        g.setColor(usageColourChooser.getColor(usageRatio));
+        g.setColor(displayDetailsPack.getUsageColourChooser().getColor(usageRatio));
         g.fill3DRect(0, 0, (int) (panelDimension.width * usageRatio), panelDimension.height, true);
 
-        g.setColor(limitColor);
+        g.setColor(displayDetailsPack.getLimitTextColour());
         Font oldFont = getFont();
-        g.setFont(quotaFont);
+        g.setFont(displayDetailsPack.getQuotaFont());
         String limitText = getUnitValue(limit);
         Dimension limitDimension = LocationFinder.findRightCorner(g, limitText, panelDimension);
         g.drawString(limitText, limitDimension.width, limitDimension.height);
@@ -76,14 +64,14 @@ public final class RemainderPanel extends JPanel {
         g.drawString(usageText, usageDimension.width, limitDimension.height);
         g.setFont(oldFont);
 
-        g.setColor(percentageColor);
-        String percentageText = ((int) (usageRatio * 100)) + "%";
+        g.setColor(displayDetailsPack.getPercentageUsageTextColour());
+        String percentageText = ((int) (usageRatio * HUNDRED)) + "%";
         Dimension centreDimension = LocationFinder.findCentreLocation(g, percentageText, panelDimension);
         g.drawString(percentageText, centreDimension.width, centreDimension.height);
     }
 
     private String getUnitValue(final double value) {
-        return value + " " + units;
+        return value + " " + displayDetailsPack.getQuotaMetrics();
     }
 
     public static void main(String[] args) {

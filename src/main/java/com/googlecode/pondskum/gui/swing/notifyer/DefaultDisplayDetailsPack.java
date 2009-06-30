@@ -44,4 +44,9 @@ public final class DefaultDisplayDetailsPack implements DisplayDetailsPack {
     public String getQuotaMetrics() {
         return "GB";
     }
+
+    @Override
+    public UsageColourChooser getUsageColourChooser() {
+        return new UsageColourChooser();
+    }
 }
