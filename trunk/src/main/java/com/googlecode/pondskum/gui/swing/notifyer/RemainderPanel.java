@@ -15,16 +15,14 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -40,7 +38,7 @@ public final class RemainderPanel extends JPanel {
 
     public RemainderPanel() {
         usageColourChooser = new UsageColourChooser();
-        usage = 0;
+        usage = 15;
         limit = 25;
         backgroundColor = Color.GRAY;
         limitColor = Color.WHITE;
@@ -51,7 +49,6 @@ public final class RemainderPanel extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         double usageRatio = usage / limit;
-        System.out.println("usage ratio: " + usageRatio);
         Dimension panelDimension = getSize();
         g.setColor(backgroundColor);
         g.fillRect(0, 0, panelDimension.width, panelDimension.height);
@@ -81,11 +78,6 @@ public final class RemainderPanel extends JPanel {
         return value + " " + units;
     }
 
-    public void setUsage() {
-        this.usage = (usage + 1) % 25;
-        System.out.println("usage = " + usage);
-    }
-
     public static void main(String[] args) {
         JFrame f = new JFrame("Remainder");
         f.addWindowListener(new WindowAdapter() {
@@ -97,15 +89,7 @@ public final class RemainderPanel extends JPanel {
         JPanel parentPanel = new JPanel(new BorderLayout());
         f.getContentPane().add(parentPanel, BorderLayout.CENTER);
         parentPanel.add(remainderPanel, BorderLayout.CENTER);
-        JButton button = new JButton("click");
-        parentPanel.add(button, BorderLayout.SOUTH);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                remainderPanel.setUsage();
-                remainderPanel.repaint();
-            }
-        });
+        parentPanel.add(new JLabel("Sanjiv Sahayam"), BorderLayout.NORTH);
         f.setSize(600, 50);
         f.setVisible(true);
     }
