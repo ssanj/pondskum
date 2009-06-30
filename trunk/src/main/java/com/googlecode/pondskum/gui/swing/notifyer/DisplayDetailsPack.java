@@ -25,4 +25,5 @@ public interface DisplayDetailsPack {
     Color getPercentageUsageTextColour();
     Font getQuotaFont();
     String getQuotaMetrics();
+    UsageColourChooser getUsageColourChooser();
 }
