@@ -21,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public final class ProgressionPanel {
+    
     private JPanel contentPanel;
     private RemainderPanel remainderPanel;
 

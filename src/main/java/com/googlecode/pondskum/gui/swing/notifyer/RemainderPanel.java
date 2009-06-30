@@ -51,10 +51,10 @@ public final class RemainderPanel extends JPanel {
         double usageRatio = usage / limit;
         Dimension panelDimension = getSize();
         g.setColor(backgroundColor);
-        g.fillRect(0, 0, panelDimension.width, panelDimension.height);
+        g.fill3DRect(0, 0, panelDimension.width, panelDimension.height, false);
 
         g.setColor(usageColourChooser.getColor(usageRatio));
-        g.fillRect(0, 0, (int) (panelDimension.width * usageRatio), panelDimension.height);
+        g.fill3DRect(0, 0, (int) (panelDimension.width * usageRatio), panelDimension.height, true);
 
         g.setColor(limitColor);
         Font oldFont = getFont();
