@@ -24,6 +24,8 @@ public interface DisplayDetailsPack {
     Color getLimitTextColour();
     Color getPercentageUsageTextColour();
     Font getQuotaFont();
-    String getQuotaMetrics();
+    String getQuotaUnits();
     UsageColourChooser getUsageColourChooser();
+    Double getQuotaLimit();
+    String getQuotaLimitWithUnits();
 }

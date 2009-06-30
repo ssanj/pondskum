@@ -21,7 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public final class ProgressionPanel {
-    
+
     private JPanel contentPanel;
     private RemainderPanel remainderPanel;
 
@@ -34,6 +34,7 @@ public final class ProgressionPanel {
         });
         final ProgressionPanel panel = new ProgressionPanel();
         f.getContentPane().add(panel.contentPanel);
+        panel.remainderPanel.setUsage(15d);
         f.setSize(600, 70);
         f.setVisible(true);
 
