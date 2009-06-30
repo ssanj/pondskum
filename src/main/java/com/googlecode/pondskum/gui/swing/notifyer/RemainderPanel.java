@@ -35,15 +35,23 @@ public final class RemainderPanel extends JPanel {
     private Color limitColor;
     private Color percentageColor;
     private String units;
+    private DisplayDetailsPack displayDetailsPack;
+    private Font quotaFont;
 
     public RemainderPanel() {
         usageColourChooser = new UsageColourChooser();
         usage = 15;
         limit = 25;
-        backgroundColor = Color.GRAY;
-        limitColor = Color.WHITE;
-        percentageColor = Color.BLUE;
-        units = "GB";
+//        backgroundColor = Color.GRAY;
+//        limitColor = Color.WHITE;
+//        percentageColor = Color.BLUE;
+//        units = "GB";
+        displayDetailsPack = new DefaultDisplayDetailsPack();
+        backgroundColor = displayDetailsPack.getBackgroundColour();
+        limitColor = displayDetailsPack.getLimitTextColour();
+        percentageColor = displayDetailsPack.getPercentageUsageTextColour();
+        units = displayDetailsPack.getQuotaMetrics();
+        quotaFont = displayDetailsPack.getQuotaFont();
     }
 
     @Override
@@ -58,7 +66,7 @@ public final class RemainderPanel extends JPanel {
 
         g.setColor(limitColor);
         Font oldFont = getFont();
-        g.setFont(oldFont.deriveFont(Font.BOLD));
+        g.setFont(quotaFont);
         String limitText = getUnitValue(limit);
         Dimension limitDimension = LocationFinder.findRightCorner(g, limitText, panelDimension);
         g.drawString(limitText, limitDimension.width, limitDimension.height);
