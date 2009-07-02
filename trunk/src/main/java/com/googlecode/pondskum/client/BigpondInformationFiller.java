@@ -52,7 +52,7 @@ public final class BigpondInformationFiller implements InformationFiller {
                             havingAccountName(accountInfoMap.get("Account Name:")).
                             withAccountNumber(accountInfoMap.get("BigPond Account Number:")).
                             onCurrentPlan(accountInfoMap.get("Current Plan:")).
-                            withAMonthlyAllowanceOf(accountInfoMap.get("Monthly Plan Allowance:")).
+                withAMonthlyAllowanceShapingOf(accountInfoMap.get("Monthly Plan Allowance:")).
                             forAPlanFeeOf(accountInfoMap.get("Monthly Plan Fee:")).done();
 
         while (!data[++copyOfIndex].equals("Total")) {

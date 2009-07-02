@@ -39,7 +39,7 @@ public final class StubbyNewMonthBigpondUsageInformationBuilder {
         accountInformation.setAccountName("James Bond");
         accountInformation.setAccountNumber("0000007");
         accountInformation.setCurrentPlan("MI6");
-        accountInformation.setMonthlyAllowance("Infinite");
+        accountInformation.setMonthlyAllowanceShaping("Infinite");
         accountInformation.setMonthlyPlanFee("$1,000,000");
 
         List<BigpondMonthlyUsage> bigpondUsageList = new ArrayList<BigpondMonthlyUsage>();

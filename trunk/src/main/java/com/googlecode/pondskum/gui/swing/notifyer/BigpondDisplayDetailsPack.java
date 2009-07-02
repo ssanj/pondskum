@@ -37,11 +37,9 @@ public final class BigpondDisplayDetailsPack extends AbstractDisplayDetailsPack 
     }
 
     @Override
-    public Double getQuotaLimit() {
+    public Integer getQuotaLimit() {
         //find a way to get the full quaota.
-//        System.out.println("monthly allowance: " + usageInformation.getAccountInformation().getMonthlyAllowance());
-//        return numericUtil.getRealNumber(usageInformation.getAccountInformation().getMonthlyAllowance());
-        return 25d;
+        return usageInformation.getAccountInformation().getMonthlyAllowance();
     }
 
     @Override

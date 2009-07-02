@@ -23,8 +23,8 @@ public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack 
     }
 
     @Override
-    public Double getQuotaLimit() {
-        return 100d;
+    public Integer getQuotaLimit() {
+        return 100;
     }
 
     @Override

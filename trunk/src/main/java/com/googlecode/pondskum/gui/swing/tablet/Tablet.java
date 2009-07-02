@@ -84,7 +84,7 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         accountNameLabel.setText(usageInformation.getAccountInformation().getAccountName());
         accountNumberLabel.setText(usageInformation.getAccountInformation().getAccountNumber());
         currentPlanLabel.setText(usageInformation.getAccountInformation().getCurrentPlan());
-        monthlyAllowanceLabel.setText(usageInformation.getAccountInformation().getMonthlyAllowance());
+        monthlyAllowanceLabel.setText(usageInformation.getAccountInformation().getMonthlyAllowanceShaping());
         monthlyPlanFeeLabel.setText(usageInformation.getAccountInformation().getMonthlyPlanFee());
     }
 

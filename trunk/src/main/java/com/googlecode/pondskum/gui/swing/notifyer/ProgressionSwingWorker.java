@@ -15,26 +15,23 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
-import com.googlecode.pondskum.client.BigpondConnector;
-import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
 
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Properties;
 
 public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInformation, String> {
 
 
     @Override
     protected BigpondUsageInformation doInBackground() throws Exception {
-        Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
-        BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
-        return bigpondConnector.connect();
+//        Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
+//        BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
+//        return bigpondConnector.connect();
+        return new StubbyBigpondUsageInformationBuilder().build();
     }
 
     @Override
