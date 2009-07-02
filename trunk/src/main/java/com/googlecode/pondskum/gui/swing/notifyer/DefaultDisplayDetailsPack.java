@@ -13,16 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.util;
+package com.googlecode.pondskum.gui.swing.notifyer;
 
-public interface NumericUtil {
+public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack {
 
-    boolean isNumber(String value);
+    @Override
+    public String getQuotaUnits() {
+        return "GB";
+    }
 
-    Integer getNumber(String value);
+    @Override
+    public Double getQuotaLimit() {
+        return 100d;
+    }
 
-    boolean isRealNumber(String value);
+    @Override
+    public String getAccountName() {
+        return "account name";
+    }
 
-    Double getRealNumber(String value);
-
+    @Override
+    public String getPlanName() {
+        return "account plan";
+    }
 }
