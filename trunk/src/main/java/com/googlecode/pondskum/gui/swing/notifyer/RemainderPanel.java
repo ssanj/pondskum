@@ -15,24 +15,17 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public final class RemainderPanel extends JPanel {
 
     private static final int HUNDRED = 100;
-    private double usage;
+
     private final DisplayDetailsPack displayDetailsPack;
+    private double usage;
 
     public RemainderPanel() {
         displayDetailsPack = new DefaultDisplayDetailsPack();
@@ -73,23 +66,5 @@ public final class RemainderPanel extends JPanel {
         String percentageText = ((int) (usageRatio * HUNDRED)) + "%";
         Dimension centreDimension = LocationFinder.findCentreLocation(g, percentageText, panelDimension);
         g.drawString(percentageText, centreDimension.width, centreDimension.height);
-    }
-
-    public static void main(String[] args) {
-        JFrame f = new JFrame("Remainder");
-        f.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        BigpondUsageInformation usageInfo = new StubbyBigpondUsageInformationBuilder().build();
-        RemainderPanel remainderPanel = new RemainderPanel(new BigpondDisplayDetailsPack(usageInfo));
-        remainderPanel.setUsage(25d);
-        JPanel parentPanel = new JPanel(new BorderLayout());
-        f.getContentPane().add(parentPanel, BorderLayout.CENTER);
-        parentPanel.add(remainderPanel, BorderLayout.CENTER);
-        parentPanel.add(new JLabel(usageInfo.getAccountInformation().getAccountName()), BorderLayout.NORTH);
-        f.setSize(600, 50);
-        f.setVisible(true);
     }
 }
