@@ -31,4 +31,19 @@ public final class NumericUtilImpl implements NumericUtil {
     public Integer getNumber(final String value) {
         return isNumber(value) ? Integer.parseInt(value) : 0;
     }
+
+    @Override
+    public boolean isRealNumber(final String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Double getRealNumber(final String value) {
+        return isRealNumber(value) ? Double.parseDouble(value) : 0d;
+    }
 }

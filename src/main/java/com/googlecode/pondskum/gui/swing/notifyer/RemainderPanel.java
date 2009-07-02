@@ -15,6 +15,9 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import com.googlecode.pondskum.client.BigpondUsageInformation;
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,27 +35,7 @@ public final class RemainderPanel extends JPanel {
     private final DisplayDetailsPack displayDetailsPack;
 
     public RemainderPanel() {
-        displayDetailsPack = new AbstractDisplayDetailsPack() {
-            @Override
-            public String getQuotaUnits() {
-                return "GB";
-            }
-
-            @Override
-            public Double getQuotaLimit() {
-                return 100d;
-            }
-
-            @Override
-            public String getAccountName() {
-                return "account name";
-            }
-
-            @Override
-            public String getPlanName() {
-                return "account plan";
-            }
-        };
+        displayDetailsPack = new DefaultDisplayDetailsPack();
     }
 
     public RemainderPanel(final DisplayDetailsPack displayDetailsPack) {
@@ -99,11 +82,13 @@ public final class RemainderPanel extends JPanel {
                 System.exit(0);
             }
         });
-        final RemainderPanel remainderPanel = new RemainderPanel();
+        BigpondUsageInformation usageInfo = new StubbyBigpondUsageInformationBuilder().build();
+        RemainderPanel remainderPanel = new RemainderPanel(new BigpondDisplayDetailsPack(usageInfo));
+        remainderPanel.setUsage(25d);
         JPanel parentPanel = new JPanel(new BorderLayout());
         f.getContentPane().add(parentPanel, BorderLayout.CENTER);
         parentPanel.add(remainderPanel, BorderLayout.CENTER);
-        parentPanel.add(new JLabel("Sanjiv Sahayam"), BorderLayout.NORTH);
+        parentPanel.add(new JLabel(usageInfo.getAccountInformation().getAccountName()), BorderLayout.NORTH);
         f.setSize(600, 50);
         f.setVisible(true);
     }
