@@ -21,6 +21,8 @@ import com.googlecode.pondskum.util.NumericUtilImpl;
 
 public final class BigpondDisplayDetailsPack extends AbstractDisplayDetailsPack {
 
+    private static final double GIGABYTE = 1000.0d;
+
     private final BigpondUsageInformation usageInformation;
     private NumericUtil numericUtil;
 
@@ -36,7 +38,15 @@ public final class BigpondDisplayDetailsPack extends AbstractDisplayDetailsPack 
 
     @Override
     public Double getQuotaLimit() {
-        return numericUtil.getRealNumber(usageInformation.getAccountInformation().getMonthlyAllowance());
+        //find a way to get the full quaota.
+//        System.out.println("monthly allowance: " + usageInformation.getAccountInformation().getMonthlyAllowance());
+//        return numericUtil.getRealNumber(usageInformation.getAccountInformation().getMonthlyAllowance());
+        return 25d;
+    }
+
+    @Override
+    public Double getTotalUsage() {
+        return numericUtil.getNumber(usageInformation.getTotalUsage().getTotalUsage()) / GIGABYTE;
     }
 
     @Override

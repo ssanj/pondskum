@@ -33,15 +33,11 @@ public final class ProgressionPanel {
 
     private final BigpondUsageInformation usageInfo;
     private JPanel contentPanel;
-    private RemainderPanel remainderPanel;
     private JLabel planNameLabel;
     private JLabel accountNameLabel;
     private JLabel lastUpdatedLabel;
     private JPanel lastUpdatedPanel;
     private JPanel accountPanel;
-
-    public static void main(String[] args) {
-    }
 
     public ProgressionPanel() {
         //for the gui-builder.
@@ -57,17 +53,9 @@ public final class ProgressionPanel {
         return contentPanel;
     }
 
-    public void setUsage(final double usage) {
-        remainderPanel.setUsage(usage);
-    }
-
     private void createUIComponents() {
-
-        remainderPanel = new RemainderPanel(new BigpondDisplayDetailsPack(usageInfo));
         BigpondDisplayDetailsPack detailsPack = new BigpondDisplayDetailsPack(usageInfo);
-        remainderPanel = new RemainderPanel(detailsPack);
-
-        contentPanel.add(remainderPanel, BorderLayout.CENTER);
+        contentPanel.add(new RemainderPanel(detailsPack), BorderLayout.CENTER);
 
         planNameLabel.setForeground(detailsPack.getLimitTextColour());
         planNameLabel.setBackground(detailsPack.getBackgroundColour());

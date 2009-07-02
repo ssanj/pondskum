@@ -41,6 +41,5 @@ public final class TabletRunner implements TabletUpateListener {
 
     private void executeUpdate(final UpdatableTablet dialog) {
         new TabletSwingWorker(dialog).execute();
-//        dialog.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
     }
 }
