@@ -28,4 +28,6 @@ public interface DisplayDetailsPack {
     UsageColourChooser getUsageColourChooser();
     Double getQuotaLimit();
     String getQuotaLimitWithUnits();
+    String getAccountName();
+    String getPlanName();
 }

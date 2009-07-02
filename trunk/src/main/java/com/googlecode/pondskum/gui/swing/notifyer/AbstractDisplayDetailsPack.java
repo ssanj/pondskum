@@ -18,7 +18,7 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 import java.awt.Color;
 import java.awt.Font;
 
-public final class DefaultDisplayDetailsPack implements DisplayDetailsPack {
+public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
 
     @Override
     public Color getBackgroundColour() {
@@ -41,22 +41,24 @@ public final class DefaultDisplayDetailsPack implements DisplayDetailsPack {
     }
 
     @Override
-    public String getQuotaUnits() {
-        return "GB";
-    }
-
-    @Override
     public UsageColourChooser getUsageColourChooser() {
         return new UsageColourChooser();
     }
 
     @Override
-    public Double getQuotaLimit() {
-        return 25d;
+    public String getQuotaLimitWithUnits() {
+        return getQuotaLimit() + " " + getQuotaUnits();
     }
 
     @Override
-    public String getQuotaLimitWithUnits() {
-        return getQuotaLimit() + " " +getQuotaUnits();
-    }
+    public abstract String getQuotaUnits();
+
+    @Override
+    public abstract Double getQuotaLimit();
+
+    @Override
+    public abstract String getAccountName();
+
+    @Override
+    public abstract String getPlanName();
 }
