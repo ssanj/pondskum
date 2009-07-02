@@ -37,6 +37,5 @@ public final class ProgressionPanel {
         panel.remainderPanel.setUsage(15d);
         f.setSize(600, 70);
         f.setVisible(true);
-
     }
 }

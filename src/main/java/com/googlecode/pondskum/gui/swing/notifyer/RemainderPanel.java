@@ -32,7 +32,27 @@ public final class RemainderPanel extends JPanel {
     private final DisplayDetailsPack displayDetailsPack;
 
     public RemainderPanel() {
-        displayDetailsPack = new DefaultDisplayDetailsPack();
+        displayDetailsPack = new AbstractDisplayDetailsPack() {
+            @Override
+            public String getQuotaUnits() {
+                return "GB";
+            }
+
+            @Override
+            public Double getQuotaLimit() {
+                return 100d;
+            }
+
+            @Override
+            public String getAccountName() {
+                return "account name";
+            }
+
+            @Override
+            public String getPlanName() {
+                return "account plan";
+            }
+        };
     }
 
     public RemainderPanel(final DisplayDetailsPack displayDetailsPack) {
