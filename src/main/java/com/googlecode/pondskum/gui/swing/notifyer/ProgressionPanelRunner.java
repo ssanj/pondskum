@@ -15,23 +15,9 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import javax.swing.JFrame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 public final class ProgressionPanelRunner {
 
-    public static void main(String[] args) {
-        JFrame f = new JFrame("Progression");
-        f.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        ProgressionPanel panel = new ProgressionPanel();
-        f.getContentPane().add(panel.getContentPanel());
-        panel.setUsage(15d);
-        f.setSize(600, 90);
-        f.setVisible(true);
+    public static void main(final String[] args) {
+        new ProgressionSwingWorker().execute();
     }
 }

@@ -48,17 +48,5 @@ public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
     @Override
     public String getQuotaLimitWithUnits() {
         return getQuotaLimit() + " " + getQuotaUnits();
-    }
-
-    @Override
-    public abstract String getQuotaUnits();
-
-    @Override
-    public abstract Double getQuotaLimit();
-
-    @Override
-    public abstract String getAccountName();
-
-    @Override
-    public abstract String getPlanName();
+    }        
 }

@@ -25,7 +25,6 @@ public final class RemainderPanel extends JPanel {
     private static final int HUNDRED = 100;
 
     private final DisplayDetailsPack displayDetailsPack;
-    private double usage;
 
     public RemainderPanel() {
         displayDetailsPack = new DefaultDisplayDetailsPack();
@@ -35,13 +34,9 @@ public final class RemainderPanel extends JPanel {
         this.displayDetailsPack = displayDetailsPack;
     }
 
-    public void setUsage(final Double usage) {
-        this.usage = usage;
-        repaint();
-    }
-
     @Override
     protected void paintComponent(final Graphics g) {
+        double usage = displayDetailsPack.getTotalUsage();
         double usageRatio = usage / displayDetailsPack.getQuotaLimit();
         Dimension panelDimension = getSize();
         g.setColor(displayDetailsPack.getBackgroundColour());

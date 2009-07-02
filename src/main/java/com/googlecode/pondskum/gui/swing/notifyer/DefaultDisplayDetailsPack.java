@@ -28,6 +28,11 @@ public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack 
     }
 
     @Override
+    public Double getTotalUsage() {
+        return 75.2d;
+    }
+
+    @Override
     public String getAccountName() {
         return "account name";
     }
