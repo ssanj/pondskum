@@ -22,48 +22,65 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public final class ProgressionPanel {
 
+    private final BigpondUsageInformation usageInfo;
     private JPanel contentPanel;
     private RemainderPanel remainderPanel;
     private JLabel planNameLabel;
     private JLabel accountNameLabel;
+    private JLabel lastUpdatedLabel;
+    private JPanel lastUpdatedPanel;
+    private JPanel accountPanel;
 
     public static void main(String[] args) {
-        JFrame f = new JFrame("Progression");
-        f.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        final ProgressionPanel panel = new ProgressionPanel();
-        panel.createUIComponents();
-        f.getContentPane().add(panel.contentPanel);
-        panel.remainderPanel.setUsage(15d);
-        f.setSize(600, 70);
-        f.setVisible(true);
+    }
+
+    public ProgressionPanel() {
+        //for the gui-builder.
+        this(new StubbyBigpondUsageInformationBuilder().build());
+    }
+
+    public ProgressionPanel(final BigpondUsageInformation usageInfo) {
+        this.usageInfo = usageInfo;
+        createUIComponents();
+    }
+
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
+
+    public void setUsage(final double usage) {
+        remainderPanel.setUsage(usage);
     }
 
     private void createUIComponents() {
-        BigpondUsageInformation usageInfo = new StubbyBigpondUsageInformationBuilder().build();
-        remainderPanel = new RemainderPanel(new BigpondDisplayDetailsPack(usageInfo));
-        remainderPanel.setUsage(25d);
 
+        remainderPanel = new RemainderPanel(new BigpondDisplayDetailsPack(usageInfo));
         BigpondDisplayDetailsPack detailsPack = new BigpondDisplayDetailsPack(usageInfo);
         remainderPanel = new RemainderPanel(detailsPack);
+
         contentPanel.add(remainderPanel, BorderLayout.CENTER);
+
+        planNameLabel.setForeground(detailsPack.getLimitTextColour());
+        planNameLabel.setBackground(detailsPack.getBackgroundColour());
+        accountNameLabel.setForeground(detailsPack.getLimitTextColour());
+        accountNameLabel.setBackground(detailsPack.getBackgroundColour());
+        lastUpdatedLabel.setBackground(detailsPack.getBackgroundColour());
+        lastUpdatedLabel.setForeground(detailsPack.getLimitTextColour());
+        lastUpdatedPanel.setBackground(detailsPack.getBackgroundColour());
+        accountPanel.setBackground(detailsPack.getBackgroundColour());
+
         planNameLabel.setText(detailsPack.getPlanName());
         accountNameLabel.setText(detailsPack.getAccountName());
+        lastUpdatedLabel.setText("8:37 PM");
     }
 
     {
@@ -83,23 +100,30 @@ public final class ProgressionPanel {
     private void $$$setupUI$$$() {
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(0, 0));
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 3, new Insets(0, 10, 0, 10), -1, -1));
-        panel1.setBackground(Color.gray);
-        panel1.setEnabled(true);
-        contentPanel.add(panel1, BorderLayout.NORTH);
+        accountPanel = new JPanel();
+        accountPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 10, 0, 10), -1, -1));
+        accountPanel.setBackground(Color.gray);
+        accountPanel.setEnabled(true);
+        contentPanel.add(accountPanel, BorderLayout.NORTH);
         accountNameLabel = new JLabel();
         accountNameLabel.setBackground(Color.gray);
         accountNameLabel.setFont(new Font("TlwgMono", Font.ITALIC, 12));
         accountNameLabel.setText("Account Name");
-        panel1.add(accountNameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        accountPanel.add(accountNameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel1.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        accountPanel.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         planNameLabel = new JLabel();
         planNameLabel.setFont(new Font("TlwgMono", Font.ITALIC, 12));
         planNameLabel.setHorizontalAlignment(10);
         planNameLabel.setText("Plan Name");
-        panel1.add(planNameLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        accountPanel.add(planNameLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        lastUpdatedPanel = new JPanel();
+        lastUpdatedPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        contentPanel.add(lastUpdatedPanel, BorderLayout.SOUTH);
+        lastUpdatedLabel = new JLabel();
+        lastUpdatedLabel.setFont(new Font("TlwgMono", Font.BOLD, 12));
+        lastUpdatedLabel.setText("");
+        lastUpdatedPanel.add(lastUpdatedLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
