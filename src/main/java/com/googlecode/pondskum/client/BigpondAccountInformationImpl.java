@@ -20,7 +20,8 @@ public final class BigpondAccountInformationImpl implements BigpondAccountInform
     private String accountName;
     private String accountNumber;
     private String currentPlan;
-    private String monthlyAllowance;
+    private String monthlyAllowanceShaping;
+    private int monthlyAllowance;
     private String monthlyPlanFee;
 
     public String getAccountName() {
@@ -47,12 +48,20 @@ public final class BigpondAccountInformationImpl implements BigpondAccountInform
         this.currentPlan = currentPlan;
     }
 
-    public String getMonthlyAllowance() {
+    public String getMonthlyAllowanceShaping() {
+        return monthlyAllowanceShaping;
+    }
+
+    public int getMonthlyAllowance() {
         return monthlyAllowance;
     }
 
-    public void setMonthlyAllowance(final String monthlyAllowance) {
+    public void setMonthlyAllowance(final int monthlyAllowance) {
         this.monthlyAllowance = monthlyAllowance;
+    }
+
+    public void setMonthlyAllowanceShaping(final String monthlyAllowanceShaping) {
+        this.monthlyAllowanceShaping = monthlyAllowanceShaping;
     }
 
     public String getMonthlyPlanFee() {
@@ -69,7 +78,8 @@ public final class BigpondAccountInformationImpl implements BigpondAccountInform
                 "accountName='" + accountName + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", currentPlan='" + currentPlan + '\'' +
-                ", monthlyAllowance='" + monthlyAllowance + '\'' +
+                ", monthlyAllowanceShaping='" + monthlyAllowanceShaping + '\'' +
+                ", monthlyAllowance=" + monthlyAllowance +
                 ", monthlyPlanFee='" + monthlyPlanFee + '\'' +
                 '}';
     }

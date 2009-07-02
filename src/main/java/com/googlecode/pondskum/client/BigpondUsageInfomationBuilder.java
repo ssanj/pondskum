@@ -16,6 +16,8 @@
 package com.googlecode.pondskum.client;
 
 import com.googlecode.pinthura.annotation.SuppressionReason;
+import com.googlecode.pondskum.util.NumericUtil;
+import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,13 +168,16 @@ public final class BigpondUsageInfomationBuilder {
         private String accountName;
         private String accountNumber;
         private String currentPlan;
-        private String monthlyAllowance;
+        private String monthlyAllowanceShaping;
         private String monthlyPlanFee;
+        private Integer monthlyAllowance;
+        private NumericUtil numericUtil;
 
         @SuppressWarnings({"MethodParameterOfConcreteClass"})
         @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
         public BigpondAccountInformationBuilder(final BigpondUsageInfomationBuilder parent) {
             this.parent = parent;
+            numericUtil = new NumericUtilImpl();
         }
 
         public BigpondAccountInformationBuilder havingAccountName(final String accountName) {
@@ -190,9 +195,16 @@ public final class BigpondUsageInfomationBuilder {
             return this;
         }
 
-        public BigpondAccountInformationBuilder withAMonthlyAllowanceOf(final String monthlyAllowance) {
-            this.monthlyAllowance = monthlyAllowance;
+        public BigpondAccountInformationBuilder withAMonthlyAllowanceShapingOf(final String monthlyAllowanceShaping) {
+            this.monthlyAllowanceShaping = monthlyAllowanceShaping;
+            setMonthlyAllowance(monthlyAllowanceShaping);
             return this;
+        }
+
+        private void setMonthlyAllowance(final String monthlyAllowanceShaping) {
+            int endIndex = monthlyAllowanceShaping.indexOf("G"); //find the first GB
+            String numericAllowance = monthlyAllowanceShaping.substring(0, Math.max(0, endIndex));
+            monthlyAllowance = numericUtil.getNumber(numericAllowance);
         }
 
         public BigpondAccountInformationBuilder forAPlanFeeOf(final String monthlyPlanFee) {
@@ -209,6 +221,7 @@ public final class BigpondUsageInfomationBuilder {
             accountInformation.setAccountName(accountName);
             accountInformation.setAccountNumber(accountNumber);
             accountInformation.setCurrentPlan(currentPlan);
+            accountInformation.setMonthlyAllowanceShaping(monthlyAllowanceShaping);
             accountInformation.setMonthlyAllowance(monthlyAllowance);
             accountInformation.setMonthlyPlanFee(monthlyPlanFee);
             return accountInformation;

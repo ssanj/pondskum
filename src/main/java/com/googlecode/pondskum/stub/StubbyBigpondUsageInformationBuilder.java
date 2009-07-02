@@ -39,7 +39,8 @@ public final class StubbyBigpondUsageInformationBuilder {
         accountInformation.setAccountName("James Bond");
         accountInformation.setAccountNumber("0000007");
         accountInformation.setCurrentPlan("MI6");
-        accountInformation.setMonthlyAllowance("10000");
+        accountInformation.setMonthlyAllowanceShaping("100GB then slowed");
+        accountInformation.setMonthlyAllowance(100);
         accountInformation.setMonthlyPlanFee("$1,000,000");
 
         List<BigpondMonthlyUsage> bigpondUsageList = new ArrayList<BigpondMonthlyUsage>();
@@ -47,7 +48,7 @@ public final class StubbyBigpondUsageInformationBuilder {
         bigpondUsageList.add(new BigpondMonthlyUsageImpl("22 Feb 2009", informationCreator.createUsage("-", "-", "-", "-")));
         bigpondUsageList.add(new BigpondMonthlyUsageImpl("14 Mar 2009", informationCreator.createUsage("5000", "1000", "50", "6050")));
 
-        BigpondUsage totalUsage = informationCreator.createUsage("6000", "1500", "300", "7800");
+        BigpondUsage totalUsage = informationCreator.createUsage("6000", "1500", "300", "78000");
 
         return new BigpondUsageInformationImpl(accountInformation, bigpondUsageList, totalUsage);
     }

@@ -29,9 +29,13 @@ public interface BigpondAccountInformation {
 
     void setCurrentPlan(String currentPlan);
 
-    String getMonthlyAllowance();
+    String getMonthlyAllowanceShaping();
 
-    void setMonthlyAllowance(String monthlyAllowance);
+    int getMonthlyAllowance();
+
+    void setMonthlyAllowance(int monthlyAllowance);
+
+    void setMonthlyAllowanceShaping(String monthlyAllowance);
 
     String getMonthlyPlanFee();
 
