@@ -29,12 +29,30 @@ public interface BigpondAccountInformation {
 
     void setCurrentPlan(String currentPlan);
 
+    /**
+     * The description of how the monthly allowance will be shaped.
+     * @return The description of how the monthly allowance will be shaped.
+     */
     String getMonthlyAllowanceShaping();
 
+    /**
+     * The monthly allowance is returned in GB.
+     * @return The monthly allowance in GB.
+     */
     int getMonthlyAllowance();
 
+    /**
+     * The monthly allowance in GB.
+     * @param monthlyAllowance The GB value of the monthly allowance.
+     */
     void setMonthlyAllowance(int monthlyAllowance);
 
+    /**
+     * The description of how the monthly allowance will be shaped.
+     * @param monthlyAllowance description of how the monthly allowance will be shaped.
+     *
+     * eg. "100GB Then shaped"
+     */
     void setMonthlyAllowanceShaping(String monthlyAllowance);
 
     String getMonthlyPlanFee();

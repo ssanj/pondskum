@@ -21,14 +21,28 @@ import java.awt.Font;
 public interface DisplayDetailsPack {
 
     Color getBackgroundColour();
+
     Color getLimitTextColour();
+
     Color getPercentageUsageTextColour();
+
+    Color getErrorTextColour();
+
     Font getQuotaFont();
+
     String getQuotaUnits();
+
+    Font getErrorFont();
+
     UsageColourChooser getUsageColourChooser();
+
     Integer getQuotaLimit();
+
     String getQuotaLimitWithUnits();
+
     Double getTotalUsage();
+
     String getAccountName();
+
     String getPlanName();
 }
