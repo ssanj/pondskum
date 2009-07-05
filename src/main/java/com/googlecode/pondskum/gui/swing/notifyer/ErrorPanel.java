@@ -23,7 +23,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Insets;
 
@@ -32,7 +32,7 @@ public final class ErrorPanel {
     private JPanel contentPanel;
     private JLabel error1Label;
     private JLabel error2Label;
-    private JTextField errorMessageTextField;
+    private JTextArea errorMessageTextArea;
     private final DisplayDetailsPack displayDetailsPack;
 
     public ErrorPanel(final DisplayDetailsPack displayDetailsPack, final String errorMessage) {
@@ -40,11 +40,12 @@ public final class ErrorPanel {
         contentPanel.setBackground(displayDetailsPack.getBackgroundColour());
         setErrorDetails(error1Label);
         setErrorDetails(error2Label);
-        setErrorDetails(errorMessageTextField);
+        setErrorDetails(errorMessageTextArea);
 
         error1Label.setText("There was an error connecting to your account.");
         error2Label.setText("Please see the log for details.");
-        errorMessageTextField.setText(errorMessage);
+        errorMessageTextArea.setForeground(displayDetailsPack.getLimitTextColour());
+        errorMessageTextArea.setText(errorMessage);
     }
 
     private void setErrorDetails(final JComponent component) {
@@ -87,10 +88,14 @@ public final class ErrorPanel {
         error2Label.setText("");
         contentPanel.add(error2Label, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setHorizontalScrollBarPolicy(31);
+        scrollPane1.setVerticalScrollBarPolicy(20);
         contentPanel.add(scrollPane1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        errorMessageTextField = new JTextField();
-        errorMessageTextField.setEditable(false);
-        scrollPane1.setViewportView(errorMessageTextField);
+        errorMessageTextArea = new JTextArea();
+        errorMessageTextArea.setEditable(false);
+        errorMessageTextArea.setLineWrap(true);
+        errorMessageTextArea.setWrapStyleWord(true);
+        scrollPane1.setViewportView(errorMessageTextArea);
     }
 
     /**
