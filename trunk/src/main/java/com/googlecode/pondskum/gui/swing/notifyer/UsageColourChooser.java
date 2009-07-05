@@ -68,7 +68,6 @@ public final class UsageColourChooser {
         }
 
         public boolean isInRange(final int ratio) {
-            System.out.println("[" + min + "-" + max + "] - " + ratio);
             return ratio >= min && ratio <= max;
         }
     }

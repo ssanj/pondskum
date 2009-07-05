@@ -46,8 +46,13 @@ public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
     }
 
     @Override
-    public Font getErrorFont() {
+    public Font getErrorLabelFont() {
         return getQuotaFont();
+    }
+
+    @Override
+    public Font getErrorMessageFont() {
+        return getQuotaFont().deriveFont(Font.ITALIC, 12);
     }
 
     @Override

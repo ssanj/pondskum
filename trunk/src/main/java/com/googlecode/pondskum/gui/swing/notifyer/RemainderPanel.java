@@ -52,7 +52,7 @@ public final class RemainderPanel extends JPanel {
         Dimension limitDimension = LocationFinder.findRightCorner(g, limitText, panelDimension);
         g.drawString(limitText, limitDimension.width, limitDimension.height);
 
-        String usageText = usage + " " + displayDetailsPack.getQuotaUnits();
+        String usageText = getFormattedUsage(usage);
         Dimension usageDimension = LocationFinder.findLeftCorner(g, usageText, panelDimension);
         g.drawString(usageText, usageDimension.width, limitDimension.height);
         g.setFont(oldFont);
@@ -61,5 +61,9 @@ public final class RemainderPanel extends JPanel {
         String percentageText = ((int) (usageRatio * HUNDRED)) + "%";
         Dimension centreDimension = LocationFinder.findCentreLocation(g, percentageText, panelDimension);
         g.drawString(percentageText, centreDimension.width, centreDimension.height);
+    }
+
+    private String getFormattedUsage(final double usage) {
+        return String.format("%1$5.2g %2$s", usage, displayDetailsPack.getQuotaUnits());
     }
 }
