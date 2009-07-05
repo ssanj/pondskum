@@ -33,6 +33,7 @@ public final class ErrorPanel {
     private JLabel error1Label;
     private JLabel error2Label;
     private JTextArea errorMessageTextArea;
+    private JScrollPane errorMessageScrollPane;
     private final DisplayDetailsPack displayDetailsPack;
 
     public ErrorPanel(final DisplayDetailsPack displayDetailsPack, final String errorMessage) {
@@ -46,6 +47,7 @@ public final class ErrorPanel {
         error2Label.setText("Please see the log for details.");
         errorMessageTextArea.setForeground(displayDetailsPack.getLimitTextColour());
         errorMessageTextArea.setText(errorMessage);
+        errorMessageScrollPane.setBorder(BorderFactory.createEmptyBorder());
     }
 
     public void showSeeLogsMessage(final boolean show) {
@@ -55,7 +57,7 @@ public final class ErrorPanel {
     private void setErrorDetails(final JComponent component) {
         component.setBackground(displayDetailsPack.getBackgroundColour());
         component.setForeground(displayDetailsPack.getErrorTextColour());
-        component.setFont(displayDetailsPack.getErrorFont());
+        component.setFont(displayDetailsPack.getErrorLabelFont());
     }
 
     public ErrorPanel() {
@@ -91,15 +93,15 @@ public final class ErrorPanel {
         error2Label = new JLabel();
         error2Label.setText("");
         contentPanel.add(error2Label, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JScrollPane scrollPane1 = new JScrollPane();
-        scrollPane1.setHorizontalScrollBarPolicy(31);
-        scrollPane1.setVerticalScrollBarPolicy(20);
-        contentPanel.add(scrollPane1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        errorMessageScrollPane = new JScrollPane();
+        errorMessageScrollPane.setHorizontalScrollBarPolicy(31);
+        errorMessageScrollPane.setVerticalScrollBarPolicy(20);
+        contentPanel.add(errorMessageScrollPane, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         errorMessageTextArea = new JTextArea();
         errorMessageTextArea.setEditable(false);
         errorMessageTextArea.setLineWrap(true);
         errorMessageTextArea.setWrapStyleWord(true);
-        scrollPane1.setViewportView(errorMessageTextArea);
+        errorMessageScrollPane.setViewportView(errorMessageTextArea);
     }
 
     /**

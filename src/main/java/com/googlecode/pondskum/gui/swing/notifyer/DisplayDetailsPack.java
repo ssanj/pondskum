@@ -32,7 +32,9 @@ public interface DisplayDetailsPack {
 
     String getQuotaUnits();
 
-    Font getErrorFont();
+    Font getErrorLabelFont();
+
+    Font getErrorMessageFont();
 
     UsageColourChooser getUsageColourChooser();
 
