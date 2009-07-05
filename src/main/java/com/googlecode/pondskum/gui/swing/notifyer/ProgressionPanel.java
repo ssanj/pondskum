@@ -28,6 +28,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
+import java.util.Calendar;
 
 public final class ProgressionPanel {
 
@@ -53,6 +54,10 @@ public final class ProgressionPanel {
         return contentPanel;
     }
 
+    public String getCurrentTime() {
+        return String.format(String.format("%1$tA %1$tB %1$te %1$tY @ %1$tl:%1$tM %1$Tp", Calendar.getInstance().getTimeInMillis()));
+    }
+
     private void createUIComponents() {
         BigpondDisplayDetailsPack detailsPack = new BigpondDisplayDetailsPack(usageInfo);
         contentPanel.add(new RemainderPanel(detailsPack), BorderLayout.CENTER);
@@ -68,7 +73,7 @@ public final class ProgressionPanel {
 
         planNameLabel.setText(detailsPack.getPlanName());
         accountNameLabel.setText(detailsPack.getAccountName());
-        lastUpdatedLabel.setText("8:37 PM");
+        lastUpdatedLabel.setText(getCurrentTime());
     }
 
     {
