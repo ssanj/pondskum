@@ -15,6 +15,11 @@
  */
 package com.googlecode.pondskum.client;
 
+/**
+ * Contains the usage values for uploads, downloads, unmetered and the total usage which is (uploads + downloads). All values are returned
+ * in MB.
+ *
+ */
 public interface BigpondUsage {
 
     String getDownloadUsage();

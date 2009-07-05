@@ -40,6 +40,7 @@ public final class StubbyNewMonthBigpondUsageInformationBuilder {
         accountInformation.setAccountNumber("0000007");
         accountInformation.setCurrentPlan("MI6");
         accountInformation.setMonthlyAllowanceShaping("Infinite");
+        accountInformation.setMonthlyAllowance(50);
         accountInformation.setMonthlyPlanFee("$1,000,000");
 
         List<BigpondMonthlyUsage> bigpondUsageList = new ArrayList<BigpondMonthlyUsage>();

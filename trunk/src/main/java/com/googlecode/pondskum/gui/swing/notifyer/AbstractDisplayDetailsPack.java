@@ -36,8 +36,18 @@ public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
     }
 
     @Override
+    public Color getErrorTextColour() {
+        return Color.RED;
+    }
+
+    @Override
     public Font getQuotaFont() {
         return new Font("Dialog", Font.BOLD, 12);
+    }
+
+    @Override
+    public Font getErrorFont() {
+        return getQuotaFont();
     }
 
     @Override
@@ -48,5 +58,6 @@ public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
     @Override
     public String getQuotaLimitWithUnits() {
         return getQuotaLimit() + " " + getQuotaUnits();
-    }        
+    }
+
 }
