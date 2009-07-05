@@ -19,7 +19,6 @@ import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnector;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.ConfigFileLoaderException;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 
 import javax.swing.JFrame;
@@ -40,16 +39,20 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
             Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
             BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
             return bigpondConnector.connect();
-        } catch (ConfigFileLoaderException e) {
-            errorMessage = e.getMessage();
-            cancel(true);
-            return null;
         } catch (Exception e) {
-            errorMessage = "";
+            errorMessage = getSimpleMessage(e);
             cancel(true);
             return null;
         }
+    }
 
+    private String getSimpleMessage(final Exception e) {
+        int messageIndex = e.getMessage().indexOf(':');
+        if (messageIndex != -1 && messageIndex++ <= e.getMessage().length()) {
+            return e.getMessage().substring(messageIndex);
+        }
+
+        return e.getMessage();
     }
 
     @Override
@@ -63,18 +66,28 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
             });
 
             if (!isCancelled()) {
-                f.getContentPane().add(createProgressionPanel());
-                f.setSize(600, 90);
-                f.setVisible(true);
+                showUsage(f);
                 return;
             }
 
-            f.getContentPane().add(createErrorPanel());
-            f.setSize(600, 150);
-            f.setVisible(true);
+            showError(f);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showError(final JFrame f) {
+        f.getContentPane().add(createErrorPanel());
+        f.setSize(600, 115);
+        f.setVisible(true);
+        f.setLocationRelativeTo(null);
+    }
+
+    private void showUsage(final JFrame f) throws InterruptedException, ExecutionException {
+        f.getContentPane().add(createProgressionPanel());
+        f.setSize(600, 90);
+        f.setVisible(true);
+        f.setLocationRelativeTo(null);
     }
 
     private JPanel createProgressionPanel() throws InterruptedException, ExecutionException {
