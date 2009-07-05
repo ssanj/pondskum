@@ -15,23 +15,41 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.client.BigpondConnector;
+import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
+import com.googlecode.pondskum.config.ConfigFileLoaderException;
+import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInformation, String> {
 
+    private String errorMessage;
 
     @Override
     protected BigpondUsageInformation doInBackground() throws Exception {
-//        Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
-//        BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
-//        return bigpondConnector.connect();
-        return new StubbyBigpondUsageInformationBuilder().build();
+        try {
+            Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
+            BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
+            return bigpondConnector.connect();
+        } catch (ConfigFileLoaderException e) {
+            errorMessage = e.getMessage();
+            cancel(true);
+            return null;
+        } catch (Exception e) {
+            errorMessage = "";
+            cancel(true);
+            return null;
+        }
+
     }
 
     @Override
@@ -43,12 +61,27 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
                     System.exit(0);
                 }
             });
-            ProgressionPanel panel = new ProgressionPanel(get());
-            f.getContentPane().add(panel.getContentPanel());
-            f.setSize(600, 90);
+
+            if (!isCancelled()) {
+                f.getContentPane().add(createProgressionPanel());
+                f.setSize(600, 90);
+                f.setVisible(true);
+                return;
+            }
+
+            f.getContentPane().add(createErrorPanel());
+            f.setSize(600, 150);
             f.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private JPanel createProgressionPanel() throws InterruptedException, ExecutionException {
+        return new ProgressionPanel(get()).getContentPanel();
+    }
+
+    private JPanel createErrorPanel() {
+        return new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage).getContentPanel();
     }
 }

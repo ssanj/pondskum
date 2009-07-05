@@ -15,6 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import java.awt.Color;
+
 public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack {
 
     @Override
@@ -40,5 +42,10 @@ public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack 
     @Override
     public String getPlanName() {
         return "account plan";
+    }
+
+    @Override
+    public Color getErrorTextColour() {
+        return new Color(0xFF, 0x5F, 0x05);
     }
 }

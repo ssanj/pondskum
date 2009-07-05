@@ -17,60 +17,48 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Dimension;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import java.awt.Color;
 import java.awt.Insets;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public final class ErrorPanel {
 
-    private JPanel rootPanel;
-    private JButton closeButton;
-    private JLabel errorLabel;
+    private JPanel contentPanel;
+    private JLabel error1Label;
+    private JLabel error2Label;
+    private JTextField errorMessageTextField;
     private final DisplayDetailsPack displayDetailsPack;
 
-    public ErrorPanel(final DisplayDetailsPack displayDetailsPack) {
+    public ErrorPanel(final DisplayDetailsPack displayDetailsPack, final String errorMessage) {
         this.displayDetailsPack = displayDetailsPack;
-        rootPanel.setBackground(displayDetailsPack.getBackgroundColour());
-        errorLabel.setBackground(displayDetailsPack.getBackgroundColour());
-        closeButton.setBackground(displayDetailsPack.getBackgroundColour());
-        errorLabel.setForeground(displayDetailsPack.getErrorTextColour());
-        errorLabel.setFont(displayDetailsPack.getErrorFont());
+        contentPanel.setBackground(displayDetailsPack.getBackgroundColour());
+        setErrorDetails(error1Label);
+        setErrorDetails(error2Label);
+        setErrorDetails(errorMessageTextField);
+
+        error1Label.setText("There was an error connecting to your account.");
+        error2Label.setText("Please see the log for details.");
+        errorMessageTextField.setText(errorMessage);
+    }
+
+    private void setErrorDetails(final JComponent component) {
+        component.setBackground(displayDetailsPack.getBackgroundColour());
+        component.setForeground(displayDetailsPack.getErrorTextColour());
+        component.setFont(displayDetailsPack.getErrorFont());
     }
 
     public ErrorPanel() {
-        this(new DefaultDisplayDetailsPack());
+        this(new DefaultDisplayDetailsPack(), "error!");
     }
 
-    public void setText(final String text) {
-        errorLabel.setText(text);
-    }
-
-    public JButton getCloseButton() {
-        return closeButton;
-    }
-
-    public static void main(String[] args) {
-        JFrame f = new JFrame("Error Panel");
-        f.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        ErrorPanel errorPanel = new ErrorPanel();
-        errorPanel.setText("There was an error connecting to your account. \nPlease see the log for details.");
-        JPanel panel = errorPanel.rootPanel;
-        f.getContentPane().add(panel);
-        f.setSize(600, 90);
-        f.setVisible(true);
+    public JPanel getContentPanel() {
+        return contentPanel;
     }
 
     {
@@ -88,26 +76,27 @@ public final class ErrorPanel {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        rootPanel = new JPanel();
-        rootPanel.setLayout(new GridLayoutManager(1, 3, new Insets(5, 5, 5, 5), -1, -1));
-        errorLabel = new JLabel();
-        errorLabel.setIconTextGap(0);
-        errorLabel.setText("");
-        rootPanel.add(errorLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        closeButton = new JButton();
-        closeButton.setBorderPainted(false);
-        closeButton.setContentAreaFilled(true);
-        closeButton.setIcon(new ImageIcon(getClass().getResource("/com/googlecode/pondskum/gui/swing/notifyer/images/cancel.png")));
-        closeButton.setText("");
-        rootPanel.add(closeButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, 1, 1, new Dimension(20, 20), new Dimension(20, 20), new Dimension(20, 20), 0, false));
-        final Spacer spacer1 = new Spacer();
-        rootPanel.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new GridLayoutManager(3, 1, new Insets(1, 1, 1, 1), -1, 0));
+        contentPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
+        error1Label = new JLabel();
+        error1Label.setIconTextGap(0);
+        error1Label.setText("");
+        contentPanel.add(error1Label, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        error2Label = new JLabel();
+        error2Label.setText("");
+        contentPanel.add(error2Label, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        contentPanel.add(scrollPane1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        errorMessageTextField = new JTextField();
+        errorMessageTextField.setEditable(false);
+        scrollPane1.setViewportView(errorMessageTextField);
     }
 
     /**
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return rootPanel;
+        return contentPanel;
     }
 }
