@@ -31,7 +31,7 @@ public final class BigpondInformationFiller implements InformationFiller {
     public BigpondInformationFiller() {
         accountInfoMap = new HashMap<String, String>();
         accountInfoMap.put("Account Name:", "N/A");
-        accountInfoMap.put("BigPond Account Number:", "N/A");
+        accountInfoMap.put("Billing Account Number:", "N/A");
         accountInfoMap.put("Current Plan:", "N/A");
         accountInfoMap.put("Monthly Plan Allowance:", "N/A");
         accountInfoMap.put("Monthly Plan Fee:", "N/A");
@@ -50,7 +50,7 @@ public final class BigpondInformationFiller implements InformationFiller {
 
         infomationBuilder.withAccountInformation().
                             havingAccountName(accountInfoMap.get("Account Name:")).
-                            withAccountNumber(accountInfoMap.get("BigPond Account Number:")).
+                            withAccountNumber(accountInfoMap.get("Billing Account Number:")).
                             onCurrentPlan(accountInfoMap.get("Current Plan:")).
                 withAMonthlyAllowanceShapingOf(accountInfoMap.get("Monthly Plan Allowance:")).
                             forAPlanFeeOf(accountInfoMap.get("Monthly Plan Fee:")).done();
