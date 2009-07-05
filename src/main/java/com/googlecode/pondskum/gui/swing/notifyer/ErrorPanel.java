@@ -48,6 +48,10 @@ public final class ErrorPanel {
         errorMessageTextArea.setText(errorMessage);
     }
 
+    public void showSeeLogsMessage(final boolean show) {
+        error2Label.setVisible(show);
+    }
+
     private void setErrorDetails(final JComponent component) {
         component.setBackground(displayDetailsPack.getBackgroundColour());
         component.setForeground(displayDetailsPack.getErrorTextColour());

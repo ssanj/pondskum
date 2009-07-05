@@ -19,6 +19,7 @@ import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnector;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
+import com.googlecode.pondskum.config.ConfigFileLoaderException;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 
 import javax.swing.JFrame;
@@ -31,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInformation, String> {
 
-    private String errorMessage;
+    private Exception exception;
 
     @Override
     protected BigpondUsageInformation doInBackground() throws Exception {
@@ -40,7 +41,7 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
             BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
             return bigpondConnector.connect();
         } catch (Exception e) {
-            errorMessage = getSimpleMessage(e);
+            exception = e;
             cancel(true);
             return null;
         }
@@ -77,7 +78,10 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
     }
 
     private void showError(final JFrame f) {
-        f.getContentPane().add(createErrorPanel());
+        String errorMessage = getSimpleMessage(exception);
+        ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
+        errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
+        f.getContentPane().add(errorPanel.getContentPanel());
         f.setSize(600, 115);
         f.setVisible(true);
         f.setLocationRelativeTo(null);
@@ -94,7 +98,4 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
         return new ProgressionPanel(get()).getContentPanel();
     }
 
-    private JPanel createErrorPanel() {
-        return new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage).getContentPanel();
-    }
 }
