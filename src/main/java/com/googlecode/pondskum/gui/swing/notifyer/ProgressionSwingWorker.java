@@ -35,10 +35,14 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
     private Exception exception;
     private final JFrame frame;
     private final ProgressionPanel progressionPanel;
+    private final ConnectionStatusForm connectionStatus;
 
-    public ProgressionSwingWorker(final JFrame frame, final ProgressionPanel progressionPanel) {
+    public ProgressionSwingWorker(final JFrame frame) {
         this.frame = frame;
-        this.progressionPanel = progressionPanel;
+        progressionPanel = new ProgressionPanel();
+        connectionStatus = new ConnectionStatusForm();
+
+        frame.getContentPane().add(connectionStatus.getContentPanel());
     }
 
     @Override
@@ -66,7 +70,7 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
     @Override
     protected void process(final List<String> statusList) {
         for (String status : statusList) {
-            progressionPanel.getLastUpdatedLabel().setText(status);
+            connectionStatus.setProgress(status);
         }
     }
 
@@ -79,6 +83,8 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
     protected void done() {
         try {
 
+            hideStatus();
+
             if (!isCancelled()) {
                 showUsage();
                 return;
@@ -90,17 +96,21 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
         }
     }
 
+    private void hideStatus() {
+        frame.getContentPane().remove(connectionStatus.getContentPanel());
+    }
+
 
     private void showError() {
         String errorMessage = getSimpleMessage(exception);
         ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
-        frame.getContentPane().remove(progressionPanel.getContentPanel());
         frame.getContentPane().add(errorPanel.getContentPanel());
         frame.setSize(600, 115);
     }
 
     private void showUsage() throws InterruptedException, ExecutionException {
+        frame.getContentPane().add(progressionPanel.getContentPanel());
         progressionPanel.setUsageInfo(get());
         //        frame.setSize(600, 90);
 //        frame.setVisible(true);
