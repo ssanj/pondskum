@@ -16,15 +16,36 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public final class ProgressionPanelRunner {
 
+    private static final int MINUTES = 1000 * 60;
+
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Progression");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
-        new ProgressionSwingWorker(frame).execute();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        createTimer(frame);
         frame.setSize(600, 90);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private static void createTimer(final JFrame frame) {
+        final Timer timer = new Timer(0, null);
+        timer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                new ProgressionSwingWorker(frame, timer).execute();
+            }
+        });
+
+        timer.setInitialDelay(0);//start immediately.
+        timer.setRepeats(true);
+        timer.setCoalesce(true); //send only 1 event even if multiple are queued.
+        timer.setDelay(MINUTES * 2);//then every xx seconds
+        timer.start();
     }
 }
