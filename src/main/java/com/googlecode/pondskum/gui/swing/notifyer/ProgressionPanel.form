@@ -23,7 +23,7 @@
             <properties>
               <background awt-color="gray"/>
               <font name="TlwgMono" size="12" style="2"/>
-              <text value="Account Name"/>
+              <text value=""/>
             </properties>
           </component>
           <hspacer id="5aa5b">
@@ -38,7 +38,7 @@
             <properties>
               <font name="TlwgMono" size="12" style="2"/>
               <horizontalAlignment value="10"/>
-              <text value="Plan Name"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
