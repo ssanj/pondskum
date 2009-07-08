@@ -21,10 +21,8 @@ public final class ProgressionPanelRunner {
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Progression");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ProgressionPanel progressionPanel = new ProgressionPanel();
-        frame.getContentPane().add(progressionPanel.getContentPanel());
-        new ProgressionSwingWorker(frame, progressionPanel).execute();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
+        new ProgressionSwingWorker(frame).execute();
         frame.setSize(600, 90);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

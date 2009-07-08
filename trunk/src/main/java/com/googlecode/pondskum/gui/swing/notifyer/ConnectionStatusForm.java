@@ -18,10 +18,10 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.Font;
 import java.awt.Insets;
 
 public final class ConnectionStatusForm {
@@ -34,8 +34,7 @@ public final class ConnectionStatusForm {
         return contentPanel;
     }
 
-    void setProgress(final ImageIcon icon, final String status) {
-        //iconLabel.setIcon(icon);
+    void setProgress(final String status) {
         progressLabel.setText(status);
     }
 
@@ -57,11 +56,12 @@ public final class ConnectionStatusForm {
         contentPanel = new JPanel();
         contentPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         progressLabel = new JLabel();
+        progressLabel.setFont(new Font("Dialog", Font.ITALIC, 9));
         progressLabel.setText("");
-        contentPanel.add(progressLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        contentPanel.add(progressLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         iconLabel = new JLabel();
         iconLabel.setText("");
-        contentPanel.add(iconLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        contentPanel.add(iconLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
