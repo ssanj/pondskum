@@ -26,6 +26,7 @@ import com.googlecode.pondskum.gui.swing.tablet.StatusUpdatable;
 
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
+import javax.swing.Timer;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -34,11 +35,13 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
 
     private Exception exception;
     private final JFrame frame;
+    private final Timer timer;
     private final ProgressionPanel progressionPanel;
     private final ConnectionStatusForm connectionStatus;
 
-    public ProgressionSwingWorker(final JFrame frame) {
+    public ProgressionSwingWorker(final JFrame frame, final Timer timer) {
         this.frame = frame;
+        this.timer = timer;
         progressionPanel = new ProgressionPanel();
         connectionStatus = new ConnectionStatusForm();
 
@@ -107,14 +110,12 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
         frame.getContentPane().add(errorPanel.getContentPanel());
         frame.setSize(600, 115);
+        timer.stop();
     }
 
     private void showUsage() throws InterruptedException, ExecutionException {
         frame.getContentPane().add(progressionPanel.getContentPanel());
         progressionPanel.setUsageInfo(get());
-        //        frame.setSize(600, 90);
-//        frame.setVisible(true);
-//        frame.setLocationRelativeTo(null);
     }
 
 }
