@@ -16,7 +16,6 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -32,7 +31,7 @@ import java.util.Calendar;
 
 public final class ProgressionPanel {
 
-    private final BigpondUsageInformation usageInfo;
+    private BigpondUsageInformation usageInfo;
     private JPanel contentPanel;
     private JLabel planNameLabel;
     private JLabel accountNameLabel;
@@ -40,18 +39,17 @@ public final class ProgressionPanel {
     private JPanel lastUpdatedPanel;
     private JPanel accountPanel;
 
-    public ProgressionPanel() {
-        //for the gui-builder.
-        this(new StubbyBigpondUsageInformationBuilder().build());
-    }
-
-    public ProgressionPanel(final BigpondUsageInformation usageInfo) {
+    public void setUsageInfo(final BigpondUsageInformation usageInfo) {
         this.usageInfo = usageInfo;
         createUIComponents();
     }
 
     public JPanel getContentPanel() {
         return contentPanel;
+    }
+
+    public JLabel getLastUpdatedLabel() {
+        return lastUpdatedLabel;
     }
 
     public String getCurrentTime() {
@@ -101,14 +99,14 @@ public final class ProgressionPanel {
         accountNameLabel = new JLabel();
         accountNameLabel.setBackground(Color.gray);
         accountNameLabel.setFont(new Font("TlwgMono", Font.ITALIC, 12));
-        accountNameLabel.setText("Account Name");
+        accountNameLabel.setText("");
         accountPanel.add(accountNameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         accountPanel.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         planNameLabel = new JLabel();
         planNameLabel.setFont(new Font("TlwgMono", Font.ITALIC, 12));
         planNameLabel.setHorizontalAlignment(10);
-        planNameLabel.setText("Plan Name");
+        planNameLabel.setText("");
         accountPanel.add(planNameLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         lastUpdatedPanel = new JPanel();
         lastUpdatedPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));

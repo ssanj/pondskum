@@ -21,25 +21,32 @@ import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.ConfigFileLoaderException;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
+import com.googlecode.pondskum.gui.swing.tablet.ConsoleConnectionListener;
+import com.googlecode.pondskum.gui.swing.tablet.StatusUpdatable;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInformation, String> {
+public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements StatusUpdatable {
 
     private Exception exception;
+    private final JFrame frame;
+    private final ProgressionPanel progressionPanel;
+
+    public ProgressionSwingWorker(final JFrame frame, final ProgressionPanel progressionPanel) {
+        this.frame = frame;
+        this.progressionPanel = progressionPanel;
+    }
 
     @Override
     protected BigpondUsageInformation doInBackground() throws Exception {
         try {
             Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
             BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
-            return bigpondConnector.connect();
+            return bigpondConnector.connect(new ConsoleConnectionListener(this));
         } catch (Exception e) {
             exception = e;
             cancel(true);
@@ -57,45 +64,47 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
     }
 
     @Override
+    protected void process(final List<String> statusList) {
+        for (String status : statusList) {
+            progressionPanel.getLastUpdatedLabel().setText(status);
+        }
+    }
+
+    @Override
+    public void updateStatus(final String update) {
+        publish(update);
+    }
+
+    @Override
     protected void done() {
         try {
-            JFrame f = new JFrame("Progression");
-            f.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    System.exit(0);
-                }
-            });
 
             if (!isCancelled()) {
-                showUsage(f);
+                showUsage();
                 return;
             }
 
-            showError(f);
+            showError();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void showError(final JFrame f) {
+
+    private void showError() {
         String errorMessage = getSimpleMessage(exception);
         ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
-        f.getContentPane().add(errorPanel.getContentPanel());
-        f.setSize(600, 115);
-        f.setVisible(true);
-        f.setLocationRelativeTo(null);
+        frame.getContentPane().remove(progressionPanel.getContentPanel());
+        frame.getContentPane().add(errorPanel.getContentPanel());
+        frame.setSize(600, 115);
     }
 
-    private void showUsage(final JFrame f) throws InterruptedException, ExecutionException {
-        f.getContentPane().add(createProgressionPanel());
-        f.setSize(600, 90);
-        f.setVisible(true);
-        f.setLocationRelativeTo(null);
-    }
-
-    private JPanel createProgressionPanel() throws InterruptedException, ExecutionException {
-        return new ProgressionPanel(get()).getContentPanel();
+    private void showUsage() throws InterruptedException, ExecutionException {
+        progressionPanel.setUsageInfo(get());
+        //        frame.setSize(600, 90);
+//        frame.setVisible(true);
+//        frame.setLocationRelativeTo(null);
     }
 
 }
