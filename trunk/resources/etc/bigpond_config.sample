@@ -24,6 +24,8 @@ username = your_username@bigpond.com
 #Your bigpond password.
 password = your_password
 
-#uncomment these 2 lines when you need detailed logging
-#detail = true
+#uncomment this line when you need detailed logging
 #log = ../logs/ps.log
+
+#update interval used only in Progression. Specify  the value in minutes. The minimum value is 10. The default is 60.
+update.interval = 30

@@ -45,7 +45,7 @@ public final class ProgressionPanelRunner {
         timer.setInitialDelay(0);//start immediately.
         timer.setRepeats(true);
         timer.setCoalesce(true); //send only 1 event even if multiple are queued.
-        timer.setDelay(MINUTES * 2);//then every xx seconds
+        timer.setDelay(MINUTES * 60);//then every hour by default.
         timer.start();
     }
 }
