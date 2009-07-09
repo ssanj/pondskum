@@ -73,7 +73,8 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             //TODO: MOve this into a builder.
 
             ConnectionListener details = new NullConnectionListener();
-            if (asBoolean(resourceBundle.getProperty("detail"))) {
+
+            if (resourceBundle.containsKey("log")) {
                 details = new DetailedConnectionListener(resourceBundle.getProperty("log"));
             }
 
