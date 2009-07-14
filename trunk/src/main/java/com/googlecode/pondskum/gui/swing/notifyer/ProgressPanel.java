@@ -27,6 +27,8 @@ import java.awt.event.WindowEvent;
 
 public final class ProgressPanel extends JPanel {
 
+    private static final long serialVersionUID = 1757547248017510443L;
+
     private final BackgroundRenderer backgroundRenderer;
     private final AbstractRenderer uploadRenderer;
     private final AbstractRenderer downloadRenderer;

@@ -22,6 +22,7 @@ import java.awt.Graphics;
 
 public final class RemainderPanel extends JPanel {
 
+    private static final long serialVersionUID = -1614904446957062628L;
     private static final int HUNDRED = 100;
 
     private final DisplayDetailsPack displayDetailsPack;

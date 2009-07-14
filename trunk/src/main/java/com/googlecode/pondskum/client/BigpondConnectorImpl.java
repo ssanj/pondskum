@@ -36,7 +36,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     private static final String TEMP_DIR_KEY = "tempDir";
 
     //constant values that don't come from the properties file.
-    private static final String TEMP_FILE_NAME = "usage_data";
+    private static final String TEMP_FILE_NAME = "usage_data.html";
     private static final String MY_ACCOUNT = "myaccount";
     private static final String ON = "on";
 
@@ -75,18 +75,21 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             ConnectionListener details = new NullConnectionListener();
 
             if (resourceBundle.containsKey("log")) {
-                details = new DetailedConnectionListener(resourceBundle.getProperty("log"));
+                details = new DetailedConnectionListener(resourceBundle.getProperty("log")); //logging is turned on.
             }
 
+            //default listener chain.
             ConnectionListener defaultCompositeConnectionListeners = new CompositeConnectionListener(
                     createUserConnectionListeners(details, userConnectionListeners));
-            String tempFileName = createTempFileName();
-            ConnectionListener fileWritingCompositeConnectionListener = createFileWriterWithUserListeners(details, tempFileName,
+            String tempFileName = createFilePath(TEMP_FILE_NAME);
+
+            //chain that writes the usage data.
+            ConnectionListener usageWritingListener = createFileWriterWithUserListeners(details, tempFileName,
                     userConnectionListeners);
 
             linkTraverser.traverse(HOME_URL, defaultCompositeConnectionListeners);
             formSubmitter.submit(LOGIN_URL, defaultCompositeConnectionListeners, getNameValuePairs());
-            linkTraverser.traverse(USAGE_URL, fileWritingCompositeConnectionListener);
+            linkTraverser.traverse(USAGE_URL, usageWritingListener);//the usage info is dumped.
             linkTraverser.traverse(LOGOUT_URL, defaultCompositeConnectionListeners);
             httpClient.getConnectionManager().shutdown();
 
@@ -96,19 +99,20 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         }
     }
 
+    /**
+     * Adds the <code>details</code> <code>ConnectionLister</code> first before any of the <code>userConnectionListeners</code> and returns
+     * the list of updated listeners. The details listener outputs account information to a log file. If logging has been turned on,
+     * it may be to discover an error that is occurring. Therefore this listener has to run first before any other listeners are processed.
+     * @param details The connectiond details listener.
+     * @param userConnectionListeners The listeners supplied by the user.
+     * @return A <code>List<ConnectionListener></code> that has the <code>details</code> listener before the user listeners.
+     */
     private List<ConnectionListener> createUserConnectionListeners(final ConnectionListener details,
                                                                    final ConnectionListener... userConnectionListeners) {
         List<ConnectionListener> listenerList = new ArrayList<ConnectionListener>();
         listenerList.add(details);
         listenerList.addAll(Arrays.asList(userConnectionListeners));
         return listenerList;
-    }
-
-    private boolean asBoolean(final String value) {
-        return "true".equalsIgnoreCase(value) ||
-                "yes".equalsIgnoreCase(value) ||
-                "on".equalsIgnoreCase(value) ||
-                Boolean.parseBoolean(value);
     }
 
     private NameValuePairBuilder getNameValuePairs() {
@@ -131,10 +135,10 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         return new CompositeConnectionListener(connectionListenerList);
     }
 
-    private String createTempFileName() {
+    private String createFilePath(final String fileName) {
         return new StringBuilder().append(resourceBundle.getProperty(TEMP_DIR_KEY)).
                 append(File.separator).
-                append(TEMP_FILE_NAME).
+                append(fileName).
                 toString();
     }
 }
