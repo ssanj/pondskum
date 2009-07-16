@@ -28,6 +28,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * Connects to Bigpond and retrieves all account and usage information. Username, password and various other values are read from the
+ * <code>Properties</code> instance supplied.
+ */
 public final class BigpondConnectorImpl implements BigpondConnector {
 
     //Come from the properties file.
@@ -56,26 +60,36 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     private static final String REMEMBER_ME_FORM_ELEMENT = "rememberMe";
     private static final String GOTO_FORM_ELEMENT = "goto";
 
-    private final Properties resourceBundle;
+    private final Properties properties;
 
-    public BigpondConnectorImpl(final Properties resourceBundle) {
-        this.resourceBundle = resourceBundle;
+    /**
+     * Constructs a connector with the properties specified.
+     * @param properties with the properties used for connection and retrieval.
+     */
+    public BigpondConnectorImpl(final Properties properties) {
+        this.properties = properties;
     }
 
+    /**
+     * Connects to Bigpond with the accound information supplied. Takens in a bunch of <code>ConnectionListener</code>s which are
+     * notified at each point during the connection/retrieval process.
+     * @param userConnectionListeners The list of listeners to notify.
+     * @return BigpondUsageInformation is the all the client's account and usage information.
+     * @throws BigpondConnectorException If any exception occurs.
+     */
     public BigpondUsageInformation connect(final ConnectionListener... userConnectionListeners) throws BigpondConnectorException {
-
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
 
             LinkTraverser linkTraverser = new LinkTraverserImpl(httpClient);
             FormSubmitter formSubmitter = new FormSubmitterImpl(httpClient);
 
-            //TODO: MOve this into a builder.
+            //TODO: Move this into a builder.
 
             ConnectionListener details = new NullConnectionListener();
 
-            if (resourceBundle.containsKey("log")) {
-                details = new DetailedConnectionListener(resourceBundle.getProperty("log")); //logging is turned on.
+            if (properties.containsKey("log")) {
+                details = new DetailedConnectionListener(properties.getProperty("log")); //logging is turned on.
             }
 
             //default listener chain.
@@ -117,9 +131,9 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
     private NameValuePairBuilder getNameValuePairs() {
         NameValuePairBuilder nameValuePairBuilder = new NameValuePairBuilder();
-        nameValuePairBuilder.withName(USER_FORM_ELEMENT).withValue(resourceBundle.getProperty(USER_KEY)).
-                withName(USERNAME_FORM_ELEMENT).withValue(resourceBundle.getProperty(USER_KEY)).
-                withName(PASSWORD_FORM_ELEMENT).withValue(resourceBundle.getProperty(PASSWORD_KEY)).
+        nameValuePairBuilder.withName(USER_FORM_ELEMENT).withValue(properties.getProperty(USER_KEY)).
+                withName(USERNAME_FORM_ELEMENT).withValue(properties.getProperty(USER_KEY)).
+                withName(PASSWORD_FORM_ELEMENT).withValue(properties.getProperty(PASSWORD_KEY)).
                 withName(LOGIN_TYPE_FORM_ELEMENT).withValue(MY_ACCOUNT).
                 withName(REMEMBER_ME_FORM_ELEMENT).withValue(ON).
                 withName(GOTO_FORM_ELEMENT).withValue(GOTO_URL);
@@ -136,7 +150,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     }
 
     private String createFilePath(final String fileName) {
-        return new StringBuilder().append(resourceBundle.getProperty(TEMP_DIR_KEY)).
+        return new StringBuilder().append(properties.getProperty(TEMP_DIR_KEY)).
                 append(File.separator).
                 append(fileName).
                 toString();
