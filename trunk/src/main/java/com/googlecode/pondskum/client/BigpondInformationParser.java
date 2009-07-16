@@ -84,7 +84,7 @@ public final class BigpondInformationParser {
             throw new BigpondInformationParserException(
                     new StringBuilder().append("There was an error parsing your account usage information.").
                                         append(" The website may have changed since this client was written.").
-                                        append(" Please contact the owners of this project with the contents of your tmp directory.").
+                                        append(" Please contact the owners of this project with the contents of your tempDir directory.").
                                         append(" The nested Exception was: ").append(e.getMessage()).
                                         toString());
         }
