@@ -39,11 +39,17 @@ public interface TrayIconUsageUpdater {
      * Shows an information message over the tray icon.
      * @param message The message to display.
      */
-    void showMessage(String message);
+    void setTooltip(String message);
 
     /**
      * Shows an error message over the tray icon.
      * @param message The message to display.
      */
     void showErrorMessage(String message);
+
+    /**
+     * Shows a successful connection update over the tray icon.
+     * @param message The message to display.
+     */
+    void showSuccessMessage(String message);
 }
