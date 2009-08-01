@@ -15,38 +15,26 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
-import com.googlecode.pondskum.client.BigpondConnector;
-import com.googlecode.pondskum.client.BigpondConnectorImpl;
-import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.client.listener.DetailedConnectionListener;
 import com.googlecode.pondskum.config.ConfigFileLoaderException;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.gui.swing.tablet.ConsoleConnectionListener;
-import com.googlecode.pondskum.gui.swing.tablet.StatusUpdatable;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import javax.swing.JFrame;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
-public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements StatusUpdatable {
+public final class ProgressionSwingWorker extends BigpondSwingWorker {
 
     private static final int TEN_MINS = 10; //minimum update interval.
     private static final String UPDATE_INTERVAL_KEY = "update.interval";
 
-    private Exception exception;
     private final JFrame frame;
     private final Timer timer;
     private final ProgressionPanel progressionPanel;
     private final ConnectionStatusForm connectionStatus;
     private final NumericUtil numericUtil;
-    private final Logger logger;
 
     public ProgressionSwingWorker(final JFrame frame, final Timer timer) {
         this.frame = frame;
@@ -54,60 +42,19 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
         progressionPanel = new ProgressionPanel();
         connectionStatus = new ConnectionStatusForm();
         numericUtil = new NumericUtilImpl();
-        // use the same logging strategy as DetailedConnectionListener.
-        logger = Logger.getLogger(DetailedConnectionListener.class.getPackage().getName());
-
         frame.getContentPane().add(connectionStatus.getContentPanel());
     }
 
     @Override
-    protected BigpondUsageInformation doInBackground() throws Exception {
-        try {
-            Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
-            BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
-            BigpondUsageInformation usageInformation = bigpondConnector.connect(new ConsoleConnectionListener(this));
-            setTimerDelayIfSet(properties);
-            return usageInformation;
-        } catch (Exception e) {
-            exception = e;
-            cancel(true);
-            return null;
-        }
-    }
-
-    private void setTimerDelayIfSet(final Properties properties) {
-        if (properties.containsKey(UPDATE_INTERVAL_KEY)) {
-            String interval = properties.getProperty(UPDATE_INTERVAL_KEY);
-            if (numericUtil.isNumber(interval)) {
-                timer.setDelay(Math.max(TEN_MINS, numericUtil.getNumber(interval))); //set a minimum of 10 minutes.
-                logger.info("Setting timer delay to " + interval + " minutes.");
-            }
-            return;
-        }
-
-        logger.info("Using default timer delay.");
-    }
-
-
-    private String getSimpleMessage(final Exception e) {
-        Throwable nested = e;
-        while (nested.getCause() != null) {
-            nested = nested.getCause();
-        }
-
-        return nested.getMessage();
+    protected void postConnect() {
+        setTimerDelayIfSet(getProperties());//set the delay for the next connection, if successfully connected.
     }
 
     @Override
     protected void process(final List<String> statusList) {
         for (String status : statusList) {
-            connectionStatus.setProgress(status);
+            connectionStatus.setProgress(status);//send updates to the connectionStatus form.
         }
-    }
-
-    @Override
-    public void updateStatus(final String update) {
-        publish(update);
     }
 
     @Override
@@ -122,18 +69,31 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
 
             showError();
         } catch (Exception e) {
-            exception = e;
+            setException(e);
             showError();
         }
+    }
+
+    private void setTimerDelayIfSet(final Properties properties) {
+        if (properties.containsKey(UPDATE_INTERVAL_KEY)) {
+            String interval = properties.getProperty(UPDATE_INTERVAL_KEY);
+            if (numericUtil.isNumber(interval)) {
+                timer.setDelay(Math.max(TEN_MINS, numericUtil.getNumber(interval))); //set a minimum of 10 minutes.
+                getLogger().info("Setting timer delay to " + interval + " minutes.");
+            }
+            return;
+        }
+
+        getLogger().info("Using default timer delay.");
     }
 
     private void hideStatus() {
         frame.getContentPane().remove(connectionStatus.getContentPanel());
     }
 
-
     private void showError() {
-        String errorMessage = getSimpleMessage(exception);
+        Exception exception = getException();
+        String errorMessage = getSimpleExceptionMessage(exception);
         ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
         frame.getContentPane().add(errorPanel.getContentPanel());
