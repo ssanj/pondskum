@@ -39,7 +39,7 @@ public final class ProgressTrayIcon {
         return SystemTray.isSupported();
     }
 
-    public void install(TooltipUsageUpdater usageUpdater) {
+    public void install(TrayIconUsageUpdater usageUpdater) {
         if (!installed) { //install this only once.
             final SystemTray systemTray = SystemTray.getSystemTray();
             try {
@@ -52,10 +52,11 @@ public final class ProgressTrayIcon {
         }
     }
 
-    private TrayIcon createTrayIcon(final SystemTray systemTray, final TooltipUsageUpdater usageUpdater) {
+    private TrayIcon createTrayIcon(final SystemTray systemTray, final TrayIconUsageUpdater usageUpdater) {
         ImageIcon image = new ImageIcon(getClass().getResource("/com/googlecode/pondskum/gui/images/map.png"));
         final TrayIcon trayIcon = new TrayIcon(image.getImage());
         trayIcon.setImageAutoSize(true);
+        usageUpdater.setTrayIcon(trayIcon);
         trayIcon.addActionListener(new TrayIconActionListener(systemTray, trayIcon));
         trayIcon.addMouseMotionListener(new TrayIconMouseMotionListener(trayIcon, usageUpdater));
         return trayIcon;
@@ -82,9 +83,9 @@ public final class ProgressTrayIcon {
     private static final class TrayIconMouseMotionListener implements MouseMotionListener {
 
         private final TrayIcon trayIcon;
-        private TooltipUsageUpdater usageUpdater;
+        private TrayIconUsageUpdater usageUpdater;
 
-        private TrayIconMouseMotionListener(final TrayIcon trayIcon, final TooltipUsageUpdater usageUpdater) {
+        private TrayIconMouseMotionListener(final TrayIcon trayIcon, final TrayIconUsageUpdater usageUpdater) {
             this.trayIcon = trayIcon;
             this.usageUpdater = usageUpdater;
         }
@@ -96,7 +97,7 @@ public final class ProgressTrayIcon {
 
         @Override
         public void mouseMoved(final MouseEvent e) {
-            usageUpdater.updateTooltip(trayIcon);
+            usageUpdater.updateTooltip();
         }
     }
 }

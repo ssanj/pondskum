@@ -19,9 +19,10 @@ import com.googlecode.pondskum.client.BigpondUsageInformation;
 
 import java.awt.TrayIcon;
 
-public final class BigpondTooltipUsageUpdater implements TooltipUsageUpdater {
+public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
     private BigpondUsageInformation bigpondUsageInformation;
+    private TrayIcon trayIcon;
 
     public BigpondUsageInformation getBigpondUsageInformation() {
         return bigpondUsageInformation;
@@ -29,15 +30,35 @@ public final class BigpondTooltipUsageUpdater implements TooltipUsageUpdater {
 
     public void setBigpondUsageInformation(final BigpondUsageInformation bigpondUsageInformation) {
         this.bigpondUsageInformation = bigpondUsageInformation;
+        showMessage(createUsageMessage());
     }
 
     @Override
-    public void updateTooltip(final TrayIcon trayIcon) {
+    public void updateTooltip() {
         String message = createUsageMessage();
         trayIcon.setToolTip(message);
     }
 
+    @Override
+    public void showMessage(final String message) {
+        trayIcon.displayMessage("Connection Information", message, TrayIcon.MessageType.INFO);
+    }
+
+    @Override
+    public void showErrorMessage(final String message) {
+        trayIcon.displayMessage("Connection Information", message, TrayIcon.MessageType.ERROR);
+    }
+
+    @Override
+    public void setTrayIcon(final TrayIcon trayIcon) {
+        this.trayIcon = trayIcon;
+    }
+
     private String createUsageMessage() {
+        if (bigpondUsageInformation == null) {
+            return "No usage information available.";
+        }
+
         return new StringBuilder().append("[").
                 append(bigpondUsageInformation.getAccountInformation().getAccountName()).append(" - ").
                 append(bigpondUsageInformation.getTotalUsage().getUploadUsage()).append("/").

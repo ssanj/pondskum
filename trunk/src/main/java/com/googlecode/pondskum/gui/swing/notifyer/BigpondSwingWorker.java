@@ -25,6 +25,7 @@ import com.googlecode.pondskum.gui.swing.tablet.ConsoleConnectionListener;
 import com.googlecode.pondskum.gui.swing.tablet.StatusUpdatable;
 
 import javax.swing.SwingWorker;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -60,6 +61,19 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
      * {@link #getUsageInformation()} are usable. This method will not be called if there is a connection exception.
      */
     protected abstract void postConnect();
+
+    /**
+     * @see javax.swing.SwingWorker#process(java.util.List)
+     */
+    @Override
+    protected abstract void process(List<String> statusList);
+
+
+    /**
+     * @see javax.swing.SwingWorker#done()
+     */
+    @Override
+    protected abstract void done();
 
     /**
      * The template of any <code>BigpondSwingWorker</code>. A connection is first made followed by a call to {@link #postConnect()}. The
