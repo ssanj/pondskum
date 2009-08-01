@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import java.util.Calendar;
 import java.util.List;
 
 public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
@@ -41,17 +42,23 @@ public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
     @Override
     protected void process(final List<String> statusList) {
         for (String status: statusList) {
-            usageUpdater.showMessage(status);
+            usageUpdater.setTooltip(status);
         }
     }
 
     @Override
     protected void done() {
         if (!isCancelled()) {
+            usageUpdater.showSuccessMessage(getSuccessMessage());
             usageUpdater.setBigpondUsageInformation(getUsageInformation());
             return;
         }
 
         usageUpdater.showErrorMessage(getSimpleExceptionMessage(getException())); //simplify this.
+    }
+
+    private String getSuccessMessage() {
+        return String.format("Usage information updated @ %1$tA %1$tB %1$te %1$tY @ %1$tl:%1$tM %1$Tp",
+                Calendar.getInstance().getTimeInMillis());
     }
 }

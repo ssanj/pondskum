@@ -30,7 +30,7 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
     public void setBigpondUsageInformation(final BigpondUsageInformation bigpondUsageInformation) {
         this.bigpondUsageInformation = bigpondUsageInformation;
-        showMessage(createUsageMessage());
+        setTooltip(createUsageMessage());
     }
 
     @Override
@@ -40,8 +40,13 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
     }
 
     @Override
-    public void showMessage(final String message) {
-        trayIcon.displayMessage("Connection Information", message, TrayIcon.MessageType.INFO);
+    public void setTooltip(final String message) {
+        trayIcon.setToolTip(message);
+    }
+
+    @Override
+    public void showSuccessMessage(String message) {
+        trayIcon.displayMessage("Connection Successful", message, TrayIcon.MessageType.INFO);
     }
 
     @Override
