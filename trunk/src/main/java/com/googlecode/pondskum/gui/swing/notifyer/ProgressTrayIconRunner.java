@@ -20,20 +20,4 @@ public final class ProgressTrayIconRunner {
     public static void main(String[] args) {
         new ProgressTrayIconSwingWorker().execute(); // move this out once we have the timer reoccurring.
     }
-
-//    private static void createTimer() {
-//         final Timer timer = new Timer(0, null);
-//         timer.addActionListener(new ActionListener() {
-//             @Override
-//             public void actionPerformed(final ActionEvent e) {
-//
-//                 new ProgressTrayIconSwingWorker().execute(); // move this out once we have the timer reoccurring.
-//             }
-//         });
-//
-//         timer.setInitialDelay(0);//start immediately.
-//         timer.setRepeats(false);
-//         timer.setCoalesce(true); //send only 1 event even if multiple are queued.
-//         timer.start();
-//    }
 }

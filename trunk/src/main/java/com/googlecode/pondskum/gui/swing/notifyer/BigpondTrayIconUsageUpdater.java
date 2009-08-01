@@ -16,6 +16,8 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
+import com.googlecode.pondskum.util.NumericUtil;
+import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import java.awt.TrayIcon;
 
@@ -23,6 +25,11 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
     private BigpondUsageInformation bigpondUsageInformation;
     private TrayIcon trayIcon;
+    private NumericUtil numericUtil;
+
+    public BigpondTrayIconUsageUpdater() {
+        numericUtil = new NumericUtilImpl();
+    }
 
     public BigpondUsageInformation getBigpondUsageInformation() {
         return bigpondUsageInformation;
@@ -66,9 +73,17 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
         return new StringBuilder().append("[").
                 append(bigpondUsageInformation.getAccountInformation().getAccountName()).append(" - ").
-                append(bigpondUsageInformation.getTotalUsage().getUploadUsage()).append("/").
-                append(bigpondUsageInformation.getTotalUsage().getDownloadUsage()).append("/").
-                append(bigpondUsageInformation.getTotalUsage().getTotalUsage()).
+                append(getQuota(bigpondUsageInformation.getTotalUsage().getUploadUsage())).append("/").
+                append(getQuota(bigpondUsageInformation.getTotalUsage().getDownloadUsage())).append("/").
+                append(getQuota(bigpondUsageInformation.getTotalUsage().getTotalUsage())).
                 append("]").toString();
+    }
+
+    private String getQuota(final String quota) {
+        if (numericUtil.isNumber(quota)) {
+            return String.format("%1$5.2g GB", numericUtil.getNumber(quota) / 1000.0d);
+        }
+
+        return "NAN";
     }
 }
