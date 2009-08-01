@@ -24,4 +24,6 @@ public interface BigpondUsageInformation {
     List<BigpondMonthlyUsage> getMonthlyUsageList();
 
     BigpondUsage getTotalUsage();
+
+
 }

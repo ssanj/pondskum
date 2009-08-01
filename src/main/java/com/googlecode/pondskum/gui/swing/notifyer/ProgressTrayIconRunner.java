@@ -15,16 +15,25 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
-
 public final class ProgressTrayIconRunner {
 
     public static void main(String[] args) {
-        ProgressTrayIcon trayIcon = new ProgressTrayIcon();
-        if (trayIcon.canInstall()) {
-            BigpondTooltipUsageUpdater updater = new BigpondTooltipUsageUpdater();
-            updater.setBigpondUsageInformation(new StubbyBigpondUsageInformationBuilder().build());
-            trayIcon.install(updater);
-        }
+        new ProgressTrayIconSwingWorker().execute(); // move this out once we have the timer reoccurring.
     }
+
+//    private static void createTimer() {
+//         final Timer timer = new Timer(0, null);
+//         timer.addActionListener(new ActionListener() {
+//             @Override
+//             public void actionPerformed(final ActionEvent e) {
+//
+//                 new ProgressTrayIconSwingWorker().execute(); // move this out once we have the timer reoccurring.
+//             }
+//         });
+//
+//         timer.setInitialDelay(0);//start immediately.
+//         timer.setRepeats(false);
+//         timer.setCoalesce(true); //send only 1 event even if multiple are queued.
+//         timer.start();
+//    }
 }
