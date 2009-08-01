@@ -90,19 +90,12 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
 
 
     private String getSimpleMessage(final Exception e) {
-//        int messageIndex = e.getMessage().indexOf(':');
-//        if (messageIndex != -1 && messageIndex++ <= e.getMessage().length()) {
-//            return e.getMessage().substring(messageIndex);
-//        }
-//
-//        return e.getMessage();
         Throwable nested = e;
         while (nested.getCause() != null) {
             nested = nested.getCause();
         }
 
         return nested.getMessage();
-
     }
 
     @Override
@@ -152,5 +145,4 @@ public final class ProgressionSwingWorker extends SwingWorker<BigpondUsageInform
         frame.getContentPane().add(progressionPanel.getContentPanel());
         progressionPanel.setUsageInfo(get());
     }
-
 }
