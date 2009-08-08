@@ -160,11 +160,10 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     /**
      * Returns the message of the first <code>Exception</code> that was thrown, in the case of nested exceptions. If only one
      * <code>Exception</code> was thrown, returns that <code>Exception</code>'s message.
-     * @param e The <code>Exception</code>
      * @return The message of the first exception that was thrown.
      */
-    protected final String getSimpleExceptionMessage(final Exception e) {
-        Throwable nested = e;
+    protected final String getSimpleExceptionMessage() {
+        Throwable nested = getException();
         while (nested.getCause() != null) {
             nested = nested.getCause();
         }

@@ -42,7 +42,7 @@ public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
     @Override
     protected void process(final List<String> statusList) {
         for (String status: statusList) {
-            usageUpdater.setTooltip(status);
+            usageUpdater.showBusyMessage(status);
         }
     }
 
@@ -54,7 +54,7 @@ public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
             return;
         }
 
-        usageUpdater.showErrorMessage(getSimpleExceptionMessage(getException())); //simplify this.
+        usageUpdater.showErrorMessage(getSimpleExceptionMessage());
     }
 
     private String getSuccessMessage() {

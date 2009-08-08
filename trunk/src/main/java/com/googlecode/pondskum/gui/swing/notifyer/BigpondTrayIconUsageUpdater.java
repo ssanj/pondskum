@@ -26,9 +26,15 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
     private BigpondUsageInformation bigpondUsageInformation;
     private TrayIcon trayIcon;
     private NumericUtil numericUtil;
+    private TrayNotification successfulTrayNotification;
+    private TrayNotification unsuccessfulTrayNotification;
+    private RollingTrayNotification connectingTrayNotification;
 
     public BigpondTrayIconUsageUpdater() {
         numericUtil = new NumericUtilImpl();
+        successfulTrayNotification = new SuccessfulTrayNotification("Connection Successful");
+        unsuccessfulTrayNotification = new UnsuccessfulTrayNotification("Connection Information");
+        connectingTrayNotification = new ConnectingTrayNotification();
     }
 
     public BigpondUsageInformation getBigpondUsageInformation() {
@@ -52,18 +58,30 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
     }
 
     @Override
+    public void showBusyMessage(final String message) {
+        updateNotification(connectingTrayNotification.getNotification(message));
+    }
+
+    @Override
     public void showSuccessMessage(String message) {
         trayIcon.displayMessage("Connection Successful", message, TrayIcon.MessageType.INFO);
+        updateNotification(successfulTrayNotification);
     }
 
     @Override
     public void showErrorMessage(final String message) {
         trayIcon.displayMessage("Connection Information", message, TrayIcon.MessageType.ERROR);
+        updateNotification(unsuccessfulTrayNotification);
     }
 
     @Override
     public void setTrayIcon(final TrayIcon trayIcon) {
         this.trayIcon = trayIcon;
+    }
+
+    private void updateNotification(final TrayNotification notification) {
+        trayIcon.setImage(notification.getImage());
+        setTooltip(notification.getMessage());
     }
 
     private String createUsageMessage() {

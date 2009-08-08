@@ -15,6 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import com.googlecode.pondskum.util.DefaultImageLoader;
+
 import javax.swing.ImageIcon;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -53,7 +55,7 @@ public final class ProgressTrayIcon {
     }
 
     private TrayIcon createTrayIcon(final SystemTray systemTray, final TrayIconUsageUpdater usageUpdater) {
-        ImageIcon image = new ImageIcon(getClass().getResource("/com/googlecode/pondskum/gui/images/map.png"));
+        ImageIcon image = new DefaultImageLoader(getClass()).getImageIcon("/com/googlecode/pondskum/gui/images/pondksum.png");
         final TrayIcon trayIcon = new TrayIcon(image.getImage());
         trayIcon.setImageAutoSize(true);
         usageUpdater.setTrayIcon(trayIcon);
