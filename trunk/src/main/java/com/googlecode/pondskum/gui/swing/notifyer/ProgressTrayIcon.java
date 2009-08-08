@@ -55,7 +55,7 @@ public final class ProgressTrayIcon {
     }
 
     private TrayIcon createTrayIcon(final SystemTray systemTray, final TrayIconUsageUpdater usageUpdater) {
-        ImageIcon image = new DefaultImageLoader(getClass()).getImageIcon("/com/googlecode/pondskum/gui/images/pondksum.png");
+        ImageIcon image = new DefaultImageLoader(getClass()).getImageIcon("pondksum.png");
         final TrayIcon trayIcon = new TrayIcon(image.getImage());
         trayIcon.setImageAutoSize(true);
         usageUpdater.setTrayIcon(trayIcon);

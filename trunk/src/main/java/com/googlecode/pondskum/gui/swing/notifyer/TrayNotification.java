@@ -17,6 +17,10 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 
 import java.awt.Image;
 
+/**
+ * A tray notification consists of both a message (which will be used as a tooltip) and an image (which will change the image on the
+ * system tray). 
+ */
 public interface TrayNotification {
 
     String getMessage();

@@ -25,18 +25,16 @@ import java.util.List;
 public final class ConnectingTrayNotification implements RollingTrayNotification {
 
     private final List<Image> images;
-    private ImageLoader imageLoader;
     private int index = 0; //defines which image to return next.
 
     public ConnectingTrayNotification() {
-        imageLoader = new DefaultImageLoader(getClass());
+        ImageLoader imageLoader = new DefaultImageLoader(getClass());
         images = Arrays.asList(
-                imageLoader.getImage("/com/googlecode/pondskum/gui/images/connecting_1.png"),
-                imageLoader.getImage("/com/googlecode/pondskum/gui/images/connecting_2.png"),
-                imageLoader.getImage("/com/googlecode/pondskum/gui/images/connecting_3.png")
+                imageLoader.getImage("connecting_1.png"),
+                imageLoader.getImage("connecting_2.png"),
+                imageLoader.getImage("connecting_3.png")
         );
     }
-
 
     public TrayNotification getNotification(final String message) {
         index = (index % images.size());

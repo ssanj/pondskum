@@ -16,6 +16,8 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
+import com.googlecode.pondskum.util.DefaultImageLoader;
+import com.googlecode.pondskum.util.ImageLoader;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 
@@ -32,8 +34,9 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
     public BigpondTrayIconUsageUpdater() {
         numericUtil = new NumericUtilImpl();
-        successfulTrayNotification = new SuccessfulTrayNotification("Connection Successful");
-        unsuccessfulTrayNotification = new UnsuccessfulTrayNotification("Connection Information");
+        ImageLoader imageLoader = new DefaultImageLoader(getClass());
+        successfulTrayNotification = new DefaultTrayNotification("Connection Successful", imageLoader.getImage("pondksum.png"));
+        unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information", imageLoader.getImage( "connection_failed.png"));
         connectingTrayNotification = new ConnectingTrayNotification();
     }
 
