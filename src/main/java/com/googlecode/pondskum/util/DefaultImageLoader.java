@@ -22,9 +22,15 @@ import java.awt.Image;
 public final class DefaultImageLoader implements ImageLoader {
 
     private final Class<?> referenceClass;
+    private String imagePath;
 
     public DefaultImageLoader(final Class<?> referenceClass) {
+        this(referenceClass, "/com/googlecode/pondskum/gui/images/");
+    }
+
+    public DefaultImageLoader(final Class<?> referenceClass, final String imagePath) {
         this.referenceClass = referenceClass;
+        this.imagePath = imagePath;
     }
 
     @Override
@@ -35,7 +41,7 @@ public final class DefaultImageLoader implements ImageLoader {
     @Override
     public ImageIcon getImageIcon(final String url) {
         try {
-            return new ImageIcon(referenceClass.getResource(url));
+            return new ImageIcon(referenceClass.getResource(imagePath + url));
         } catch (Exception e) {
             //TODO: Check for actual type of icon returned.
             return (ImageIcon) UIManager.getIcon("OptionPane.errorIcon");
