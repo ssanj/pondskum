@@ -18,7 +18,7 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 import java.awt.TrayIcon;
 
 /**
- * Updates the tray icon tooltip with usage information and display message about connection statuses.
+ * Updates the tray icon tooltip with usage information and displays messages about connection statuses.
  */
 public interface TrayIconUsageUpdater {
 
@@ -31,7 +31,7 @@ public interface TrayIconUsageUpdater {
 
     /**
      * Called from the <code>TrayIcon</code> to get updated tooltip information.
-     * Eg. if the user hovers over the tray icon then calling this method will update the tip of the tray icon.
+     * Eg. if the user hovers over the tray icon then calling this method will update the tooltip of the tray icon.
      */
     void updateTooltip();
 
@@ -40,6 +40,11 @@ public interface TrayIconUsageUpdater {
      * @param message The message to display.
      */
     void setTooltip(String message);
+
+    /**
+     * Changes the tooltip of the the tray icon and/or changes its image.
+     */
+    void showBusyMessage(String message);
 
     /**
      * Shows an error message over the tray icon.

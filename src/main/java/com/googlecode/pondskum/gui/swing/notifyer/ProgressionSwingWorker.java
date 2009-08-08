@@ -92,10 +92,10 @@ public final class ProgressionSwingWorker extends BigpondSwingWorker {
     }
 
     private void showError() {
-        Exception exception = getException();
-        String errorMessage = getSimpleExceptionMessage(exception);
+        String errorMessage = getSimpleExceptionMessage();
         ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
-        errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
+        //TODO: This is a hack. Find a better way to do this.
+        errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(getException().getClass()));
         frame.getContentPane().add(errorPanel.getContentPanel());
         frame.setSize(600, 115);
         timer.stop();
