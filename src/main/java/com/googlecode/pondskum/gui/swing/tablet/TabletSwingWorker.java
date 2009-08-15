@@ -39,6 +39,7 @@ public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation
 
     @Override
     protected BigpondUsageInformation doInBackground() throws Exception {
+        tablet.disableUpdates(); //prevent other updates from running simulataneously.
         Properties properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
         BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
         stopWatch.start();
@@ -57,6 +58,7 @@ public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation
         try {
             tablet.setTabletData(get());
             tablet.updateStatus("Time taken: " + stopWatch.getTimeInSeconds() + " seconds");
+            tablet.enableUpdates(); //reactivate updates.
         } catch (Exception e) {
             e.printStackTrace();
         }

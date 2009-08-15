@@ -28,6 +28,7 @@ public final class TabletRunner implements TabletUpateListener {
         dialog.setUpdateListener(this);
         dialog.setSize(new Dimension(600, 400));
         dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
         executeUpdate(dialog);
         dialog.setVisible(true);
         System.exit(0);

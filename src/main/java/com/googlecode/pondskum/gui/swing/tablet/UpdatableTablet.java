@@ -15,5 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+/**
+ * A unifying interface which provides both reconnablility and status updates.
+ */
 public interface UpdatableTablet extends Reconnectable, StatusUpdatable {
 }

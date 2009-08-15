@@ -17,6 +17,7 @@ package com.googlecode.pondskum.client;
 
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import org.htmlparser.parserapplications.StringExtractor;
+import org.htmlparser.util.ParserException;
 
 /**
  * Parses the information retrieved from the Bigpond account information page (if successfully logged in). Detects failed logins and
@@ -98,5 +99,10 @@ public final class BigpondInformationParser {
                                                 toString());
             }
         }
+    }
+
+    public static void main(String[] args) throws ParserException {
+        final String data = new StringExtractor("/home/sanj/opt/pondskum/tmp/usage_data").extractStrings(false);
+        System.out.println(data);
     }
 }
