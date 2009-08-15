@@ -17,8 +17,31 @@ package com.googlecode.pondskum.gui.swing.tablet;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 
+/**
+ * Allows reconnections to occur in a predefined manner.
+ */
 public interface Reconnectable {
 
+    /**
+     * Updates the table with updated data.
+     * @param usageInformation The updated usage data.
+     */
     void setTabletData(BigpondUsageInformation usageInformation);
+
+    /**
+     * Registers an update listener which is notified of table updates.
+     * @param listener The listener to be notified.
+     */
     void setUpdateListener(TabletUpateListener listener);
+
+    /**
+     * Calls for disabling the gui while an update is in progress.
+     */
+    void disableUpdates();
+
+    /**
+     * Calls for enabling the gui once the updates are complete.
+     */
+    void enableUpdates();
+
 }

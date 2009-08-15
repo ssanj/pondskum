@@ -13,4 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+INST_DIR=`dirname "$0"`
+cd $INST_DIR
 ./scriptRunner.sh tablet.sh

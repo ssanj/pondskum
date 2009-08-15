@@ -15,7 +15,14 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+/**
+ * Defines how status updates can be propagated.
+ */
 public interface StatusUpdatable {
 
+    /**
+     * Provides the a status update to the implementer.
+     * @param update The updated status.
+     */
     void updateStatus(String update);
 }
