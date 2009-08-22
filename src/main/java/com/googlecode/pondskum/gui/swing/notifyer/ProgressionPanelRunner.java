@@ -91,6 +91,7 @@ public final class ProgressionPanelRunner {
         return new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties(getPropertyFileLocationSystemPropertyKey());
     }
 
+    //TODO: Centralize this value. All code should get the same value unless they want to override it.
     private static String getPropertyFileLocationSystemPropertyKey() {
         return "bigpond.config.location";
     }
