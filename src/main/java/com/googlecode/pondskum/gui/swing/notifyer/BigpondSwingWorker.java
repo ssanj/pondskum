@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import com.googlecode.pinthura.annotation.SuppressionReason;
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnector;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
@@ -162,6 +163,8 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
      * <code>Exception</code> was thrown, returns that <code>Exception</code>'s message.
      * @return The message of the first exception that was thrown.
      */
+    @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
+    @SuppressionReason(value=SuppressionReason.Reason.OTHER, desc="Exception is stored not thrown.")
     protected final String getSimpleExceptionMessage() {
         Throwable nested = getException();
         while (nested.getCause() != null) {
