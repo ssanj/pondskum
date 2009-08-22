@@ -15,14 +15,25 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
+import com.googlecode.pondskum.util.NumericUtil;
+import com.googlecode.pondskum.util.NumericUtilImpl;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 public final class ProgressionPanelRunner {
 
-    private static final int MINUTES = 1000 * 60;
+    //TODO: Find a way to reuse constants between ProgressionSwingWorker and this class. Extract a class to handle this maybe?
+    //TODO: Move timer-related code into a separate class.
+    private static final int MILLI_SECONDS_IN_A_MINUTE  = (60 * 1000);
+    private static final int TEN_MINS_IN_MILLI_SECONDS  = 10 * MILLI_SECONDS_IN_A_MINUTE;
+    private static final String UPDATE_INTERVAL_KEY     = "update.interval";
+
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Progression");
@@ -38,14 +49,50 @@ public final class ProgressionPanelRunner {
         timer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("Performing update...");
                 new ProgressionSwingWorker(frame, timer).execute();
             }
         });
 
+        int timerDelay = getTimerDelay();
         timer.setInitialDelay(0);//start immediately.
         timer.setRepeats(true);
         timer.setCoalesce(true); //send only 1 event even if multiple are queued.
-        timer.setDelay(MINUTES * 60);//then every hour by default.
+        timer.setDelay(timerDelay);
         timer.start();
     }
+
+    private static int getTimerDelay() {
+        Properties userProperties = getUserProperties();
+        NumericUtil numericUtil = new NumericUtilImpl();
+        if (userProperties.containsKey(UPDATE_INTERVAL_KEY)) {
+            String interval = userProperties.getProperty(UPDATE_INTERVAL_KEY);
+            if (numericUtil.isNumber(interval)) {
+                //interval is specified as minutes, so we need to convert it into milliseconds to use it here.
+                int intervalInMilliSeconds = getIntervalInMilliSeconds(numericUtil.getNumber(interval));
+                //set a minimum of 10 minutes.
+                int timerDelay = Math.max(TEN_MINS_IN_MILLI_SECONDS, intervalInMilliSeconds);
+                //TODO: Sort out a proper logger.
+                System.out.println("Setting timer delay to " + (timerDelay / MILLI_SECONDS_IN_A_MINUTE) +
+                        " minutes. (" + timerDelay + " ms)");
+                return timerDelay;
+            }
+        }
+
+        System.out.println("Using default timer delay of 10 minutes.");
+        return TEN_MINS_IN_MILLI_SECONDS;
+    }
+
+    private static int getIntervalInMilliSeconds(final Integer timerDelay) {
+        return timerDelay * MILLI_SECONDS_IN_A_MINUTE;
+    }
+
+    private static Properties getUserProperties() {
+        return new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties(getPropertyFileLocationSystemPropertyKey());
+    }
+
+    private static String getPropertyFileLocationSystemPropertyKey() {
+        return "bigpond.config.location";
+    }
+
 }
