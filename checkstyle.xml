@@ -21,19 +21,6 @@
     </module>
 
     <!--
-      Checks that each Java package has a Javadoc file used for commenting.
-      By default it only allows a package-info.java file, but can be configured
-      to allow a package.html file.
-
-      An error will be reported if both files exist as this is not allowed by
-      the Javadoc tool.
-    -->
-    <!-- see http://checkstyle.sourceforge.net/config_javadoc.html#JavadocMethod -->
-    <module name="JavadocPackage">
-        <property name="allowLegacy" value="false"/>
-    </module>
-
-    <!--
       A FileSetCheck that ensures the correct translation of code by checking property files
       for consistency regarding their keys. Two property files describing one and the same
       context are consistent if they contain the same keys.
@@ -166,7 +153,9 @@
         <module name="MethodParamPad"/>
         <module name="NoWhitespaceAfter"/>
         <module name="NoWhitespaceBefore"/>
-        <module name="OperatorWrap"/>
+        <module name="OperatorWrap">
+            <property name="option" value="eol"/>
+        </module>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
