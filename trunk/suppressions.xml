@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.0//EN" "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
-<suppressions>
-    <suppress checks="MagicNumberCheck" files="com.googlecode.pondskum.gui.swing.tablet.Tablet.java"/>
-    <suppress checks="LineLengthCheck"  files="com.googlecode.pondskum.gui.swing.tablet.Tablet.java"/>
-    <suppress checks="MagicNumberCheck" files="com.googlecode.pondskum.gui.swing.tablet.TableHeaderRenderer.java"/>
-    <suppress checks="MagicNumberCheck" files="com.googlecode.pondskum.gui.swing.tablet.TabletRunner.java"/>
-    <suppress checks="WhitespaceAroundCheck" files="com.googlecode.pondskum.gui.simplecmd.SimpleCMDBuilder"/>
-    <suppress checks="WhitespaceAroundCheck" files="com.googlecode.pondskum.client.BigpondInformationFiller"/>
-    <suppress checks="WhitespaceAroundCheck" files="com.googlecode.pondskum.client.NameValuePairBuilder.java"/>
-    <suppress checks="WhitespaceAroundCheck" files="com.googlecode.pondskum.client.BigpondUsageInfomationBuilder.java"/>
-    <suppress checks="EmptyBlockCheck" files="com.googlecode.pondskum.client.HttpResponseInvocationHandler.java"/>
-    <suppress checks="MethodNameCheck" files="com.googlecode.pondskum.gui.swing.tablet.Tablet.java"/>
-    <suppress checks="HideUtilityClassConstructorCheck" files="com.googlecode.pondskum.gui.simplecmd.SimpleCMD"/>
+<suppressions>    
+    <!--
+      Turn off all checks for Generated and Test code. Fixes issues with using
+      Eclipse plug-in.
+      -->
+    <suppress checks="." files=".*[\\/]grammars[\\/]Generated[a-zA-Z]*\.java"/>
+    <suppress checks="." files=".*[\\/]grammars[\\/]Generated[a-zA-Z]*\.java"/>
+    <suppress checks="." files=".*[\\/]checkstyle[\\/]gui[\\/]"/>
 </suppressions>
