@@ -18,20 +18,17 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 import com.googlecode.pondskum.config.ConfigFileLoaderException;
 
 import javax.swing.JFrame;
-import javax.swing.Timer;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public final class ProgressionSwingWorker extends BigpondSwingWorker {
 
     private final JFrame frame;
-    private final Timer timer;
     private final ProgressionPanel progressionPanel;
     private final ConnectionStatusForm connectionStatus;
 
-    public ProgressionSwingWorker(final JFrame frame, final Timer timer) {
+    public ProgressionSwingWorker(final JFrame frame) {
         this.frame = frame;
-        this.timer = timer;
         progressionPanel = new ProgressionPanel();
         connectionStatus = new ConnectionStatusForm();
         frame.getContentPane().add(connectionStatus.getContentPanel());
@@ -78,7 +75,8 @@ public final class ProgressionSwingWorker extends BigpondSwingWorker {
         frame.getContentPane().add(errorPanel.getContentPanel());
         frame.setSize(600, 115);
         frame.getContentPane().validate();
-        timer.stop();
+
+        notifyFailureListeners(); //kill timers etc.
     }
 
     private void showUsage() throws InterruptedException, ExecutionException {

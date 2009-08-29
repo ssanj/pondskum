@@ -16,19 +16,21 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
+import com.googlecode.pondskum.config.ConfigurationEnum;
+import com.googlecode.pondskum.timer.DefaultTimer;
 import com.googlecode.pondskum.timer.RepeatFrequency;
+import com.googlecode.pondskum.timer.SimpleTimer;
 import com.googlecode.pondskum.timer.TimerDelay;
 
 import javax.swing.JFrame;
-import javax.swing.Timer;
+import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
 
 public final class ProgressionPanelRunner {
-    //TODO: Find a way to reuse constants between ProgressionSwingWorker and this class. Extract a class to handle this maybe?
-    //TODO: Move timer-related code into a separate class.
 
     private ProgressionPanelRunner() {
         //runner.
@@ -44,19 +46,9 @@ public final class ProgressionPanelRunner {
     }
 
     private static void createTimer(final JFrame frame) {
-        final Timer timer = new Timer(0, null);
-        timer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                System.out.println("Performing update...");
-                new ProgressionSwingWorker(frame, timer).execute();
-            }
-        });
-
-        timer.setInitialDelay(0);//start immediately.
-        timer.setRepeats(true);
-        timer.setCoalesce(true); //send only 1 event even if multiple are queued.
-        timer.setDelay(getTimerDelayInMilliSeconds());
+        BigpondSwingWorker worker = new ProgressionSwingWorker(frame);
+        SimpleTimer timer = new DefaultTimer(new TimedAction(worker), getTimerDelayInMilliSeconds());
+        worker.addFailureListener(new TimerStopper(timer));
         timer.start();
     }
 
@@ -68,13 +60,44 @@ public final class ProgressionPanelRunner {
         return timerDelay.getFrequencyInMilliSeconds();
     }
 
+    //TODO: Move this to a configuration class and reuse across the project.
     private static Properties getUserProperties() {
         return new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties(getPropertyFileLocationSystemPropertyKey());
     }
 
-    //TODO: Centralize this value. All code should get the same value unless they want to override it.
     private static String getPropertyFileLocationSystemPropertyKey() {
-        return "bigpond.config.location";
+        return ConfigurationEnum.CONFIG_FILE_LOCATION.getKey();
+    }
+
+    private static final class TimedAction implements ActionListener {
+
+        private SwingWorker<BigpondUsageInformation, String> swingWorker;
+
+        private TimedAction(final SwingWorker<BigpondUsageInformation, String> swingWorker) {
+            this.swingWorker = swingWorker;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            System.out.println("Updating information...");
+            swingWorker.execute();
+        }
+    }
+
+    private static final class TimerStopper implements ConnectionFailureListener {
+
+        private final SimpleTimer simpleTimer;
+
+        private TimerStopper(final SimpleTimer simpleTimer) {
+            this.simpleTimer = simpleTimer;
+        }
+
+        @Override
+        public void connectionFailed() {
+            System.out.println("Timer stopping...");
+            simpleTimer.stop();
+            System.out.println("Timer stopped.");
+        }
     }
 
 }

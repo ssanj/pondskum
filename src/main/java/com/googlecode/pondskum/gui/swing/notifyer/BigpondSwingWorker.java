@@ -22,10 +22,12 @@ import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.client.listener.DetailedConnectionListener;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
+import com.googlecode.pondskum.config.ConfigurationEnum;
 import com.googlecode.pondskum.gui.swing.tablet.ConsoleConnectionListener;
 import com.googlecode.pondskum.gui.swing.tablet.StatusUpdatable;
 
 import javax.swing.SwingWorker;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -51,10 +53,12 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     private BigpondUsageInformation usageInformation;
     private Exception exception;
     private Logger logger;
+    private ArrayList<ConnectionFailureListener> connectionFailureListeners;
 
     protected BigpondSwingWorker() {
         // use the same logging strategy as DetailedConnectionListener.
         logger = Logger.getLogger(DetailedConnectionListener.class.getPackage().getName());
+        connectionFailureListeners = new ArrayList<ConnectionFailureListener>();
     }
 
     /**
@@ -105,6 +109,10 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
         publish(update); //this indirectly pushes updates to the {@link SwingWorker#process} method.
     }
 
+    public final void addFailureListener(ConnectionFailureListener connectionFailureListener) {
+        connectionFailureListeners.add(connectionFailureListener);
+    }
+
     /**
      * This method should only be called after a call to {@link #loadProperties()} or {@link #connect()}
      * @return The properties used to connect to Bigpond.
@@ -113,6 +121,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
         return properties;
     }
 
+
     /**
      * This method should only be called after a call to {@link #connect()}
      * @return The <code>BigpondUsageInformation</code> retrieved from Bigpond.
@@ -120,7 +129,6 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     protected final BigpondUsageInformation getUsageInformation() {
         return usageInformation;
     }
-
 
     /**
      * Returns the nested <code>Exception</code>s that occurred during the connection. Each level of exception is nested within the
@@ -179,7 +187,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
      * @return The system property key that holds the location of the property file to use when connecting to Bigpond.
      */
     protected String getPropertyFileLocationSystemPropertyKey() {
-        return "bigpond.config.location";
+        return ConfigurationEnum.CONFIG_FILE_LOCATION.getKey();
     }
 
     /**
@@ -188,5 +196,14 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
      */
     private void loadProperties() {
         properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties(getPropertyFileLocationSystemPropertyKey());
+    }
+
+    /**
+     * Notify <code>ConnectionFailureListener</code> that the connection has failed.
+     */
+    protected void notifyFailureListeners() {
+        for (ConnectionFailureListener listener : connectionFailureListeners) {
+            listener.connectionFailed();
+        }
     }
 }

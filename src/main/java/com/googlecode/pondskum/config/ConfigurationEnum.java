@@ -15,6 +15,9 @@
  */
 package com.googlecode.pondskum.config;
 
+/**
+ * Defines system properties and property keys to configure the project.
+ */
 public enum ConfigurationEnum {
 
     /**
@@ -23,9 +26,14 @@ public enum ConfigurationEnum {
     UPDATE_INTERVAL("update.interval"),
 
     /**
-     * Defines the location of the log file to write debug information to. 
+     * Defines the location of the log file to write debug information to.
      */
-    LOG_FILE("log");
+    LOG_FILE("log"),
+
+    /**
+     * Defines the name of the system property that holds the location of the configuration file.
+     */
+    CONFIG_FILE_LOCATION("bigpond.config.location");
 
     private String key;
 
