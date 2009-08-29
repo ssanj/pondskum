@@ -77,6 +77,7 @@ public final class ProgressionSwingWorker extends BigpondSwingWorker {
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(getException().getClass()));
         frame.getContentPane().add(errorPanel.getContentPanel());
         frame.setSize(600, 115);
+        frame.getContentPane().validate();
         timer.stop();
     }
 

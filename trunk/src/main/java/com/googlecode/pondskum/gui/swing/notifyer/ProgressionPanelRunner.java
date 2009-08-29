@@ -27,13 +27,15 @@ import java.awt.event.ActionListener;
 import java.util.Properties;
 
 public final class ProgressionPanelRunner {
-
     //TODO: Find a way to reuse constants between ProgressionSwingWorker and this class. Extract a class to handle this maybe?
     //TODO: Move timer-related code into a separate class.
     private static final int MILLI_SECONDS_IN_A_MINUTE  = (60 * 1000);
     private static final int TEN_MINS_IN_MILLI_SECONDS  = 10 * MILLI_SECONDS_IN_A_MINUTE;
     private static final String UPDATE_INTERVAL_KEY     = "update.interval";
 
+    private ProgressionPanelRunner() {
+        //runner.
+    }
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Progression");

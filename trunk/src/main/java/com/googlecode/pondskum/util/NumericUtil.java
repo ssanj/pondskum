@@ -19,7 +19,20 @@ public interface NumericUtil {
 
     boolean isNumber(String value);
 
+    /**
+     * Returns the number specified by the value, or 0 if the value is not a number.
+     * @param value The <code>String</code> value to convert into a number.
+     * @return The value as a number or 0.
+     */
     Integer getNumber(String value);
+
+    /**
+     * Returns the number specified by the value (if it is a number) or the defaultValue if not.
+     * @param value The <code>String</code> value to convert into a number.
+     * @param defaultValue The default to use if the value is not a number.
+     * @return The value as a number or the defaultValue.
+     */
+    Integer getNumber(String value, int defaultValue);
 
     boolean isRealNumber(String value);
 
