@@ -17,8 +17,8 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.util.NumericUtil;
-import com.googlecode.pondskum.util.NumericUtilImpl;
+import com.googlecode.pondskum.timer.RepeatFrequency;
+import com.googlecode.pondskum.timer.TimerDelay;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -29,9 +29,6 @@ import java.util.Properties;
 public final class ProgressionPanelRunner {
     //TODO: Find a way to reuse constants between ProgressionSwingWorker and this class. Extract a class to handle this maybe?
     //TODO: Move timer-related code into a separate class.
-    private static final int MILLI_SECONDS_IN_A_MINUTE  = (60 * 1000);
-    private static final int TEN_MINS_IN_MILLI_SECONDS  = 10 * MILLI_SECONDS_IN_A_MINUTE;
-    private static final String UPDATE_INTERVAL_KEY     = "update.interval";
 
     private ProgressionPanelRunner() {
         //runner.
@@ -56,37 +53,19 @@ public final class ProgressionPanelRunner {
             }
         });
 
-        int timerDelay = getTimerDelay();
         timer.setInitialDelay(0);//start immediately.
         timer.setRepeats(true);
         timer.setCoalesce(true); //send only 1 event even if multiple are queued.
-        timer.setDelay(timerDelay);
+        timer.setDelay(getTimerDelayInMilliSeconds());
         timer.start();
     }
 
-    private static int getTimerDelay() {
+    private static int getTimerDelayInMilliSeconds() {
         Properties userProperties = getUserProperties();
-        NumericUtil numericUtil = new NumericUtilImpl();
-        if (userProperties.containsKey(UPDATE_INTERVAL_KEY)) {
-            String interval = userProperties.getProperty(UPDATE_INTERVAL_KEY);
-            if (numericUtil.isNumber(interval)) {
-                //interval is specified as minutes, so we need to convert it into milliseconds to use it here.
-                int intervalInMilliSeconds = getIntervalInMilliSeconds(numericUtil.getNumber(interval));
-                //set a minimum of 10 minutes.
-                int timerDelay = Math.max(TEN_MINS_IN_MILLI_SECONDS, intervalInMilliSeconds);
-                //TODO: Sort out a proper logger.
-                System.out.println("Setting timer delay to " + (timerDelay / MILLI_SECONDS_IN_A_MINUTE) +
-                        " minutes. (" + timerDelay + " ms)");
-                return timerDelay;
-            }
-        }
-
-        System.out.println("Using default timer delay of 10 minutes.");
-        return TEN_MINS_IN_MILLI_SECONDS;
-    }
-
-    private static int getIntervalInMilliSeconds(final Integer timerDelay) {
-        return timerDelay * MILLI_SECONDS_IN_A_MINUTE;
+        RepeatFrequency timerDelay = new TimerDelay(userProperties);
+        //TODO: use logger.
+        System.out.println("Using default timer delay of " + timerDelay.getFrequencyInMinutes() + " minutes.");
+        return timerDelay.getFrequencyInMilliSeconds();
     }
 
     private static Properties getUserProperties() {

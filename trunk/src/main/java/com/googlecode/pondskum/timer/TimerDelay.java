@@ -30,7 +30,6 @@ public final class TimerDelay implements RepeatFrequency {
 
     private static final int MINUTE_IN_A_MILLISECOND = 60 * 1000;
 
-    private Properties properties;
     private int frequencyInMinutes;
     private NumericUtil numericUtil;
 
