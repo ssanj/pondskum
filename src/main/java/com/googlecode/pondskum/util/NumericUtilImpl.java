@@ -29,7 +29,12 @@ public final class NumericUtilImpl implements NumericUtil {
 
     @Override
     public Integer getNumber(final String value) {
-        return isNumber(value) ? Integer.parseInt(value) : 0;
+        return getNumber(value, 0);
+    }
+
+    @Override
+    public Integer getNumber(final String value, final int defaultValue) {
+        return isNumber(value) ? Integer.parseInt(value) : defaultValue;
     }
 
     @Override

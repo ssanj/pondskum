@@ -41,7 +41,7 @@ public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
 
     @Override
     protected void process(final List<String> statusList) {
-        for (String status: statusList) {
+        for (String status : statusList) {
             usageUpdater.showBusyMessage(status);
         }
     }
