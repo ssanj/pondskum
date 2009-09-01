@@ -20,6 +20,8 @@ import com.googlecode.pondskum.client.listener.ConnectionListener;
 import com.googlecode.pondskum.client.listener.DetailedConnectionListener;
 import com.googlecode.pondskum.client.listener.FileWritingConnectionListener;
 import com.googlecode.pondskum.client.listener.NullConnectionListener;
+import com.googlecode.pondskum.logger.DefaultLogProvider;
+import com.googlecode.pondskum.logger.LogProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
@@ -89,7 +91,8 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             ConnectionListener details = new NullConnectionListener();
 
             if (properties.containsKey("log")) {
-                details = new DetailedConnectionListener(properties.getProperty("log")); //logging is turned on.
+                LogProvider logProvider = new DefaultLogProvider(properties.getProperty("log"));
+                details = new DetailedConnectionListener(logProvider); //logging is turned on.
             }
 
             //default listener chain.
