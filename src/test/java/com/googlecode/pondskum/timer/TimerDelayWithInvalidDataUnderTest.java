@@ -15,31 +15,49 @@
  */
 package com.googlecode.pondskum.timer;
 
-import com.googlecode.pondskum.config.ConfigurationEnum;
+import com.googlecode.pondskum.config.Config;
+import org.easymock.EasyMock;
+import org.easymock.internal.MocksControl;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Properties;
 
 public final class TimerDelayWithInvalidDataUnderTest {
 
     private static final int TEN_MINUTES        = 10;
     private static final int TEN_MINUTES_IN_MS  = 600000;
 
+    private MocksControl mocksControl;
+    private Config mockConfig;
+
+    @Before
+    public void setup() {
+        mocksControl = new MocksControl(MocksControl.MockType.DEFAULT);
+        mockConfig = mocksControl.createMock(Config.class);
+    }
+
     @Test
     public void shouldReturnTenMinutesAsTheDelay() {
-        assertThat(new TimerDelay(createInvalidConfiguration()).getFrequencyInMinutes(), equalTo(TEN_MINUTES));
+        primeConfigWithInvalidDelay();
+        mocksControl.replay();
+
+        assertThat(new TimerDelay(mockConfig).getFrequencyInMinutes(), equalTo(TEN_MINUTES));
+
+        mocksControl.verify();
     }
 
     @Test
     public void shouldReturnSixHundredThousandMilliSecondsAsTheDelay() {
-        assertThat(new TimerDelay(createInvalidConfiguration()).getFrequencyInMilliSeconds(), equalTo(TEN_MINUTES_IN_MS));
+        primeConfigWithInvalidDelay();
+        mocksControl.replay();
+
+        assertThat(new TimerDelay(mockConfig).getFrequencyInMilliSeconds(), equalTo(TEN_MINUTES_IN_MS));
+
+        mocksControl.verify();
     }
 
-    private Properties createInvalidConfiguration() {
-        Properties properties = new Properties();
-        properties.put(ConfigurationEnum.UPDATE_INTERVAL.getKey(), "not_a_number");
-        return properties;
+    private void primeConfigWithInvalidDelay() {
+        EasyMock.expect(mockConfig.getRepeatFrequencyInMinutes()).andReturn("not_a_number");
     }
 }

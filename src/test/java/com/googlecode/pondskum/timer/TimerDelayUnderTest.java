@@ -15,48 +15,79 @@
  */
 package com.googlecode.pondskum.timer;
 
-import static com.googlecode.pondskum.config.ConfigurationEnum.UPDATE_INTERVAL;
+import com.googlecode.pondskum.config.Config;
+import org.easymock.EasyMock;
+import org.easymock.internal.MocksControl;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Properties;
 
 public final class TimerDelayUnderTest {
 
+    private Config mockConfig;
+    private MocksControl mocksControl;
+
+    @Before
+    public void setup() {
+        mocksControl = new MocksControl(MocksControl.MockType.DEFAULT);
+        mockConfig = mocksControl.createMock(Config.class);
+    }
+
     @Test
     public void shouldReturnItsFrequencyInMinutesForADelay() {
-        RepeatFrequency timerDelay = new TimerDelay(createConfigurationPropertiesWithDelayOf("30"));
-        assertThat(timerDelay.getFrequencyInMinutes(), equalTo(30));
+        expectDelayInMinutes("30");
     }
 
     @Test
     public void shouldReturnItsFrequencyInMinutesForAnotherDelay() {
-        RepeatFrequency timerDelay = new TimerDelay(createConfigurationPropertiesWithDelayOf("45"));
-        assertThat(timerDelay.getFrequencyInMinutes(), equalTo(45));
+        expectDelayInMinutes("45");
     }
 
     @Test
     public void shouldReturnTenMinutesIfTheDelaySuppliedIsLessThanTenMinutes() {
-        TimerDelay timerDelay = new TimerDelay(createConfigurationPropertiesWithDelayOf("9"));
-        assertThat(timerDelay.getFrequencyInMinutes(), equalTo(10));
+        primeConfigWithDelayInMinutes("9");
+        mocksControl.replay();
+
+        RepeatFrequency timerDelay = new TimerDelay(mockConfig);
+        assertThat(timerDelay.getFrequencyInMinutes(), equalTo(Integer.parseInt("10")));
+
+        mocksControl.verify();
     }
 
     @Test
     public void shouldReturnItsFrequencyInMilliSecondsForADelay() {
-        RepeatFrequency timerDelay = new TimerDelay(createConfigurationPropertiesWithDelayOf("45"));
+        primeConfigWithDelayInMinutes("45");
+        mocksControl.replay();
+
+        RepeatFrequency timerDelay = new TimerDelay(mockConfig);
         assertThat(timerDelay.getFrequencyInMilliSeconds(), equalTo(2700000));
+
+        mocksControl.verify();
     }
 
     @Test
     public void shouldReturnItsFrequencyInMiliiSecondsForAnotherDelay() {
-        RepeatFrequency timerDelay = new TimerDelay(createConfigurationPropertiesWithDelayOf("30"));
+        primeConfigWithDelayInMinutes("30");
+        mocksControl.replay();
+
+        RepeatFrequency timerDelay = new TimerDelay(mockConfig);
         assertThat(timerDelay.getFrequencyInMilliSeconds(), equalTo(1800000));
+
+        mocksControl.verify();
     }
 
-    private Properties createConfigurationPropertiesWithDelayOf(final String delayInMinutes) {
-        Properties properties = new Properties();
-        properties.put(UPDATE_INTERVAL.getKey(), delayInMinutes);
-        return properties;
+    private void expectDelayInMinutes(final String delayInMinutes) {
+        primeConfigWithDelayInMinutes(delayInMinutes);
+        mocksControl.replay();
+
+        RepeatFrequency timerDelay = new TimerDelay(mockConfig);
+        assertThat(timerDelay.getFrequencyInMinutes(), equalTo(Integer.parseInt(delayInMinutes)));
+
+        mocksControl.verify();
+    }
+
+    private void primeConfigWithDelayInMinutes(final String delayInMinutes) {
+        EasyMock.expect(mockConfig.getRepeatFrequencyInMinutes()).andReturn(delayInMinutes);
     }
 }
