@@ -33,7 +33,22 @@ public enum ConfigurationEnum {
     /**
      * Defines the name of the system property that holds the location of the configuration file.
      */
-    CONFIG_FILE_LOCATION("bigpond.config.location");
+    CONFIG_FILE_LOCATION("bigpond.config.location"),
+
+    /**
+     * Defines the username to log into the Bigpond account with.
+     */
+    USERNAME("username"),
+
+    /**
+     * Defines the password to log into the Bigpond account with.
+     */
+    PASSWORD("password"),
+
+    /**
+     * Defines the directory where temporary results are kept.
+     */
+    TEMP_DIR("tempDir");
 
     private String key;
 

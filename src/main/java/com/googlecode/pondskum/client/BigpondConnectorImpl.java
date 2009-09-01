@@ -20,15 +20,13 @@ import com.googlecode.pondskum.client.listener.ConnectionListener;
 import com.googlecode.pondskum.client.listener.DetailedConnectionListener;
 import com.googlecode.pondskum.client.listener.FileWritingConnectionListener;
 import com.googlecode.pondskum.client.listener.NullConnectionListener;
-import com.googlecode.pondskum.logger.DefaultLogProvider;
-import com.googlecode.pondskum.logger.LogProvider;
+import com.googlecode.pondskum.config.Config;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Connects to Bigpond and retrieves all account and usage information. Username, password and various other values are read from the
@@ -36,12 +34,6 @@ import java.util.Properties;
  */
 public final class BigpondConnectorImpl implements BigpondConnector {
 
-    //Come from the properties file.
-    private static final String USER_KEY = "username";
-    private static final String PASSWORD_KEY = "password";
-    private static final String TEMP_DIR_KEY = "tempDir";
-
-    //constant values that don't come from the properties file.
     private static final String TEMP_FILE_NAME = "usage_data.html";
     private static final String MY_ACCOUNT = "myaccount";
     private static final String ON = "on";
@@ -62,14 +54,11 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     private static final String REMEMBER_ME_FORM_ELEMENT = "rememberMe";
     private static final String GOTO_FORM_ELEMENT = "goto";
 
-    private final Properties properties;
+    private Config config;
 
-    /**
-     * Constructs a connector with the properties specified.
-     * @param properties with the properties used for connection and retrieval.
-     */
-    public BigpondConnectorImpl(final Properties properties) {
-        this.properties = properties;
+
+    public BigpondConnectorImpl(final Config config) {
+        this.config = config;
     }
 
     /**
@@ -90,9 +79,8 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
             ConnectionListener details = new NullConnectionListener();
 
-            if (properties.containsKey("log")) {
-                LogProvider logProvider = new DefaultLogProvider(properties.getProperty("log"));
-                details = new DetailedConnectionListener(logProvider); //logging is turned on.
+            if (config.isLoggingRequested()) {
+                details = new DetailedConnectionListener(config.getLogProvider()); //logging is turned on.
             }
 
             //default listener chain.
@@ -134,9 +122,9 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
     private NameValuePairBuilder getNameValuePairs() {
         NameValuePairBuilder nameValuePairBuilder = new NameValuePairBuilder();
-        nameValuePairBuilder.withName(USER_FORM_ELEMENT).withValue(properties.getProperty(USER_KEY)).
-                withName(USERNAME_FORM_ELEMENT).withValue(properties.getProperty(USER_KEY)).
-                withName(PASSWORD_FORM_ELEMENT).withValue(properties.getProperty(PASSWORD_KEY)).
+        nameValuePairBuilder.withName(USER_FORM_ELEMENT).withValue(config.getUsername()).
+                withName(USERNAME_FORM_ELEMENT).withValue(config.getUsername()).
+                withName(PASSWORD_FORM_ELEMENT).withValue(config.getPassword()).
                 withName(LOGIN_TYPE_FORM_ELEMENT).withValue(MY_ACCOUNT).
                 withName(REMEMBER_ME_FORM_ELEMENT).withValue(ON).
                 withName(GOTO_FORM_ELEMENT).withValue(GOTO_URL);
@@ -153,7 +141,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     }
 
     private String createFilePath(final String fileName) {
-        return new StringBuilder().append(properties.getProperty(TEMP_DIR_KEY)).
+        return new StringBuilder().append(config.getTemporaryDirectory()).
                 append(File.separator).
                 append(fileName).
                 toString();
