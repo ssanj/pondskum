@@ -16,20 +16,17 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pinthura.annotation.SuppressionReason;
-import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnector;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.client.listener.DetailedConnectionListener;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.config.ConfigurationEnum;
+import com.googlecode.pondskum.config.Config;
+import com.googlecode.pondskum.config.DefaultConfigLoader;
 import com.googlecode.pondskum.gui.swing.tablet.ConsoleConnectionListener;
 import com.googlecode.pondskum.gui.swing.tablet.StatusUpdatable;
 
 import javax.swing.SwingWorker;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
@@ -49,20 +46,20 @@ import java.util.logging.Logger;
  */
 public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements StatusUpdatable {
 
-    private Properties properties;
+    private Config config;
     private BigpondUsageInformation usageInformation;
     private Exception exception;
+    private List<ConnectionFailureListener> connectionFailureListeners;
     private Logger logger;
-    private ArrayList<ConnectionFailureListener> connectionFailureListeners;
 
     protected BigpondSwingWorker() {
-        // use the same logging strategy as DetailedConnectionListener.
-        logger = Logger.getLogger(DetailedConnectionListener.class.getPackage().getName());
+        config = new DefaultConfigLoader().loadConfig();
+        logger = config.getLogProvider().provide(getClass());
         connectionFailureListeners = new ArrayList<ConnectionFailureListener>();
     }
 
     /**
-     * Override this method if you need to do any post-connection processing. At this point both {@link #getProperties()} and
+     * Override this method if you need to do any post-connection processing. At this point both {@link #getConfig()} and
      * {@link #getUsageInformation()} are usable. This method will not be called if there is a connection exception.
      */
     protected abstract void postConnect();
@@ -113,14 +110,9 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
         connectionFailureListeners.add(connectionFailureListener);
     }
 
-    /**
-     * This method should only be called after a call to {@link #loadProperties()} or {@link #connect()}
-     * @return The properties used to connect to Bigpond.
-     */
-    protected final Properties getProperties() {
-        return properties;
+    protected final Config getConfig() {
+        return config;
     }
-
 
     /**
      * This method should only be called after a call to {@link #connect()}
@@ -156,13 +148,12 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     }
 
     /**
-     * Connects to Bigpond with the properties supplied. After call this method both the properties used and the
-     * <code>BigpondUsageInformation</code> returned can be retrieved via calls to {@link #getProperties()} and
+     * Connects to Bigpond with the <code>Config</code> supplied. After call this method both the config used and the
+     * <code>BigpondUsageInformation</code> returned can be retrieved via calls to {@link #getConfig()} and
      * {@link #getUsageInformation()} respectively.
      */
     protected final void connect() {
-        loadProperties();
-        BigpondConnector bigpondConnector = new BigpondConnectorImpl(properties);
+        BigpondConnector bigpondConnector = new BigpondConnectorImpl(config);
         usageInformation = bigpondConnector.connect(new ConsoleConnectionListener(this));
     }
 
@@ -180,22 +171,6 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
         }
 
         return nested.getMessage();
-    }
-
-    /**
-     * Override this in subclasses to when defining a non-standard system property key.
-     * @return The system property key that holds the location of the property file to use when connecting to Bigpond.
-     */
-    protected String getPropertyFileLocationSystemPropertyKey() {
-        return ConfigurationEnum.CONFIG_FILE_LOCATION.getKey();
-    }
-
-    /**
-     * Loads the properties file whose location is specified by the system property key returned from the
-     * {@link #getPropertyFileLocationSystemPropertyKey()} method.
-     */
-    private void loadProperties() {
-        properties = new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties(getPropertyFileLocationSystemPropertyKey());
     }
 
     /**

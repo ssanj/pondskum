@@ -18,9 +18,8 @@ package com.googlecode.pondskum.gui.simplecmd;
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-
-import java.util.Properties;
+import com.googlecode.pondskum.config.Config;
+import com.googlecode.pondskum.config.DefaultConfigLoader;
 
 public final class SimpleCMD {
 
@@ -29,7 +28,7 @@ public final class SimpleCMD {
     public static void main(final String[] args) {
         try {
             double startTime = System.currentTimeMillis();
-            BigpondUsageInformation usageInformation = new BigpondConnectorImpl(loadProperties()).connect();
+            BigpondUsageInformation usageInformation = new BigpondConnectorImpl(loadUserConfiguration()).connect();
 
             System.out.println(new SimpleCMDBuilder().
                     withUsageInformation(usageInformation).
@@ -55,7 +54,7 @@ public final class SimpleCMD {
         e.printStackTrace();
     }
 
-    private static Properties loadProperties() throws Exception {
-        return new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties("bigpond.config.location");
+    private static Config loadUserConfiguration() throws Exception {
+        return new DefaultConfigLoader().loadConfig();
     }
 }

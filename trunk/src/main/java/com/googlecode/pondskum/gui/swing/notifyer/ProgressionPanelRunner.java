@@ -19,6 +19,8 @@ import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 import com.googlecode.pondskum.config.ConfigurationEnum;
+import com.googlecode.pondskum.logger.DefaultLogProvider;
+import com.googlecode.pondskum.logger.LogProvider;
 import com.googlecode.pondskum.timer.DefaultTimer;
 import com.googlecode.pondskum.timer.RepeatFrequency;
 import com.googlecode.pondskum.timer.SimpleTimer;
@@ -29,6 +31,7 @@ import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public final class ProgressionPanelRunner {
 
@@ -39,16 +42,19 @@ public final class ProgressionPanelRunner {
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Progression");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        createTimer(frame);
+        Properties userProperties = getUserProperties();
+        LogProvider logProvider = new DefaultLogProvider(userProperties.getProperty(ConfigurationEnum.LOG_FILE.getKey()));
+        createTimer(frame, logProvider);
         frame.setSize(600, 90);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    private static void createTimer(final JFrame frame) {
-        BigpondSwingWorker worker = new ProgressionSwingWorker(frame);
-        SimpleTimer timer = new DefaultTimer(new TimedAction(worker), getTimerDelayInMilliSeconds());
-        worker.addFailureListener(new TimerStopper(timer));
+    //TODO: Move to a builder.
+    private static void createTimer(final JFrame frame, final LogProvider logProvider) {
+        BigpondSwingWorker worker = new ProgressionSwingWorker(frame, logProvider);
+        SimpleTimer timer = new DefaultTimer(new TimedAction(worker, logProvider), getTimerDelayInMilliSeconds());
+        worker.addFailureListener(new TimerStopper(timer, logProvider));
         timer.start();
     }
 
@@ -72,14 +78,16 @@ public final class ProgressionPanelRunner {
     private static final class TimedAction implements ActionListener {
 
         private SwingWorker<BigpondUsageInformation, String> swingWorker;
+        private Logger logger;
 
-        private TimedAction(final SwingWorker<BigpondUsageInformation, String> swingWorker) {
+        private TimedAction(final SwingWorker<BigpondUsageInformation, String> swingWorker, final LogProvider logProvider) {
             this.swingWorker = swingWorker;
+            logger = logProvider.provide(getClass());
         }
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            System.out.println("Updating information...");
+            logger.info("Updating information...");
             swingWorker.execute();
         }
     }
@@ -87,16 +95,18 @@ public final class ProgressionPanelRunner {
     private static final class TimerStopper implements ConnectionFailureListener {
 
         private final SimpleTimer simpleTimer;
+        private Logger logger;
 
-        private TimerStopper(final SimpleTimer simpleTimer) {
+        private TimerStopper(final SimpleTimer simpleTimer, final LogProvider logProvider) {
             this.simpleTimer = simpleTimer;
+            logger = logProvider.provide(getClass());
         }
 
         @Override
         public void connectionFailed() {
-            System.out.println("Timer stopping...");
+            logger.info("Timer stopping...");
             simpleTimer.stop();
-            System.out.println("Timer stopped.");
+            logger.info("Timer stopped.");
         }
     }
 

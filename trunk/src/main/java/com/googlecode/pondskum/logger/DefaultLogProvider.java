@@ -67,11 +67,14 @@ public final class DefaultLogProvider implements LogProvider {
     }
 
     private void writeToFile(final Logger logger, final String logFileName) throws IOException {
+        if (logFileName == null || logFileName.trim().isEmpty()) {
+            throw new IOException("logFileName not specified.");
+        }
         logger.addHandler(new FileHandler(logFileName, true));
     }
 
     private void writeToConsole(final Logger logger, final String logFileName, final IOException e) {
         logger.addHandler(new ConsoleHandler());
-        logger.log(Level.WARNING, "Could not write to file " + logFileName + ". Writing to console. See exception details." , e);
+        logger.log(Level.WARNING, "Could not write to file [" + logFileName + "]. Writing to console. See exception details." , e);
     }
 }
