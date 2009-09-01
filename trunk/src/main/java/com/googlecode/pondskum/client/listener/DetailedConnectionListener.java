@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.client.listener;
 
+import com.googlecode.pondskum.logger.LogProvider;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.cookie.Cookie;
@@ -25,9 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,17 +33,8 @@ public final class DetailedConnectionListener implements ConnectionListener {
 
     private final Logger logger;
 
-    public DetailedConnectionListener(final String fileName) {
-        removeRootHandlers();
-        logger = Logger.getLogger(getClass().getPackage().getName());
-        logger.setLevel(Level.INFO);
-        try {
-            logger.addHandler(new FileHandler(fileName, true));
-        } catch (IOException e) {
-            //use stdout if the file can't be written to.
-            logger.addHandler(new ConsoleHandler());
-            logger.log(Level.WARNING, "Could not write to file " + fileName + ". Writing to console. See below for exception details" , e);
-        }
+    public DetailedConnectionListener(final LogProvider logProvider) {
+        this.logger = logProvider.provide(getClass());
     }
 
     public void handleEvent(final DefaultHttpClient httpClient, final HttpResponse response) {
@@ -60,13 +49,6 @@ public final class DetailedConnectionListener implements ConnectionListener {
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "Couldn't write content due to an Exception. See below for details", e);
             }
-        }
-    }
-
-    private void removeRootHandlers() {
-        Logger rootLogger = Logger.getLogger("");
-        for (Handler handler : rootLogger.getHandlers()) {
-            rootLogger.removeHandler(handler);
         }
     }
 
