@@ -15,11 +15,9 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.config.ConfigurationEnum;
-import com.googlecode.pondskum.logger.DefaultLogProvider;
+import com.googlecode.pondskum.config.Config;
+import com.googlecode.pondskum.config.DefaultConfigLoader;
 import com.googlecode.pondskum.logger.LogProvider;
 import com.googlecode.pondskum.timer.DefaultTimer;
 import com.googlecode.pondskum.timer.RepeatFrequency;
@@ -30,7 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 public final class ProgressionPanelRunner {
@@ -42,37 +39,27 @@ public final class ProgressionPanelRunner {
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Progression");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Properties userProperties = getUserProperties();
-        LogProvider logProvider = new DefaultLogProvider(userProperties.getProperty(ConfigurationEnum.LOG_FILE.getKey()));
-        createTimer(frame, logProvider);
+        Config config = new DefaultConfigLoader().loadConfig();
+        createTimer(frame, config);
         frame.setSize(600, 90);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     //TODO: Move to a builder.
-    private static void createTimer(final JFrame frame, final LogProvider logProvider) {
+    private static void createTimer(final JFrame frame, final Config config) {
+        LogProvider logProvider = config.getLogProvider();
         BigpondSwingWorker worker = new ProgressionSwingWorker(frame, logProvider);
-        SimpleTimer timer = new DefaultTimer(new TimedAction(worker, logProvider), getTimerDelayInMilliSeconds());
+        SimpleTimer timer = new DefaultTimer(new TimedAction(worker, logProvider), getTimerDelayInMilliSeconds(config, logProvider));
         worker.addFailureListener(new TimerStopper(timer, logProvider));
         timer.start();
     }
 
-    private static int getTimerDelayInMilliSeconds() {
-        Properties userProperties = getUserProperties();
-        RepeatFrequency timerDelay = new TimerDelay(userProperties);
-        //TODO: use logger.
-        System.out.println("Using default timer delay of " + timerDelay.getFrequencyInMinutes() + " minutes.");
+    private static int getTimerDelayInMilliSeconds(final Config config, final LogProvider logProvider) {
+        RepeatFrequency timerDelay = new TimerDelay(config);
+        Logger logger = logProvider.provide(ProgressionPanelRunner.class);
+        logger.info("Using default timer delay of " + timerDelay.getFrequencyInMinutes() + " minutes.");
         return timerDelay.getFrequencyInMilliSeconds();
-    }
-
-    //TODO: Move this to a configuration class and reuse across the project.
-    private static Properties getUserProperties() {
-        return new ConfigFileLoaderImpl(new SystemPropertyRetrieverImpl()).loadProperties(getPropertyFileLocationSystemPropertyKey());
-    }
-
-    private static String getPropertyFileLocationSystemPropertyKey() {
-        return ConfigurationEnum.CONFIG_FILE_LOCATION.getKey();
     }
 
     private static final class TimedAction implements ActionListener {

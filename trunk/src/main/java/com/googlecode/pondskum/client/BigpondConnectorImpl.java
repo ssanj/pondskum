@@ -34,9 +34,8 @@ import java.util.List;
  */
 public final class BigpondConnectorImpl implements BigpondConnector {
 
-    private static final String TEMP_FILE_NAME = "usage_data.html";
-    private static final String MY_ACCOUNT = "myaccount";
-    private static final String ON = "on";
+    private static final String MY_ACCOUNT                  = "myaccount";
+    private static final String ON                          = "on";
 
     //Urls used when connecting to bigpond.
     private static final String HOME_URL = "http://www.bigpond.com/internet/mybigpond/?ref=Net-Head-MyBigPond";
@@ -47,15 +46,14 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             "https://my.bigpond.com/cdaredirector.do?auth_redir=https://my.bigpond.com/mybigpond/myaccount/default.do/";
 
     //form element submit from the bigpond login form.
-    private static final String USER_FORM_ELEMENT = "user";
-    private static final String USERNAME_FORM_ELEMENT = "username";
-    private static final String PASSWORD_FORM_ELEMENT = "password";
-    private static final String LOGIN_TYPE_FORM_ELEMENT = "loginType";
-    private static final String REMEMBER_ME_FORM_ELEMENT = "rememberMe";
-    private static final String GOTO_FORM_ELEMENT = "goto";
+    private static final String USER_FORM_ELEMENT           = "user";
+    private static final String USERNAME_FORM_ELEMENT       = "username";
+    private static final String PASSWORD_FORM_ELEMENT       = "password";
+    private static final String LOGIN_TYPE_FORM_ELEMENT     = "loginType";
+    private static final String REMEMBER_ME_FORM_ELEMENT    = "rememberMe";
+    private static final String GOTO_FORM_ELEMENT           = "goto";
 
     private Config config;
-
 
     public BigpondConnectorImpl(final Config config) {
         this.config = config;
@@ -86,7 +84,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             //default listener chain.
             ConnectionListener defaultCompositeConnectionListeners = new CompositeConnectionListener(
                     createUserConnectionListeners(details, userConnectionListeners));
-            String tempFileName = createFilePath(TEMP_FILE_NAME);
+            String tempFileName = config.getUsageDataFilePath();
 
             //chain that writes the usage data.
             ConnectionListener usageWritingListener = createFileWriterWithUserListeners(details, tempFileName,
@@ -141,7 +139,7 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     }
 
     private String createFilePath(final String fileName) {
-        return new StringBuilder().append(config.getTemporaryDirectory()).
+        return new StringBuilder().append(config.getUsageDataFilePath()).
                 append(File.separator).
                 append(fileName).
                 toString();

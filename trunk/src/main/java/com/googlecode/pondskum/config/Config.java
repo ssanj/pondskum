@@ -41,14 +41,20 @@ public interface Config {
     String getPassword();
 
     /**
-     * Temporary directory (with path) to store temporary files.
-     * @return Temporary directory (with path) to store temporary files.
+     * The file path to write usage data to.
+     * @return The file path to write usage data to.
      */
-    String getTemporaryDirectory();
+    String getUsageDataFilePath();
 
     /**
      * Returns true if logging has been requested, false if not.
      * @return True if logging has been requested, false if not.
      */
     boolean isLoggingRequested();
+
+    /**
+     * The frequency (in minutes) in which to repeat information lookup.
+     * @return The frequency (in minutes) in which to repeat information lookup
+     */
+    String getRepeatFrequencyInMinutes();
 }

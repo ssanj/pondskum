@@ -15,11 +15,9 @@
  */
 package com.googlecode.pondskum.timer;
 
-import static com.googlecode.pondskum.config.ConfigurationEnum.UPDATE_INTERVAL;
+import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
-
-import java.util.Properties;
 
 public final class TimerDelay implements RepeatFrequency {
 
@@ -33,13 +31,13 @@ public final class TimerDelay implements RepeatFrequency {
     private int frequencyInMinutes;
     private NumericUtil numericUtil;
 
-    public TimerDelay(final Properties properties) {
+    public TimerDelay(final Config config) {
         numericUtil = new NumericUtilImpl();
-        calculateFrequency(properties);
+        calculateFrequency(config);
     }
 
-    private void calculateFrequency(final Properties properties) {
-        String intervalProperty = properties.getProperty(UPDATE_INTERVAL.getKey());
+    private void calculateFrequency(final Config config) {
+        String intervalProperty = config.getRepeatFrequencyInMinutes();
         frequencyInMinutes = getAMinimumOfTenMinutesForTheDelay(intervalProperty);
     }
 

@@ -18,9 +18,13 @@ package com.googlecode.pondskum.config;
 import com.googlecode.pondskum.logger.DefaultLogProvider;
 import com.googlecode.pondskum.logger.LogProvider;
 
+import java.io.File;
 import java.util.Properties;
 
+//TODO: Use Juice to make this a singleton object.
 public final class DefaultConfig implements Config {
+
+    private static final String TEMP_FILE_NAME = "usage_data.html";
 
     private final Properties configProperties;
 
@@ -44,14 +48,22 @@ public final class DefaultConfig implements Config {
     }
 
     @Override
-    public String getTemporaryDirectory() {
-        return getPropertyValue(ConfigurationEnum.TEMP_DIR);
+    public String getUsageDataFilePath() {
+       return new StringBuilder().append(getPropertyValue(ConfigurationEnum.TEMP_DIR)).
+                append(File.separator).
+                append(TEMP_FILE_NAME).
+                toString();
     }
 
     @Override
     public boolean isLoggingRequested() {
         String logFileName = getPropertyValue(ConfigurationEnum.LOG_FILE);
         return (logFileName != null && !logFileName.trim().isEmpty());
+    }
+
+    @Override
+    public String getRepeatFrequencyInMinutes() {
+        return getPropertyValue(ConfigurationEnum.UPDATE_INTERVAL);
     }
 
     private String getPropertyValue(final ConfigurationEnum enumerationKey) {
