@@ -27,8 +27,13 @@ public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
     }
 
     @Override
+    protected void preConnect() {
+        //do nothing.
+    }
+
+    @Override
     protected void postConnect() {
-        //done nothing special.
+        //do nothing.
     }
 
     @Override

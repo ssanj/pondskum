@@ -15,8 +15,17 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pondskum.client.BigpondUsageInformation;
+
 /**
  * A unifying interface which provides both reconnablility and status updates.
  */
-public interface UpdatableTablet extends Reconnectable, StatusUpdatable {
+public interface UpdatableTablet extends StatusUpdatable {
+
+    /**
+     * Updates the table with updated data.
+     * @param usageInformation The updated usage data.
+     */
+    void setTabletData(BigpondUsageInformation usageInformation);
+
 }

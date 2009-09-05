@@ -28,6 +28,9 @@ import java.util.logging.Logger;
  */
 public final class DefaultLogProvider implements LogProvider {
 
+    private static final int LOG_FILE_COUNT = 2;
+    private static final int LOG_FILE_SIZE = 0;
+
     /**
      * Default constructor that removes all pre-initialized log handlers. We do this so that only the <code>FileHandler</code> we supply
      * is used for logging. By default there are other handles in addition to the ones we provide. (eg. <code>ConsoleHandler</code>).
@@ -70,7 +73,7 @@ public final class DefaultLogProvider implements LogProvider {
         if (logFileName == null || logFileName.trim().isEmpty()) {
             throw new IOException("logFileName not specified.");
         }
-        logger.addHandler(new FileHandler(logFileName, true));
+        logger.addHandler(new FileHandler(logFileName, LOG_FILE_SIZE, LOG_FILE_COUNT, true));
     }
 
     private void writeToConsole(final Logger logger, final String logFileName, final IOException e) {

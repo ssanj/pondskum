@@ -15,9 +15,19 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
-import java.awt.Dimension;
+import com.googlecode.pondskum.config.Config;
+import com.googlecode.pondskum.config.DefaultConfigLoader;
+import com.googlecode.pondskum.gui.swing.notifyer.TimerStopper;
+import com.googlecode.pondskum.timer.DefaultTimer;
+import com.googlecode.pondskum.timer.RepeatFrequency;
+import com.googlecode.pondskum.timer.SimpleTimer;
+import com.googlecode.pondskum.timer.TimerDelay;
 
-public final class TabletRunner implements TabletUpateListener {
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public final class TabletRunner {
 
     public static void main(final String[] args) {
         new TabletRunner().run();
@@ -25,22 +35,43 @@ public final class TabletRunner implements TabletUpateListener {
 
     private void run() {
         Tablet dialog = new Tablet();
-        dialog.setUpdateListener(this);
         dialog.setSize(new Dimension(600, 400));
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(null);
-        executeUpdate(dialog);
+        createTimer(dialog);
         dialog.setVisible(true);
         System.exit(0);
     }
 
-    @Override
-    public void updateClicked(final UpdatableTablet tablet) {
-        tablet.updateStatus("Reconnecting...");
-        executeUpdate(tablet);
+    private void createTimer(final UpdatableTablet dialog) {
+        Config config = new DefaultConfigLoader().loadConfig();
+        TableTimedAction timedAction = new TableTimedAction(dialog, config);
+        RepeatFrequency repeatFrequency = new TimerDelay(config);
+        SimpleTimer timer = new DefaultTimer(timedAction, 60000);/*repeatFrequency.getFrequencyInMilliSeconds());*/
+        timedAction.setTimer(timer);
+        timer.start();
     }
 
-    private void executeUpdate(final UpdatableTablet dialog) {
-        new TabletSwingWorker(dialog).execute();
+    private static final class TableTimedAction implements ActionListener {
+
+        private final UpdatableTablet parentDialog;
+        private SimpleTimer timer;
+        private final Config config;
+
+        public TableTimedAction(final UpdatableTablet parentDialog, final Config config) {
+            this.parentDialog = parentDialog;
+            this.config = config;
+        }
+
+        public void setTimer(final SimpleTimer timer) {
+            this.timer = timer;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            TabletSwingWorker worker = new TabletSwingWorker(parentDialog);
+            worker.addFailureListener(new TimerStopper(timer, config.getLogProvider()));
+            worker.execute();
+        }
     }
 }
