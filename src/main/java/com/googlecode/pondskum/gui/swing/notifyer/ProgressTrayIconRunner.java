@@ -15,12 +15,29 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
+import com.googlecode.pondskum.config.Config;
+import com.googlecode.pondskum.config.DefaultConfigLoader;
+import com.googlecode.pondskum.timer.DefaultTimer;
+import com.googlecode.pondskum.timer.SimpleTimer;
+import com.googlecode.pondskum.timer.TimerDelay;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public final class ProgressTrayIconRunner {
 
     public static void main(String[] args) throws ProgressTrayIconInstallationException {
+        Config config = new DefaultConfigLoader().loadConfig();
         BigpondTrayIconUsageUpdater usageUpdater = new BigpondTrayIconUsageUpdater();
         installProgressIcon(usageUpdater);
-        new ProgressTrayIconSwingWorker(usageUpdater).execute(); // move this out once we have the timer reoccurring.
+        TrayIconTimedAction trayIconTimedAction = new TrayIconTimedAction(config, usageUpdater);
+        SimpleTimer timer = new DefaultTimer(trayIconTimedAction, getRepeatFrequency(config));
+        trayIconTimedAction.setTimer(timer); //find out how to get around this.
+        timer.start();
+    }
+
+    private static int getRepeatFrequency(final Config config) {
+        return new TimerDelay(config).getFrequencyInMilliSeconds();
     }
 
     private static void installProgressIcon(final BigpondTrayIconUsageUpdater usageUpdater)
@@ -28,4 +45,30 @@ public final class ProgressTrayIconRunner {
         ProgressTrayIcon progressTrayIcon = new ProgressTrayIcon();
         progressTrayIcon.install(usageUpdater);
     }
+
+    private static final class TrayIconTimedAction implements ActionListener {
+
+        private Config config;
+        private BigpondTrayIconUsageUpdater usageUpdater;
+        private SimpleTimer timer;
+
+        public TrayIconTimedAction(final Config config, final BigpondTrayIconUsageUpdater usageUpdater) {
+            this.config = config;
+            this.usageUpdater = usageUpdater;
+        }
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            ProgressTrayIconSwingWorker worker = new ProgressTrayIconSwingWorker(usageUpdater);
+            worker.addFailureListener(new TimerStopper(timer, config.getLogProvider()));
+            worker.execute();
+        }
+
+        //TODO:Clean this up. Pass it in via the constructor.
+        public void setTimer(final SimpleTimer timer) {
+            this.timer = timer;
+        }
+    }
+
+
 }
