@@ -46,7 +46,6 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     private static final long serialVersionUID = -1033331705617879856L;
 
     private JPanel contentPane;
-    private JButton updateButton;
     private JButton exitButton;
     private JLabel accountNameLabel;
     private JLabel accountNumberLabel;
@@ -63,7 +62,7 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         setTitle("Bigpond Connection Tablet");
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(updateButton);
+        getRootPane().setDefaultButton(exitButton);
 
         addEventListeners();
     }
@@ -144,9 +143,6 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
         panel1.add(panel2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        updateButton = new JButton();
-        updateButton.setText("Update");
-        panel2.add(updateButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         exitButton = new JButton();
         exitButton.setText("Exit");
         panel2.add(exitButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
