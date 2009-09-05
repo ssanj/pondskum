@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 /**
  * Default log provider. On creation tries to use a <code>FileHandler</code> as the default handler. What this means is that it tries to
- * log to a file. If it fails to write open the file, it then logs to the console as a fallback.
+ *  * log to a file. If it fails to write open the file, it then logs to the console as a fallback.
  */
 public final class DefaultLogProvider implements LogProvider {
 

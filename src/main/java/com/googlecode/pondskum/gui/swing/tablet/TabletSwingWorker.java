@@ -56,6 +56,6 @@ public final class TabletSwingWorker extends BigpondSwingWorker {
         }
 
         tablet.updateStatus("There was an error retrieving your usage data." + getSimpleExceptionMessage());
-        notifyFailureListeners();//notify of the failure.
+        notifyFailureListeners(); //notify of the failure.
     }
 }
