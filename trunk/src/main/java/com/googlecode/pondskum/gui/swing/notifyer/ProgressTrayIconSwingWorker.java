@@ -20,18 +20,10 @@ import java.util.List;
 
 public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
 
-    private ProgressTrayIcon progressTrayIcon;
     private BigpondTrayIconUsageUpdater usageUpdater;
 
-    public ProgressTrayIconSwingWorker() {
-        progressTrayIcon = new ProgressTrayIcon();
-        if (progressTrayIcon.canInstall()) {
-            usageUpdater = new BigpondTrayIconUsageUpdater();
-            progressTrayIcon.install(usageUpdater);
-            return;
-        }
-
-        throw new ProgressTrayIconInstallationException("TrayIcon is not supported on this platform.");
+    public ProgressTrayIconSwingWorker(final BigpondTrayIconUsageUpdater usageUpdater) {
+        this.usageUpdater = usageUpdater;
     }
 
     @Override

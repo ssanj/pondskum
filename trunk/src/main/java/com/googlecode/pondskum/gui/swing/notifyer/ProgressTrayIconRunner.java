@@ -17,7 +17,15 @@ package com.googlecode.pondskum.gui.swing.notifyer;
 
 public final class ProgressTrayIconRunner {
 
-    public static void main(String[] args) {
-        new ProgressTrayIconSwingWorker().execute(); // move this out once we have the timer reoccurring.
+    public static void main(String[] args) throws ProgressTrayIconInstallationException {
+        BigpondTrayIconUsageUpdater usageUpdater = new BigpondTrayIconUsageUpdater();
+        installProgressIcon(usageUpdater);
+        new ProgressTrayIconSwingWorker(usageUpdater).execute(); // move this out once we have the timer reoccurring.
+    }
+
+    private static void installProgressIcon(final BigpondTrayIconUsageUpdater usageUpdater)
+            throws ProgressTrayIconInstallationException {
+        ProgressTrayIcon progressTrayIcon = new ProgressTrayIcon();
+        progressTrayIcon.install(usageUpdater);
     }
 }
