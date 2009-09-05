@@ -20,5 +20,5 @@ package com.googlecode.pondskum.gui.swing.tablet;
  */
 public interface Reconnectable {
 
-    
+
 }
