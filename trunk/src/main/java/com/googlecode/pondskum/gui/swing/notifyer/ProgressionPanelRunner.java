@@ -15,7 +15,6 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer;
 
-import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.config.DefaultConfigLoader;
 import com.googlecode.pondskum.logger.LogProvider;
@@ -25,7 +24,6 @@ import com.googlecode.pondskum.timer.SimpleTimer;
 import com.googlecode.pondskum.timer.TimerDelay;
 
 import javax.swing.JFrame;
-import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
@@ -46,36 +44,43 @@ public final class ProgressionPanelRunner {
         frame.setVisible(true);
     }
 
-    //TODO: Move to a builder.
     private static void createTimer(final JFrame frame, final Config config) {
-        LogProvider logProvider = config.getLogProvider();
-        BigpondSwingWorker worker = new ProgressionSwingWorker(frame, logProvider);
-        SimpleTimer timer = new DefaultTimer(new TimedAction(worker, logProvider), getTimerDelayInMilliSeconds(config, logProvider));
-        worker.addFailureListener(new TimerStopper(timer, logProvider));
+        TimedAction timedAction = new TimedAction(frame, config);
+        SimpleTimer timer = new DefaultTimer(timedAction, getTimerDelayInMilliSeconds(config));
+        timedAction.setTimer(timer);
         timer.start();
     }
 
-    private static int getTimerDelayInMilliSeconds(final Config config, final LogProvider logProvider) {
+    private static int getTimerDelayInMilliSeconds(final Config config) {
         RepeatFrequency timerDelay = new TimerDelay(config);
-        Logger logger = logProvider.provide(ProgressionPanelRunner.class);
+        Logger logger = config.getLogProvider().provide(ProgressionPanelRunner.class);
         logger.info("Using default timer delay of " + timerDelay.getFrequencyInMinutes() + " minutes.");
         return timerDelay.getFrequencyInMilliSeconds();
     }
 
     private static final class TimedAction implements ActionListener {
 
-        private SwingWorker<BigpondUsageInformation, String> swingWorker;
+        private JFrame parentFrame;
+        private LogProvider logProvider;
         private Logger logger;
+        private SimpleTimer timer;
 
-        public TimedAction(final SwingWorker<BigpondUsageInformation, String> swingWorker, final LogProvider logProvider) {
-            this.swingWorker = swingWorker;
+        public TimedAction(final JFrame parentFrame, final Config config) {
+            this.parentFrame = parentFrame;
+            logProvider = config.getLogProvider();
             logger = logProvider.provide(getClass());
+        }
+
+        public void setTimer(final SimpleTimer timer) {
+            this.timer = timer;
         }
 
         @Override
         public void actionPerformed(final ActionEvent e) {
             logger.info("Updating information...");
-            swingWorker.execute();
+            BigpondSwingWorker worker = new ProgressionSwingWorker(parentFrame, logProvider);
+            worker.addFailureListener(new TimerStopper(timer, logProvider));
+            worker.execute();
         }
     }
 }
