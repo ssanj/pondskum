@@ -36,6 +36,11 @@ public final class ProgressionSwingWorker extends BigpondSwingWorker {
     }
 
     @Override
+    protected void preConnect() {
+        //do nothing.
+    }
+
+    @Override
     protected void postConnect() {
         //do nothing.
     }

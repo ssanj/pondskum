@@ -59,6 +59,12 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     }
 
     /**
+     * Override this method if you need to do any pre-connection processing. At this point both {@link #getConfig()} and
+     * {@link #getUsageInformation()} are usable.
+     */
+    protected abstract void preConnect();
+
+    /**
      * Override this method if you need to do any post-connection processing. At this point both {@link #getConfig()} and
      * {@link #getUsageInformation()} are usable. This method will not be called if there is a connection exception.
      */
@@ -87,6 +93,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     @Override
     protected final BigpondUsageInformation doInBackground() throws Exception {
         try {
+            preConnect();
             connect();
             postConnect();
             return usageInformation;
@@ -96,6 +103,8 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
             return null;
         }
     }
+
+
 
     /**
      * Method on the <code>StatusUpdatable</code> interface. This is called whenever there is a connection update.

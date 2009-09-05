@@ -17,15 +17,11 @@ package com.googlecode.pondskum.gui.swing.tablet;
 
 import com.googlecode.pinthura.util.StopWatch;
 import com.googlecode.pinthura.util.builder.StopWatchBuilder;
-import com.googlecode.pondskum.client.BigpondConnector;
-import com.googlecode.pondskum.client.BigpondConnectorImpl;
-import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.DefaultConfigLoader;
+import com.googlecode.pondskum.gui.swing.notifyer.BigpondSwingWorker;
 
-import javax.swing.SwingWorker;
 import java.util.List;
 
-public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation, String> implements StatusUpdatable {
+public final class TabletSwingWorker extends BigpondSwingWorker {
 
     private final UpdatableTablet tablet;
     private StopWatch stopWatch;
@@ -36,33 +32,30 @@ public final class TabletSwingWorker extends SwingWorker<BigpondUsageInformation
     }
 
     @Override
-    protected BigpondUsageInformation doInBackground() throws Exception {
-        tablet.disableUpdates(); //prevent other updates from running simulataneously.        
-        BigpondConnector bigpondConnector = new BigpondConnectorImpl(new DefaultConfigLoader().loadConfig());
+    protected void preConnect() {
         stopWatch.start();
-        return bigpondConnector.connect(new ConsoleConnectionListener(this));
     }
 
     @Override
-    protected void process(final List<String> updateList) {
-        for (String update : updateList) {
+    protected void postConnect() {
+        tablet.updateStatus("Time taken: " + stopWatch.getTimeInSeconds() + " seconds");
+    }
+
+    @Override
+    protected void process(final List<String> statusList) {
+         for (String update : statusList) {
             tablet.updateStatus(update);
         }
     }
 
     @Override
     protected void done() {
-        try {
-            tablet.setTabletData(get());
-            tablet.updateStatus("Time taken: " + stopWatch.getTimeInSeconds() + " seconds");
-            tablet.enableUpdates(); //reactivate updates.
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!isCancelled()) {
+            tablet.setTabletData(getUsageInformation());
+            return;
         }
-    }
 
-    @Override
-    public void updateStatus(final String update) {
-        publish(update);
+        tablet.updateStatus("There was an error retrieving your usage data." + getSimpleExceptionMessage());
+        notifyFailureListeners();//notify of the failure.
     }
 }
