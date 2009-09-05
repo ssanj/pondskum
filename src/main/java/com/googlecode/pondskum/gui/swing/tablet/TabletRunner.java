@@ -47,7 +47,7 @@ public final class TabletRunner {
         Config config = new DefaultConfigLoader().loadConfig();
         TableTimedAction timedAction = new TableTimedAction(dialog, config);
         RepeatFrequency repeatFrequency = new TimerDelay(config);
-        SimpleTimer timer = new DefaultTimer(timedAction, 60000);/*repeatFrequency.getFrequencyInMilliSeconds());*/
+        SimpleTimer timer = new DefaultTimer(timedAction, repeatFrequency.getFrequencyInMilliSeconds());
         timedAction.setTimer(timer);
         timer.start();
     }
