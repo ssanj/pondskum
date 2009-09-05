@@ -67,7 +67,7 @@ public final class ProgressionPanelRunner {
         private SwingWorker<BigpondUsageInformation, String> swingWorker;
         private Logger logger;
 
-        private TimedAction(final SwingWorker<BigpondUsageInformation, String> swingWorker, final LogProvider logProvider) {
+        public TimedAction(final SwingWorker<BigpondUsageInformation, String> swingWorker, final LogProvider logProvider) {
             this.swingWorker = swingWorker;
             logger = logProvider.provide(getClass());
         }
@@ -78,23 +78,4 @@ public final class ProgressionPanelRunner {
             swingWorker.execute();
         }
     }
-
-    private static final class TimerStopper implements ConnectionFailureListener {
-
-        private final SimpleTimer simpleTimer;
-        private Logger logger;
-
-        private TimerStopper(final SimpleTimer simpleTimer, final LogProvider logProvider) {
-            this.simpleTimer = simpleTimer;
-            logger = logProvider.provide(getClass());
-        }
-
-        @Override
-        public void connectionFailed() {
-            logger.info("Timer stopping...");
-            simpleTimer.stop();
-            logger.info("Timer stopped.");
-        }
-    }
-
 }

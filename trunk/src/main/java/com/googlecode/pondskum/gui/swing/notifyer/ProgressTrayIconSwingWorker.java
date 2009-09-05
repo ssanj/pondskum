@@ -47,6 +47,7 @@ public final class ProgressTrayIconSwingWorker extends BigpondSwingWorker {
         }
 
         usageUpdater.showErrorMessage(getSimpleExceptionMessage());
+        notifyFailureListeners(); //kill timers etc.
     }
 
     private String getSuccessMessage() {
