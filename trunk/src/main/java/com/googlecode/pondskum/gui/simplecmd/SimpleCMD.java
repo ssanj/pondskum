@@ -21,7 +21,12 @@ import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.config.DefaultConfigLoader;
 
+//TODO:Rename to SimpleCMDRunner.
 public final class SimpleCMD {
+
+    private SimpleCMD() {
+        //runner.
+    }
 
     private static final int SECONDS_IN_MILLISECONDS = 1000;
 

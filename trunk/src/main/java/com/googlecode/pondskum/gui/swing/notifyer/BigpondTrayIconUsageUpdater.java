@@ -37,7 +37,7 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
         ImageLoader imageLoader = new DefaultImageLoader(getClass());
         successfulTrayNotification = new DefaultTrayNotification("Connection Successful", imageLoader.getImage("pondksum.png"));
         unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information",
-                imageLoader.getImage( "connection_failed.png"));
+                imageLoader.getImage("connection_failed.png"));
         connectingTrayNotification = new ConnectingTrayNotification();
     }
 

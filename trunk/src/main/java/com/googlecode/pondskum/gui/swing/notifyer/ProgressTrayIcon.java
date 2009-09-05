@@ -63,8 +63,8 @@ public final class ProgressTrayIcon {
         trayIcon.addMouseMotionListener(new TrayIconMouseMotionListener(usageUpdater));
         return trayIcon;
     }
-    
-    private static class TrayIconActionListener implements ActionListener {
+
+    private static final class TrayIconActionListener implements ActionListener {
 
         private final SystemTray systemTray;
         private final TrayIcon trayIcon;

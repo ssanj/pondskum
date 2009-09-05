@@ -124,7 +124,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     }
 
     /**
-     * This method should only be called after a call to {@link #connect()}
+     * This method should only be called after a call to {@link #connect()}.
      * @return The <code>BigpondUsageInformation</code> retrieved from Bigpond.
      */
     protected final BigpondUsageInformation getUsageInformation() {
@@ -172,7 +172,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
      * @return The message of the first exception that was thrown.
      */
     @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})
-    @SuppressionReason(value=SuppressionReason.Reason.OTHER, desc="Exception is stored not thrown.")
+    @SuppressionReason(value = SuppressionReason.Reason.OTHER, desc = "Exception is stored not thrown.")
     protected final String getSimpleExceptionMessage() {
         Throwable nested = getException();
         while (nested.getCause() != null) {

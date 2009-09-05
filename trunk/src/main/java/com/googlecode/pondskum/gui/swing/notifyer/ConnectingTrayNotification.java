@@ -25,7 +25,7 @@ import java.util.List;
 public final class ConnectingTrayNotification implements RollingTrayNotification {
 
     private final List<Image> images;
-    private int index = 0; //defines which image to return next.
+    private int index; //defines which image to return next.
 
     public ConnectingTrayNotification() {
         ImageLoader imageLoader = new DefaultImageLoader(getClass());

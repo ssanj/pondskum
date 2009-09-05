@@ -26,6 +26,10 @@ import java.awt.event.ActionListener;
 
 public final class ProgressTrayIconRunner {
 
+    private ProgressTrayIconRunner() {
+        //runner.
+    }
+
     public static void main(String[] args) throws ProgressTrayIconInstallationException {
         Config config = new DefaultConfigLoader().loadConfig();
         BigpondTrayIconUsageUpdater usageUpdater = new BigpondTrayIconUsageUpdater();

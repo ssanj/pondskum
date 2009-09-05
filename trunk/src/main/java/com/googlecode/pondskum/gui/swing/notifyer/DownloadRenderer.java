@@ -40,6 +40,6 @@ public final class DownloadRenderer extends AbstractRenderer {
 
     @Override
     protected String getText() {
-        return "Downloads (" + getDisplayRatio() + ") GB"; 
+        return "Downloads (" + getDisplayRatio() + ") GB";
     }
 }

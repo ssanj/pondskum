@@ -21,7 +21,7 @@ import java.awt.Graphics;
 
 public final class BackgroundRenderer {
 
-    public void render(final Graphics g, final Dimension size) {                    
+    public void render(final Graphics g, final Dimension size) {
         g.setColor(Color.GRAY);
         g.fill3DRect(0,0, size.width, size.height, true);
     }

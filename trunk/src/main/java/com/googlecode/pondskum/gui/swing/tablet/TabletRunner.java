@@ -29,13 +29,20 @@ import java.awt.event.ActionListener;
 
 public final class TabletRunner {
 
+    private TabletRunner() {
+        //runner.
+    }
+
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 400;
+
     public static void main(final String[] args) {
         new TabletRunner().run();
     }
 
     private void run() {
         Tablet dialog = new Tablet();
-        dialog.setSize(new Dimension(600, 400));
+        dialog.setSize(new Dimension(WIDTH, HEIGHT));
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(null);
         createTimer(dialog);
