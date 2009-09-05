@@ -36,7 +36,8 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
         numericUtil = new NumericUtilImpl();
         ImageLoader imageLoader = new DefaultImageLoader(getClass());
         successfulTrayNotification = new DefaultTrayNotification("Connection Successful", imageLoader.getImage("pondksum.png"));
-        unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information", imageLoader.getImage( "connection_failed.png"));
+        unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information",
+                imageLoader.getImage( "connection_failed.png"));
         connectingTrayNotification = new ConnectingTrayNotification();
     }
 
@@ -51,8 +52,7 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
     @Override
     public void updateTooltip() {
-        String message = createUsageMessage();
-        trayIcon.setToolTip(message);
+        setTooltip(createUsageMessage());
     }
 
     @Override

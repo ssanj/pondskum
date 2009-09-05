@@ -60,10 +60,10 @@ public final class ProgressTrayIcon {
         trayIcon.setImageAutoSize(true);
         usageUpdater.setTrayIcon(trayIcon);
         trayIcon.addActionListener(new TrayIconActionListener(systemTray, trayIcon));
-        trayIcon.addMouseMotionListener(new TrayIconMouseMotionListener(trayIcon, usageUpdater));
+        trayIcon.addMouseMotionListener(new TrayIconMouseMotionListener(usageUpdater));
         return trayIcon;
     }
-
+    
     private static class TrayIconActionListener implements ActionListener {
 
         private final SystemTray systemTray;
@@ -84,11 +84,9 @@ public final class ProgressTrayIcon {
 
     private static final class TrayIconMouseMotionListener implements MouseMotionListener {
 
-        private final TrayIcon trayIcon;
         private TrayIconUsageUpdater usageUpdater;
 
-        private TrayIconMouseMotionListener(final TrayIcon trayIcon, final TrayIconUsageUpdater usageUpdater) {
-            this.trayIcon = trayIcon;
+        private TrayIconMouseMotionListener(final TrayIconUsageUpdater usageUpdater) {
             this.usageUpdater = usageUpdater;
         }
 

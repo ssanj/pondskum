@@ -43,6 +43,7 @@ public interface TrayIconUsageUpdater {
 
     /**
      * Changes the tooltip of the the tray icon and/or changes its image.
+     * @param message The tooltip.
      */
     void showBusyMessage(String message);
 
