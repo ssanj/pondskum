@@ -16,6 +16,8 @@
 
     <property name="severity" value="warning"/>
 
+    <module name="SuppressionCommentFilter"/>
+
     <module name="SuppressionFilter">
         <property name="file" value="${checkstyle.suppressions.file}"/>
     </module>
@@ -27,7 +29,6 @@
     -->
     <!-- see http://checkstyle.sourceforge.net/config_misc.html#Translation -->
     <module name="Translation"/>
-
 
     <!--
       Checks that there are no tab characters ('\t') in the source code.
@@ -72,6 +73,8 @@
     </module>
 
     <module name="TreeWalker">
+
+        <module name="FileContentsHolder" />
 
         <module name="LineLength">
             <property name="ignorePattern" value="^ *\* *[^ ]+$"/>

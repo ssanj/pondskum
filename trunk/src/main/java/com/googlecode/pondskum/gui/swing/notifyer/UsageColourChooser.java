@@ -26,11 +26,13 @@ public final class UsageColourChooser {
     private List<Range> ratiosList;
 
     public UsageColourChooser() {
+        // CHECKSTYLE:OFF
         Range range1 = new Range(0, 25, new Color(0xAD,0xC5,0x13));//#ADC513
         Range range2  = new Range(26, 50, new Color(0xFF, 0xCC, 0x05));//#FFCC05
         Range range3 = new Range(51, 75, new Color(0xFF, 0x5F, 0x05));//#FF5F05
         Range range4 = new Range(76, 90, new Color(0xC5, 0x28, 0x13));//#C52813
         Range range5 = new Range(91, 100, new Color(0xFC, 0x24, 0x06));//#FC2406
+        // CHECKSTYLE:ON
         ratiosList = Arrays.asList(range1, range2, range3, range4, range5);
     }
 
