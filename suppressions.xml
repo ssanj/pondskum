@@ -5,12 +5,6 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-     <suppress checks="." files="UsageColourChooser.java" lines="29-33"/>
-     <suppress checks="." files="ErrorPanel.java" lines="71-112"/>
-     <suppress checks="." files="ConnectionStatusForm.java" lines="41-72"/>
-     <suppress checks="." files="Tablet.java" lines="124-233"/>
-     <suppress checks="." files="ProgressionPanel.java" lines="77-125"/>
-
     <!--
       Turn off all checks for Generated and Test code. Fixes issues with using
       Eclipse plug-in.
