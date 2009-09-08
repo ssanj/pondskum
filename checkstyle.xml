@@ -78,7 +78,6 @@
             <property name="max" value="140" />
         </module>
 
-
         <!--
           Checks the number of parameters of a method or constructor.
           Default number of parameters is 7.
@@ -160,10 +159,9 @@
         <module name="TypecastParenPad"/>
 
         <module name="WhitespaceAround">
-            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>
+            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>
         </module>
 
-        <module name="WhitespaceAround"/>
         <property name="tabWidth" value="4"/>
 
 
@@ -323,7 +321,7 @@
           prevent execution of code in the superclass, but that also means that subclasses cannot
           corrupt the state of the superclass by forgetting to call the super method.
         -->
-        <module name="DesignForExtension"/>
+        <!--<module name="DesignForExtension"/>-->
         <module name="FinalClass"/>
 
         <!--
@@ -446,7 +444,7 @@
         <!--
           A check for TODO: comments.
         -->
-        <module name="TodoComment"/>
+        <!--<module name="TodoComment"/>-->
 
         <!--<module name="FinalLocalVariable"/>-->
 
@@ -517,4 +515,5 @@
         <module name="PackageAnnotation"/>
         <!--<module name="SuppressWarnings"/>-->
     </module>
+
 </module>

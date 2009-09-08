@@ -28,6 +28,11 @@ import java.awt.event.WindowEvent;
 public final class ProgressPanel extends JPanel {
 
     private static final long serialVersionUID = 1757547248017510443L;
+    private static final int UPLOADS = 1;
+    private static final int DOWNLOADS = 10;
+    private static final int TOTAL = 25;
+    private static final int FRAME_WIDTH = 600;
+    private static final int FRAME_HEIGHT = 50;
 
     private final BackgroundRenderer backgroundRenderer;
     private final AbstractRenderer uploadRenderer;
@@ -39,7 +44,7 @@ public final class ProgressPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.black));
         double uploadRatio = uploads / total;
         double downloadRatio = downloads / total;
-        double remainderRatio = 1 - (downloadRatio + uploadRatio);
+        double remainderRatio = UPLOADS - (downloadRatio + uploadRatio);
         backgroundRenderer = new BackgroundRenderer();
         uploadRenderer = new UploadRenderer(uploadRatio);
         downloadRenderer = new DownloadRenderer(downloadRatio);
@@ -64,7 +69,7 @@ public final class ProgressPanel extends JPanel {
     }
 
     private void drawRemainder(final Graphics g, final Dimension size, final int offset) {
-        remainderRenderer.render(g, size,  offset);
+        remainderRenderer.render(g, size, offset);
     }
 
     private int drawDownloads(final Graphics g, final Dimension size, final int uploadLength) {
@@ -79,8 +84,8 @@ public final class ProgressPanel extends JPanel {
             }
         });
 
-        f.getContentPane().add(new ProgressPanel(1, 10, 25), BorderLayout.CENTER);
-        f.setSize(600, 50);
+        f.getContentPane().add(new ProgressPanel(UPLOADS, DOWNLOADS, TOTAL), BorderLayout.CENTER);
+        f.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         f.setVisible(true);
     }
 }

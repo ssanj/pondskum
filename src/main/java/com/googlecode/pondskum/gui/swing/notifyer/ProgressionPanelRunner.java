@@ -30,6 +30,9 @@ import java.util.logging.Logger;
 
 public final class ProgressionPanelRunner {
 
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 90;
+
     private ProgressionPanelRunner() {
         //runner.
     }
@@ -39,7 +42,7 @@ public final class ProgressionPanelRunner {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Config config = new DefaultConfigLoader().loadConfig();
         createTimer(frame, config);
-        frame.setSize(600, 90);
+        frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

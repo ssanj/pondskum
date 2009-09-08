@@ -19,7 +19,7 @@ import java.awt.Image;
 
 /**
  * A tray notification consists of both a message (which will be used as a tooltip) and an image (which will change the image on the
- * system tray). 
+ * system tray).
  */
 public interface TrayNotification {
 

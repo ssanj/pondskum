@@ -36,7 +36,7 @@ public final class HttpResponseInvocationHandler implements InvocationHandler {
     }
 
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Exception {
         if ("getContent".equals(method.getName())) {
             if (content.equals(NO_CONTENT)) {
                 setContent();
