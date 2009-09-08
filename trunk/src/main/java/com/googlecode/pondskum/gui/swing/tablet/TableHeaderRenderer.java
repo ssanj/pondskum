@@ -27,13 +27,19 @@ import java.awt.Font;
 public final class TableHeaderRenderer extends DefaultTableCellRenderer {
 
     private static final long serialVersionUID = -5922036445853578030L;
+    private static final int FONT_SIZE = 16;
+    private static final String FONT_NAME = "DejaVu Sans";
+    private static final int FONT_STYLE = Font.BOLD;
+    private static final int RED = 131;
+    private static final int GREEN = 203;
+    private static final int BLUE = 146;
 
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus,
                                                    final int row, final int column) {
         JLabel component = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        component.setFont(new Font("DejaVu Sans", Font.BOLD, 16));
-        component.setBackground(new Color(131, 203, 146));
+        component.setFont(new Font(FONT_NAME, FONT_STYLE, FONT_SIZE));
+        component.setBackground(new Color(RED, GREEN, BLUE));
         component.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
         component.setHorizontalAlignment(SwingConstants.CENTER);
         return component;

@@ -24,6 +24,9 @@ import java.util.concurrent.ExecutionException;
 
 public final class ProgressionSwingWorker extends BigpondSwingWorker {
 
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 115;
+
     private final JFrame frame;
     private final ProgressionPanel progressionPanel;
     private final ConnectionStatusForm connectionStatus;
@@ -79,7 +82,7 @@ public final class ProgressionSwingWorker extends BigpondSwingWorker {
         //TODO: This is a hack. Find a better way to do this.
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(getException().getClass()));
         frame.getContentPane().add(errorPanel.getContentPanel());
-        frame.setSize(600, 115);
+        frame.setSize(WIDTH, HEIGHT);
         frame.getContentPane().validate();
 
         notifyFailureListeners(); //kill timers etc.

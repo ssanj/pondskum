@@ -71,6 +71,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
     protected abstract void postConnect();
 
     /**
+     * {@inheritDoc}
      * @see javax.swing.SwingWorker#process(java.util.List)
      */
     @Override
@@ -78,6 +79,7 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
 
 
     /**
+     * {@inheritDoc}
      * @see javax.swing.SwingWorker#done()
      */
     @Override

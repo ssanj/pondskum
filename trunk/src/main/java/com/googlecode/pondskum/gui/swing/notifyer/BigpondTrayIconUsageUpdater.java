@@ -25,6 +25,8 @@ import java.awt.TrayIcon;
 
 public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
+    private static final double GIGABYTES = 1000.0d;
+
     private BigpondUsageInformation bigpondUsageInformation;
     private TrayIcon trayIcon;
     private NumericUtil numericUtil;
@@ -102,7 +104,7 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
     private String getQuota(final String quota) {
         if (numericUtil.isNumber(quota)) {
-            return String.format("%1$5.2g GB", numericUtil.getNumber(quota) / 1000.0d);
+            return String.format("%1$5.2g GB", numericUtil.getNumber(quota) / GIGABYTES);
         }
 
         return "NAN";

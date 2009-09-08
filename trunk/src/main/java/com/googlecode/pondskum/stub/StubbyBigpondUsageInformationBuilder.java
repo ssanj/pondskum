@@ -28,6 +28,8 @@ import java.util.List;
 
 public final class StubbyBigpondUsageInformationBuilder {
 
+    private static final int MONTHLY_ALLOWANCE = 100;
+
     private final StubInformationCreator informationCreator;
 
     public StubbyBigpondUsageInformationBuilder() {
@@ -40,7 +42,7 @@ public final class StubbyBigpondUsageInformationBuilder {
         accountInformation.setAccountNumber("0000007");
         accountInformation.setCurrentPlan("MI6");
         accountInformation.setMonthlyAllowanceShaping("100GB then slowed");
-        accountInformation.setMonthlyAllowance(100);
+        accountInformation.setMonthlyAllowance(MONTHLY_ALLOWANCE);
         accountInformation.setMonthlyPlanFee("$1,000,000");
 
         List<BigpondMonthlyUsage> bigpondUsageList = new ArrayList<BigpondMonthlyUsage>();

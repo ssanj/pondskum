@@ -19,6 +19,12 @@ import java.awt.Color;
 
 public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack {
 
+    private static final int QUOTA_LIMIT = 100;
+    private static final double TOTOAL_USAGE = 75.2d;
+    private static final int RED = 0xFF;
+    private static final int GREEN = 0x5F;
+    private static final int BLUE = 0x05;
+
     @Override
     public String getQuotaUnits() {
         return "GB";
@@ -26,12 +32,12 @@ public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack 
 
     @Override
     public Integer getQuotaLimit() {
-        return 100;
+        return QUOTA_LIMIT;
     }
 
     @Override
     public Double getTotalUsage() {
-        return 75.2d;
+        return TOTOAL_USAGE;
     }
 
     @Override
@@ -46,6 +52,6 @@ public final class DefaultDisplayDetailsPack extends AbstractDisplayDetailsPack 
 
     @Override
     public Color getErrorTextColour() {
-        return new Color(0xFF, 0x5F, 0x05);
+        return new Color(RED, GREEN, BLUE);
     }
 }

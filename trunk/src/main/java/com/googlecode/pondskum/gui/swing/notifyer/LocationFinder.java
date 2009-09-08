@@ -21,20 +21,22 @@ import java.awt.font.LineMetrics;
 
 public final class LocationFinder {
 
+    private static final int PADDING = 10;
+
     private LocationFinder() {
         //Utility
     }
 
     public static Dimension findRightCorner(final Graphics g, final String text, final Dimension parentSize) {
         FontedTextDimension textDimension = getTextDimensions(g, text);
-        float x = Math.max(0, (parentSize.width - (textDimension.getWidth() + 10))); //leave a little space @ the border
+        float x = Math.max(0, (parentSize.width - (textDimension.getWidth() + PADDING))); //leave a little space @ the border
         float y = Math.max(0, (parentSize.height + textDimension.getHeight()) / 2 - textDimension.getDescent());
         return new Dimension((int) x, (int) y);
     }
 
     public static Dimension findLeftCorner(final Graphics g, final String text, final Dimension parentSize) {
         FontedTextDimension textDimension = getTextDimensions(g, text);
-        float x = 10;
+        float x = PADDING;
         float y = Math.max(0, (parentSize.height + textDimension.getHeight()) / 2 - textDimension.getDescent());
         return new Dimension((int) x, (int) y);
     }

@@ -20,6 +20,10 @@ import java.awt.Font;
 
 public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
 
+    private static final String FONT_NAME = "Dialog";
+    private static final int FONT_STYLE = Font.BOLD;
+    private static final int FONT_SIZE = 12;
+
     @Override
     public Color getBackgroundColour() {
         return Color.GRAY;
@@ -42,7 +46,7 @@ public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
 
     @Override
     public Font getQuotaFont() {
-        return new Font("Dialog", Font.BOLD, 12);
+        return new Font(FONT_NAME, FONT_STYLE, FONT_SIZE);
     }
 
     @Override
@@ -52,7 +56,7 @@ public abstract class AbstractDisplayDetailsPack implements DisplayDetailsPack {
 
     @Override
     public Font getErrorMessageFont() {
-        return getQuotaFont().deriveFont(Font.ITALIC, 12);
+        return getQuotaFont().deriveFont(Font.ITALIC, FONT_SIZE);
     }
 
     @Override
