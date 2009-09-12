@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 public final class DefaultLogProvider implements LogProvider {
 
     private static final int LOG_FILE_COUNT = 2;
-    private static final int LOG_FILE_SIZE_IN_BYTES = 2 * 1000 * 1000;
+    private static final int LOG_FILE_SIZE_IN_BYTES = 1000 * 1000;
 
     /**
      * Default constructor that removes all pre-initialized log handlers. We do this so that only the <code>FileHandler</code> we supply

@@ -21,10 +21,13 @@ import com.googlecode.pondskum.logger.LogProvider;
 import java.io.File;
 import java.util.Properties;
 
-//TODO: Use Juice to make this a singleton object.
 public final class DefaultConfig implements Config {
 
     private static final String TEMP_FILE_NAME = "usage_data.html";
+
+    //TODO: Use Juice to make this a singleton object.
+    @SuppressWarnings({"StaticNonFinalField"})
+    private static LogProvider logProvider;
 
     private final Properties configProperties;
 
@@ -34,7 +37,13 @@ public final class DefaultConfig implements Config {
 
     @Override
     public LogProvider getLogProvider() {
-        return new DefaultLogProvider(getPropertyValue(ConfigurationEnum.LOG_FILE));
+        synchronized (DefaultConfig.class) {
+            if (logProvider == null) {
+                logProvider = new DefaultLogProvider(getPropertyValue(ConfigurationEnum.LOG_FILE));
+            }
+        }
+
+        return logProvider;
     }
 
     @Override
