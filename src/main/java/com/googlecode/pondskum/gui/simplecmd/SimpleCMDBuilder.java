@@ -36,11 +36,7 @@ public final class SimpleCMDBuilder {
         lineSeparator = new SystemPropertyRetrieverImpl().getLineSeparator();
         stringBuilder = new StringBuilder();
         numericUtil = new NumericUtilImpl();
-
-        stringBuilder.append("connecting...");
-        stringBuilder.append(lineSeparator);
     }
-
 
     public SimpleCMDBuilder withUsageInformation(final BigpondUsageInformation usageInformation) {
         this.usageInformation = usageInformation;
