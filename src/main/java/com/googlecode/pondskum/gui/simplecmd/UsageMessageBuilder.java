@@ -23,7 +23,7 @@ import com.googlecode.pondskum.util.NumericUtilImpl;
 
 @SuppressWarnings({"MethodReturnOfConcreteClass"})
 @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
-public final class SimpleCMDBuilder {
+public final class UsageMessageBuilder {
 
     private static final double GIGABYTES = 1000.00;
 
@@ -32,39 +32,39 @@ public final class SimpleCMDBuilder {
     private final NumericUtil numericUtil;
     private BigpondUsageInformation usageInformation;
 
-    public SimpleCMDBuilder() {
+    public UsageMessageBuilder() {
         lineSeparator = new SystemPropertyRetrieverImpl().getLineSeparator();
         stringBuilder = new StringBuilder();
         numericUtil = new NumericUtilImpl();
     }
 
-    public SimpleCMDBuilder withUsageInformation(final BigpondUsageInformation usageInformation) {
+    public UsageMessageBuilder withUsageInformation(final BigpondUsageInformation usageInformation) {
         this.usageInformation = usageInformation;
         return this;
     }
 
-    public SimpleCMDBuilder displayAccountName() {
+    public UsageMessageBuilder displayAccountName() {
         stringBuilder.append("Account:    ");
         stringBuilder.append(usageInformation.getAccountInformation().getAccountName());
         stringBuilder.append(lineSeparator);
         return this;
     }
 
-    public SimpleCMDBuilder displayTotalUsage() {
+    public UsageMessageBuilder displayTotalUsage() {
         stringBuilder.append("Total:      ");
         stringBuilder.append(getUsage(usageInformation.getTotalUsage().getTotalUsage()));
         stringBuilder.append(lineSeparator);
         return this;
     }
 
-    public SimpleCMDBuilder displayDownloadUsage() {
+    public UsageMessageBuilder displayDownloadUsage() {
         stringBuilder.append("Downloads:  ");
         stringBuilder.append(getUsage(usageInformation.getTotalUsage().getDownloadUsage()));
         stringBuilder.append(lineSeparator);
         return this;
     }
 
-    public SimpleCMDBuilder displayUploadUsage() {
+    public UsageMessageBuilder displayUploadUsage() {
         stringBuilder.append("Uploads:    ");
         stringBuilder.append(getUsage(usageInformation.getTotalUsage().getUploadUsage()));
         stringBuilder.append(lineSeparator);
