@@ -23,7 +23,6 @@ import com.googlecode.pondskum.client.listener.NullConnectionListener;
 import com.googlecode.pondskum.config.Config;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -136,12 +135,5 @@ public final class BigpondConnectorImpl implements BigpondConnector {
         connectionListenerList.add(new FileWritingConnectionListener(tempFileName));
         connectionListenerList.addAll(Arrays.asList(userConnectionListeners));
         return new CompositeConnectionListener(connectionListenerList);
-    }
-
-    private String createFilePath(final String fileName) {
-        return new StringBuilder().append(config.getUsageDataFilePath()).
-                append(File.separator).
-                append(fileName).
-                toString();
     }
 }

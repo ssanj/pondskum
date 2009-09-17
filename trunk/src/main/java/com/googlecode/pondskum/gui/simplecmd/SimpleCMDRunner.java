@@ -15,10 +15,13 @@
  */
 package com.googlecode.pondskum.gui.simplecmd;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.googlecode.pondskum.bootstrap.PondskumModule;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.Config;
-import com.googlecode.pondskum.config.DefaultConfigLoader;
+import com.googlecode.pondskum.logger.LogProvider;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -33,8 +36,14 @@ public final class SimpleCMDRunner {
     }
 
     public static void main(final String[] args) throws Exception {
-        Config config = loadUserConfiguration();
-        Logger logger = getLogger(config);
+        Injector injector = Guice.createInjector(new PondskumModule());
+        Config config = injector.getInstance(Config.class);
+        Logger logger = injector.getInstance(LogProvider.class).provide(SimpleCMDRunner.class);
+
+        retrieveUsage(config, logger);
+    }
+
+    private static void retrieveUsage(final Config config, final Logger logger) {
         double startTime = getStartTime();
         try {
             BigpondUsageInformation usageInformation = connect(config);
@@ -49,7 +58,7 @@ public final class SimpleCMDRunner {
     }
 
     private static void printUsage(final Logger logger, final double startTime, final BigpondUsageInformation usageInformation) {
-        System.out.println(new SimpleCMDBuilder().
+        System.out.println(new UsageMessageBuilder().
                 withUsageInformation(usageInformation).
                 displayAccountName().
                 displayTotalUsage().
@@ -72,20 +81,12 @@ public final class SimpleCMDRunner {
         return usageInformation;
     }
 
-    private static Logger getLogger(final Config config) {
-        return config.getLogProvider().provide(SimpleCMDRunner.class);
-    }
-
     private static void dumpException(final Logger logger, final Exception e) {
         logger.addHandler(new ConsoleHandler());
         logger.severe("There seems to have been a problem. See below for details.");
         logger.severe("");
         logger.severe(e.getMessage());
         logger.severe("");
-        logger.log(Level.SEVERE, "", e);
-    }
-
-    private static Config loadUserConfiguration() throws Exception {
-        return new DefaultConfigLoader().loadConfig();
+        logger.log(Level.SEVERE, "Detailed error report", e);
     }
 }

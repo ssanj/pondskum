@@ -15,34 +15,35 @@
  */
 package com.googlecode.pondskum.config;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.googlecode.pondskum.logger.DefaultLogProvider;
 import com.googlecode.pondskum.logger.LogProvider;
 
 import java.io.File;
 import java.util.Properties;
 
+@Singleton
 public final class DefaultConfig implements Config {
 
     private static final String TEMP_FILE_NAME = "usage_data.html";
 
-    //TODO: Use Juice to make this a singleton object.
-    @SuppressWarnings({"StaticNonFinalField"})
-    private static LogProvider logProvider;
-
     private final Properties configProperties;
+    private final LogProvider logProvider;
 
     public DefaultConfig(final Properties configProperties) {
         this.configProperties = configProperties;
+        logProvider = new DefaultLogProvider(getPropertyValue(ConfigurationEnum.LOG_FILE));
+    }
+
+    @Inject
+    public DefaultConfig(final Properties configProperties, final LogProvider logProvider) {
+        this.configProperties = configProperties;
+        this.logProvider = logProvider;
     }
 
     @Override
     public LogProvider getLogProvider() {
-        synchronized (DefaultConfig.class) {
-            if (logProvider == null) {
-                logProvider = new DefaultLogProvider(getPropertyValue(ConfigurationEnum.LOG_FILE));
-            }
-        }
-
         return logProvider;
     }
 
