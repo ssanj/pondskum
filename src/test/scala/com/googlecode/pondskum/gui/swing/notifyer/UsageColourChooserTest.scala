@@ -10,19 +10,27 @@ import pinthura.util.builder.RandomDataCreatorBuilder
 
 final class UsageColourChooserTest {
 
-  private val colourChooser = new UsageColourChooser
+  private val colourChooser = createColourChooser
+  private val randomDataCreator = createRandomDataChooser
 
-  @Test def shouldReturnGreenForRangeOfZeroToTwentyFivePercent {
-    val randomPercentage = getPercentage(0, 26)
-    assertThat("failed with percentage of " + randomPercentage,
-      UsageColourChooserTest.GREEN, equalTo(colourChooser getColor randomPercentage))
+  @Test def shouldReturnGreenForARangeOfZeroToTwentyFivePercent { assertRangeWithColour(0, 26, UsageColourChooserTest.GREEN) }
+
+  @Test def shouldReturnYellowForARangeOfTwentySixToFifty { assertRangeWithColour(26, 51, UsageColourChooserTest.YELLOW) }
+
+  def assertRangeWithColour(minPercent : Int, maxPercentExclusive : Int, expectedColor : Color) {
+    val randomPercentage = getPercentage(minPercent, maxPercentExclusive)
+    assertThat("failed with percentage of " + randomPercentage, expectedColor, equalTo(colourChooser getColor randomPercentage))
   }
 
-  def getPercentage(min : Int, maxExclusive : Int) = UsageColourChooserTest.RANDOM_DATA_CREATOR.createBoundedNumber(0, 26) * 0.001
+  def createRandomDataChooser = new RandomDataCreatorBuilder build
+  def createColourChooser = new UsageColourChooser
+  def getPercentage(min : Int, maxExclusive : Int) = randomDataCreator.createBoundedNumber(min, maxExclusive) *
+          UsageColourChooserTest.AS_PERCENTAGE
 
   object UsageColourChooserTest {
-    val TEN_PERCENT = 0.1
+
+    val AS_PERCENTAGE = 0.01
     val GREEN = new Color(0xAD,0xC5,0x13)
-    val RANDOM_DATA_CREATOR = new RandomDataCreatorBuilder build
+    val YELLOW = new Color(0xFF, 0xCC, 0x05)
   }
 }

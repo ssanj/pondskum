@@ -40,7 +40,7 @@ public final class UsageColourChooser {
     public UsageColourChooser() {
 
         Range range1 = new Range(PERCENTAGE_FOR_RANGE_ONE_START, PERCENTAGE_FOR_RANGE_ONE_END, createGreenColour());
-        Range range2  = new Range(PERCENTAGE_FOR_RANGE_TWO_START, PERCENTAGE_FOR_RANGE_TWO_END, createYellowColour());
+        Range range2 = new Range(PERCENTAGE_FOR_RANGE_TWO_START, PERCENTAGE_FOR_RANGE_TWO_END, createYellowColour());
         Range range3 = new Range(PERCENTAGE_FOR_RANGE_THREE_START, PERCENTAGE_FOR_RANGE_THREE_END, createOrangeColour());
         Range range4 = new Range(PERCENTAGE_FOR_RANGE_FOUR_START, PERCENTAGE_FOR_RANGE_FOUR_END, createDarkRed());
         Range range5 = new Range(PERCENTAGE_FOR_RANGE_FIVE_START, PERCENTAGE_FOR_RANGE_FIVE_END, createBrightRed());
@@ -71,7 +71,7 @@ public final class UsageColourChooser {
     // CHECKSTYLE:ON
 
     @SuppressWarnings({"MethodParameterOfConcreteClass"})
-    @SuppressionReason(value = SuppressionReason.Reason.OTHER, desc = "Parameter is a private static final inner class.")    
+    @SuppressionReason(value = SuppressionReason.Reason.OTHER, desc = "Parameter is a private static final inner class.")
     public Color getColor(double usageRatio) {
         for (Range range : ratiosList) {
             if (hasColourForPercentageUsage(usageRatio, range)) {
