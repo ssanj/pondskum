@@ -21,31 +21,65 @@ import org.junit.Assert.assertThat
 import java.awt.Color
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.{Test}
+import org.junit.Assert.fail
 import pinthura.util.builder.RandomDataCreatorBuilder
 
 final class UsageColourChooserTest {
 
   private val colourChooser = createColourChooser
-  private val randomDataCreator = createRandomDataChooser
+  private val randomDataCreator = createRandomDataCreator
 
-  @Test def shouldReturnGreenForARangeOfZeroToTwentyFivePercent { assertRangeWithColour(0, 26, UsageColourChooserTest.GREEN) }
+  @Test def shouldReturnGreenForARangeOfZeroToTwentyFivePercent { assertPercentageRangeWithColour(0, 25, greenColour) }
 
-  @Test def shouldReturnYellowForARangeOfTwentySixToFifty { assertRangeWithColour(26, 51, UsageColourChooserTest.YELLOW) }
+  @Test def shouldReturnYellowForARangeOfTwentySixToFifty { assertPercentageRangeWithColour(26, 50, yellowColour) }
 
-  def assertRangeWithColour(minPercent : Int, maxPercentExclusive : Int, expectedColor : Color) {
-    val randomPercentage = getPercentage(minPercent, maxPercentExclusive)
+  @Test def shouldReturnOrangeForARangeOfFiftyOneToSeventyFive { assertPercentageRangeWithColour(51, 75, orangeColour) }
+
+  @Test def shouldReturnDarkRedForARangeOfSeventySixOneToNinty { assertPercentageRangeWithColour(76, 90, darkRedColour) }
+
+  @Test def shouldReturnBrightRedForARangeOfNintyOneToHundred { assertPercentageRangeWithColour(91, 100, brightRedColour) }
+
+  @Test
+  def shouldThrowAnExceptionForAnyOtherRange {
+    val randomPercentage = getRandomPercentage(101, 500)
+    try {
+      colourChooser getColor randomPercentage
+      fail("Expected UnknownUsagePercentageException for % of " + randomPercentage)
+    } catch {
+      case e : UnknownUsagePercentageException => assertThat("unhandled % of " + randomPercentage, equalTo(e.getMessage))
+    }
+  }
+
+  private def assertPercentageRangeWithColour(min : Int, max : Int, expectedColor : Color) {
+    val randomPercentage = getRandomPercentage(min, max)
     assertThat("failed with percentage of " + randomPercentage, expectedColor, equalTo(colourChooser getColor randomPercentage))
   }
 
-  def createRandomDataChooser = new RandomDataCreatorBuilder build
-  def createColourChooser = new UsageColourChooser
-  def getPercentage(min : Int, maxExclusive : Int) = randomDataCreator.createBoundedNumber(min, maxExclusive) *
-          UsageColourChooserTest.AS_PERCENTAGE
+  private def getRandomPercentage(min : Int, max : Int) = randomDataCreator.createBoundedNumber(min, plusOne(max)) *
+          UsageColourChooserTest.AS_PERCENTAGE;
 
-  object UsageColourChooserTest {
+  private def greenColour = UsageColourChooserTest.GREEN
 
+  private def yellowColour = UsageColourChooserTest.YELLOW
+
+  private def orangeColour = UsageColourChooserTest.ORANGE
+
+  private def darkRedColour = UsageColourChooserTest.DARK_RED
+
+  private def brightRedColour = UsageColourChooserTest.BRIGHT_RED
+
+  private def plusOne(number : Int) = number + 1
+
+  private def createRandomDataCreator = new RandomDataCreatorBuilder build
+
+  private def createColourChooser = new UsageColourChooser
+
+  private object UsageColourChooserTest {
     val AS_PERCENTAGE = 0.01
     val GREEN = new Color(0xAD,0xC5,0x13)
     val YELLOW = new Color(0xFF, 0xCC, 0x05)
+    val ORANGE = new Color(0xFF, 0x5F, 0x05)
+    val DARK_RED = new Color(0xC5, 0x28, 0x13)
+    val BRIGHT_RED = new Color(0xFC, 0x24, 0x06)
   }
 }
