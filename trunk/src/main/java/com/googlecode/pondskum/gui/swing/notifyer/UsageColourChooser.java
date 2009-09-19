@@ -72,15 +72,14 @@ public final class UsageColourChooser {
 
     @SuppressWarnings({"MethodParameterOfConcreteClass"})
     @SuppressionReason(value = SuppressionReason.Reason.OTHER, desc = "Parameter is a private static final inner class.")
-    public Color getColor(double usageRatio) {
+    public Color getColor(double usagePercentage) {
         for (Range range : ratiosList) {
-            if (hasColourForPercentageUsage(usageRatio, range)) {
+            if (hasColourForPercentageUsage(usagePercentage, range)) {
                 return range.getColor();
             }
         }
 
-        //this should never happen! :)
-        return Color.WHITE;
+        throw new UnknownUsagePercentageException("unhandled % of " + usagePercentage);
     }
 
     @SuppressWarnings({"MethodParameterOfConcreteClass"})
@@ -99,14 +98,6 @@ public final class UsageColourChooser {
             this.min = min;
             this.max = max;
             this.color = color;
-        }
-
-        public int getMin() {
-            return min;
-        }
-
-        public int getMax() {
-            return max;
         }
 
         public Color getColor() {
