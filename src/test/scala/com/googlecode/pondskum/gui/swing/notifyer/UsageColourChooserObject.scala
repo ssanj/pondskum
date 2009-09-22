@@ -35,10 +35,9 @@ object UsageColourChooserObject {
 
     def getRandomPercentage(min : Int, max : Int) = asPercentage(randomDataCreator.createBoundedNumber(min, plusOne(max)))
 
-    private def asPercentage(ratio : Double) = 0.01 * ratio
+    private def asPercentage(value : Int) = 0.01 * value
 
     private def createRandomDataCreator = new RandomDataCreatorBuilder build
 
     private def plusOne(number : Int) = number + 1
-
   }
