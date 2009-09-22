@@ -15,19 +15,14 @@
  */
 package com.googlecode.pondskum.gui.simplecmd
 
+final class TimeKeeper {
 
-import bootstrap.PondskumModule
-import google.inject.Guice
-import client.BigpondConnector
-import logger.LogProvider
+  private val MS_IN_SECOND : Int  = 1000;
 
-object SimpleClientRunner {
+  val startTime = getCurrentTime
 
-  def main(args : Array[String]) {
-    val injector = Guice.createInjector(new PondskumModule)
-    val logger = injector.getInstance(classOf[LogProvider]).provide(classOf[SimpleCMDRunner])
-    val connector = injector.getInstance(classOf[BigpondConnector])
+  def getTimeTaken = (getCurrentTime - startTime) / MS_IN_SECOND
 
-    new SimpleClient printUsage(connector, logger)
-  }
+  private def getCurrentTime = System.currentTimeMillis
+
 }
