@@ -35,7 +35,7 @@ final class UsageColourChooserTest {
 
   @Test def shouldReturnADarkRedColourForARangeOfSeventySixOneToNinety { assertPercentageRangeWithColour(76, 90, darkRedColour) }
 
-  @Test def shouldReturnABrightRedColourForARangeOfNintyOneToHundred { assertPercentageRangeWithColour(91, 100, brightRedColour) } 
+  @Test def shouldReturnABrightRedColourForARangeOfNintyOneToHundred { assertPercentageRangeWithColour(91, 100, brightRedColour) }
 
   private def assertPercentageRangeWithColour(min : Int, max : Int, expectedColor : Color) {
     val randomPercentage = getRandomPercentage(min, max)

@@ -20,6 +20,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.googlecode.pinthura.util.SystemPropertyRetriever;
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
+import com.googlecode.pondskum.client.BigpondConnector;
+import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.config.ConfigFileLoader;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
@@ -46,6 +48,11 @@ public final class PondskumModule extends AbstractModule {
     @Provides @Singleton
     private LogProvider provideLogProvider() {
         return new DefaultLogProvider(ConfigurationEnum.LOG_FILE.getKey());
+    }
+
+    @Provides
+    private BigpondConnector provideConnector(final Config config) {
+        return new BigpondConnectorImpl(config);
     }
 
     private Properties getConfigurationProperties(final ConfigFileLoader configFileLoader) {
