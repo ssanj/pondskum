@@ -15,7 +15,6 @@
  */
 package com.googlecode.pondskum.gui.swing.notifyer
 
-
 import java.awt.Color
 import pinthura.util.builder.RandomDataCreatorBuilder
 
