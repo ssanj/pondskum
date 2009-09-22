@@ -18,30 +18,32 @@ package com.googlecode.pondskum.gui.simplecmd
 
 import client.{BigpondConnector, BigpondUsageInformation}
 import java.util.logging.{ConsoleHandler, Level, Logger}
-import SimpleClient._
-
 /**
  * A simple commandline client for the {@code BigpondConnector}.
  */
 final class SimpleClient {
 
-  def retrieveUsage(connector : BigpondConnector, logger : Logger) {
+  /**
+   * Retrieves the current bigpond usage and prints it to the console. If an exception occurs, it is logged to the default logger
+   * passed in.
+   * @param connector The {@code BigpondConnector} to use when retrieving usage information.
+   * @param logger The {@code Logger} to use to log an exceptions.
+   */
+  def printUsage(connector : BigpondConnector, logger : Logger) {
     try {
-      val startTime = getCurrentTime
+      val timeKeeper = new TimeKeeper
       printConnecting
       val usage = getUsage(connector)
       printUsage(usage, logger)
-      printTimeTaken(startTime, logger)
+      printTimeTaken(timeKeeper, logger)
     } catch {
-      case e : Exception => printException(logger, e)
+      case e : Exception => printException(e, logger)
     }
   }
 
   private def printConnecting { println("Connecting...") }
 
-  private def getUsage(connector : BigpondConnector) = {
-    connector.connect()
-  }
+  private def getUsage(connector : BigpondConnector) = { connector.connect() }
 
   private def printUsage(usageInformation : BigpondUsageInformation, logger : Logger) {
     println ("")
@@ -54,12 +56,12 @@ final class SimpleClient {
             build);
   }
 
-  private def printTimeTaken(startTime : Long, logger : Logger) {
-    logger info("Time taken: " + getTimeTaken(startTime) + " seconds");
+  private def printTimeTaken(timeKeeper : TimeKeeper, logger : Logger) {
+    logger info("Time taken: " + timeKeeper.getTimeTaken + " seconds");
     logger info "";
   }
 
-  private def printException(logger : Logger, e : Exception) {
+  private def printException(e : Exception, logger : Logger) {
       logger addHandler new ConsoleHandler
       logger severe "There seems to have been a problem. See below for details."
       logger severe ""
@@ -67,12 +69,4 @@ final class SimpleClient {
       logger severe ""
       logger log(Level.SEVERE, "Detailed error report", e)
   }
-}
-private object SimpleClient {
-
-    private val MS_IN_SECOND : Int  = 1000;
-
-    private def getCurrentTime = System.currentTimeMillis
-
-    private def getTimeTaken(startTime : Long) = (getCurrentTime - startTime) / MS_IN_SECOND
 }
