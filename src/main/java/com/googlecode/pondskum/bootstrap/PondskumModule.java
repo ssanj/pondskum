@@ -27,6 +27,8 @@ import com.googlecode.pondskum.config.ConfigFileLoader;
 import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
 import com.googlecode.pondskum.config.ConfigurationEnum;
 import com.googlecode.pondskum.config.DefaultConfig;
+import com.googlecode.pondskum.gui.simplecmd.ConnectionPrinter;
+import com.googlecode.pondskum.gui.simplecmd.DefaultConnectionPrinter;
 import com.googlecode.pondskum.logger.DefaultLogProvider;
 import com.googlecode.pondskum.logger.LogProvider;
 
@@ -53,6 +55,11 @@ public final class PondskumModule extends AbstractModule {
     @Provides
     private BigpondConnector provideConnector(final Config config) {
         return new BigpondConnectorImpl(config);
+    }
+
+    @Provides
+    private ConnectionPrinter provideConnectionPrinter(final LogProvider logProvider) {
+        return new DefaultConnectionPrinter(logProvider.provide(ConnectionPrinter.class));
     }
 
     private Properties getConfigurationProperties(final ConfigFileLoader configFileLoader) {

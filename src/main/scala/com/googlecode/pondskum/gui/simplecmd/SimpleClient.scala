@@ -16,8 +16,8 @@
 package com.googlecode.pondskum.gui.simplecmd
 
 
-import client.{BigpondConnector, BigpondUsageInformation}
-import java.util.logging.{ConsoleHandler, Level, Logger}
+import client.{BigpondConnector}
+import UsagePrinter._
 /**
  * A simple commandline client for the {@code BigpondConnector}.
  */
@@ -27,46 +27,15 @@ final class SimpleClient {
    * Retrieves the current bigpond usage and prints it to the console. If an exception occurs, it is logged to the default logger
    * passed in.
    * @param connector The {@code BigpondConnector} to use when retrieving usage information.
-   * @param logger The {@code Logger} to use to log an exceptions.
+   * @param connectionPrinter The {@code connectionPrinter} to use to print connection notifications.
    */
-  def printUsage(connector : BigpondConnector, logger : Logger) {
+  def printUsage(connector : BigpondConnector, connectionPrinter : ConnectionPrinter) {
     try {
-      val timeKeeper = new TimeKeeper
-      printConnecting
-      val usage = getUsage(connector)
-      printUsage(usage, logger)
-      printTimeTaken(timeKeeper, logger)
+      printAccountUsage(connector connect())
     } catch {
-      case e : Exception => printException(e, logger)
+      case e : Exception => connectionPrinter printException(e)
+    } finally {
+      connectionPrinter.printTimeTaken
     }
-  }
-
-  private def printConnecting { println("Connecting...") }
-
-  private def getUsage(connector : BigpondConnector) = { connector.connect() }
-
-  private def printUsage(usageInformation : BigpondUsageInformation, logger : Logger) {
-    println ("")
-    println(new UsageMessageBuilder
-            withUsageInformation(usageInformation)
-            displayAccountName()
-            displayTotalUsage()
-            displayDownloadUsage()
-            displayUploadUsage()
-            build);
-  }
-
-  private def printTimeTaken(timeKeeper : TimeKeeper, logger : Logger) {
-    logger info("Time taken: " + timeKeeper.getTimeTaken + " seconds");
-    logger info "";
-  }
-
-  private def printException(e : Exception, logger : Logger) {
-      logger addHandler new ConsoleHandler
-      logger severe "There seems to have been a problem. See below for details."
-      logger severe ""
-      logger severe e.getMessage()
-      logger severe ""
-      logger log(Level.SEVERE, "Detailed error report", e)
   }
 }

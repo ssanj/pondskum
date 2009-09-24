@@ -15,20 +15,20 @@
  */
 package com.googlecode.pondskum.gui.simplecmd
 
+/**
+ * Defines the lifecycle of a connection printer.
+ */
+trait ConnectionPrinter {
 
-import bootstrap.PondskumModule
-import google.inject.Guice
-import client.BigpondConnector
-import logger.LogProvider
+  /**
+   * Prints the time taken from when the connection was started.
+   */
+  def printTimeTaken
 
-object SimpleClientRunner {
+  /**
+   * Prints the supplied exception.
+   * @param e The exception to print.
+   */
+  def printException(e : Exception)
 
-  def main(args : Array[String]) {
-    val injector = Guice.createInjector(new PondskumModule)
-    val logger = injector.getInstance(classOf[LogProvider]).provide(classOf[SimpleCMDRunner])
-    val connector = injector.getInstance(classOf[BigpondConnector])
-    val connectionPrinter = injector.getInstance(classOf[ConnectionPrinter])
-
-    new SimpleClient printUsage(connector, connectionPrinter)
-  }
 }
