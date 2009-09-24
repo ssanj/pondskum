@@ -26,12 +26,12 @@ final class DefaultConnectionPrinter(logger : Logger) extends ConnectionPrinter 
   val timeKeeper = TimeKeeper.create
   println("Connecting...")
 
-   def printTimeTaken {
+   override def printTimeTaken {
     logger info("Time taken: " + timeKeeper.getTimeTaken + " seconds");
     logger info "";
   }
 
-  def printException(e : Exception) {
+  override def printException(e : Exception) {
       logger addHandler new ConsoleHandler
       logger severe "There seems to have been a problem. See below for details."
       logger severe ""

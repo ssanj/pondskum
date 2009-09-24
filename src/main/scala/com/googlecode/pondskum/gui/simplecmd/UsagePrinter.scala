@@ -15,20 +15,11 @@
  */
 package com.googlecode.pondskum.gui.simplecmd
 
-import client.BigpondUsageInformation
+trait UsagePrinter {
 
-object UsagePrinter {
-
-  def printAccountUsage(usageInformation : BigpondUsageInformation) {
-    val usage = new UsageMessageBuilder().
-                  withUsageInformation(usageInformation).
-                  displayAccountName().
-                  displayTotalUsage().
-                  displayDownloadUsage().
-                  displayUploadUsage().
-                  build
-
-    println
-    println(usage)
-  }
+  /**
+   * Prints the usage supplied.
+   * @param usage The supplied usage.
+   */
+  def printUsage(usage : String);
 }

@@ -17,7 +17,7 @@ package com.googlecode.pondskum.gui.simplecmd
 
 
 import client.{BigpondConnector}
-import UsagePrinter._
+import UsageFormatter._
 /**
  * A simple commandline client for the {@code BigpondConnector}.
  */
@@ -28,10 +28,11 @@ final class SimpleClient {
    * passed in.
    * @param connector The {@code BigpondConnector} to use when retrieving usage information.
    * @param connectionPrinter The {@code connectionPrinter} to use to print connection notifications.
+   * @param usagePrinter The {@code UsagePrinter} to use to print usgage information.
    */
-  def printUsage(connector : BigpondConnector, connectionPrinter : ConnectionPrinter) {
+  def printUsage(connector : BigpondConnector, connectionPrinter : ConnectionPrinter, usagePrinter : UsagePrinter) {
     try {
-      printAccountUsage(connector connect())
+      usagePrinter printUsage(formatUsage(connector connect()))
     } catch {
       case e : Exception => connectionPrinter printException(e)
     } finally {
