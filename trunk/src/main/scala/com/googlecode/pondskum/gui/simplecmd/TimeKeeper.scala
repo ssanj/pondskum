@@ -18,14 +18,14 @@ package com.googlecode.pondskum.gui.simplecmd
 import TimeKeeper._
 final class TimeKeeper(startTime : Long) {
 
-  def getTimeTaken = (getCurrentTime - startTime) / MS_IN_SECOND
+  def getTimeTaken = (getCurrentTime - startTime) / MillisecsInASecond
 }
 
 object TimeKeeper {
 
-  private val MS_IN_SECOND : Int  = 1000;
+  private val MillisecsInASecond : Int  = 1000;
 
-  def create() = new TimeKeeper(getCurrentTime)
+  def create = new TimeKeeper(getCurrentTime)
 
   private def getCurrentTime = System.currentTimeMillis
 

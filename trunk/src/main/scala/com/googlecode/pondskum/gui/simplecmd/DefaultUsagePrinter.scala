@@ -15,21 +15,10 @@
  */
 package com.googlecode.pondskum.gui.simplecmd
 
+class DefaultUsagePrinter extends UsagePrinter {
 
-import bootstrap.PondskumModule
-import google.inject.Guice
-import client.BigpondConnector
-import logger.LogProvider
-
-object SimpleClientRunner {
-
-  def main(args : Array[String]) {
-    val injector = Guice.createInjector(new PondskumModule)
-    val logger = injector.getInstance(classOf[LogProvider]).provide(classOf[SimpleCMDRunner])
-    val connector = injector.getInstance(classOf[BigpondConnector])
-    val connectionPrinter = injector.getInstance(classOf[ConnectionPrinter])
-    val usagePrinter = injector.getInstance(classOf[UsagePrinter])
-
-    new SimpleClient printUsage(connector, connectionPrinter, usagePrinter)
+  override def printUsage(usage : String) {
+    println
+    println(usage)
   }
 }
