@@ -27,8 +27,8 @@ final class DefaultConnectionPrinter(logger : Logger) extends ConnectionPrinter 
   println("Connecting...")
 
    override def printTimeTaken {
-    logger info("Time taken: " + timeKeeper.getTimeTaken + " seconds");
-    logger info "";
+    logger info("Time taken: " + timeKeeper.getTimeTaken + " seconds")
+    logger info ""
   }
 
   override def printException(e : Exception) {

@@ -17,26 +17,25 @@ package com.googlecode.pondskum.gui.simplecmd
 
 
 import client.{BigpondConnector}
-import UsageFormatter._
 /**
  * A simple commandline client for the {@code BigpondConnector}.
  */
 final class SimpleClient {
 
   /**
-   * Retrieves the current bigpond usage and prints it to the console. If an exception occurs, it is logged to the default logger
-   * passed in.
+   * Retrieves the current bigpond usage and prints it to the console. Any exceptions occur are printed.
+   *
    * @param connector The {@code BigpondConnector} to use when retrieving usage information.
-   * @param connectionPrinter The {@code connectionPrinter} to use to print connection notifications.
-   * @param usagePrinter The {@code UsagePrinter} to use to print usgage information.
+   * @param forConnection A function that takes in a {@code BigpondConnector} and returns its data as a {@code String}.
+   * @param printer The {@code Printer} to use to print status information.
    */
-  def printUsage(connector : BigpondConnector, connectionPrinter : ConnectionPrinter, usagePrinter : UsagePrinter) {
+  def printUsage(connection : BigpondConnector, forConnection : BigpondConnector => String, printer : Printer) {
     try {
-      usagePrinter printUsage(formatUsage(connector connect()))
+      printer.printUsage(forConnection(connection))
     } catch {
-      case e : Exception => connectionPrinter printException(e)
+      case e : Exception => printer printException(e)
     } finally {
-      connectionPrinter.printTimeTaken
+      printer printTimeTaken
     }
   }
 }
