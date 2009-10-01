@@ -19,17 +19,20 @@ package com.googlecode.pondskum.gui.simplecmd
 import bootstrap.PondskumModule
 import google.inject.Guice
 import client.BigpondConnector
-import logger.LogProvider
+import UsageFormatter.formatUsage
+
 
 object SimpleClientRunner {
 
   def main(args : Array[String]) {
     val injector = Guice.createInjector(new PondskumModule)
-    val logger = injector.getInstance(classOf[LogProvider]).provide(classOf[SimpleCMDRunner])
     val connector = injector.getInstance(classOf[BigpondConnector])
-    val connectionPrinter = injector.getInstance(classOf[ConnectionPrinter])
-    val usagePrinter = injector.getInstance(classOf[UsagePrinter])
+    val printer = injector.getInstance(classOf[Printer])
 
-    new SimpleClient printUsage(connector, connectionPrinter, usagePrinter)
+    new SimpleClient printUsage(connector, getUsageStats, printer)
+  }
+
+  def getUsageStats(connection : BigpondConnector) = {
+    formatUsage(connection.connect())
   }
 }

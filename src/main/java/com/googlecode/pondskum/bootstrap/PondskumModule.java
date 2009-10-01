@@ -29,7 +29,9 @@ import com.googlecode.pondskum.config.ConfigurationEnum;
 import com.googlecode.pondskum.config.DefaultConfig;
 import com.googlecode.pondskum.gui.simplecmd.ConnectionPrinter;
 import com.googlecode.pondskum.gui.simplecmd.DefaultConnectionPrinter;
+import com.googlecode.pondskum.gui.simplecmd.DefaultPrinter;
 import com.googlecode.pondskum.gui.simplecmd.DefaultUsagePrinter;
+import com.googlecode.pondskum.gui.simplecmd.Printer;
 import com.googlecode.pondskum.gui.simplecmd.UsagePrinter;
 import com.googlecode.pondskum.logger.DefaultLogProvider;
 import com.googlecode.pondskum.logger.LogProvider;
@@ -65,6 +67,11 @@ public final class PondskumModule extends AbstractModule {
         return new DefaultConnectionPrinter(logProvider.provide(ConnectionPrinter.class));
     }
 
+
+    @Provides @Singleton
+    private Printer providePrinter(final UsagePrinter usagePrinter, final ConnectionPrinter connectionPrinter) {
+        return new DefaultPrinter(usagePrinter, connectionPrinter);
+    }
     private Properties getConfigurationProperties(final ConfigFileLoader configFileLoader) {
         return configFileLoader.loadProperties(ConfigurationEnum.CONFIG_FILE_LOCATION.getKey());
     }

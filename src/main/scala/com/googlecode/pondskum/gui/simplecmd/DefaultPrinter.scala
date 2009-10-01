@@ -15,20 +15,11 @@
  */
 package com.googlecode.pondskum.gui.simplecmd
 
-/**
- * Defines the lifecycle of a connection printer.
- */
-trait ConnectionPrinter {
 
-  /**
-   *  Prints the time taken from when the connection was started.
-   */
-  def printTimeTaken
+final class DefaultPrinter(usagePrinter : UsagePrinter, connectionPrinter : ConnectionPrinter) extends Printer {
 
-  /**
-   * Prints the supplied exception.
-   * @param e The exception to print.
-   */
-  def printException(e : Exception)
+  override def printTimeTaken = connectionPrinter.printTimeTaken
+  override def printException(e : Exception) = connectionPrinter printException e
+  override def printUsage(usage : String) = usagePrinter printUsage usage
 
 }

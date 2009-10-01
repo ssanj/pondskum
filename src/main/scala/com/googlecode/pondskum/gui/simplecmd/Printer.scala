@@ -16,19 +16,8 @@
 package com.googlecode.pondskum.gui.simplecmd
 
 /**
- * Defines the lifecycle of a connection printer.
+ * A trait that encompasses usage and connection printing.
  */
-trait ConnectionPrinter {
-
-  /**
-   *  Prints the time taken from when the connection was started.
-   */
-  def printTimeTaken
-
-  /**
-   * Prints the supplied exception.
-   * @param e The exception to print.
-   */
-  def printException(e : Exception)
-
+trait Printer extends UsagePrinter with ConnectionPrinter {
+  
 }
