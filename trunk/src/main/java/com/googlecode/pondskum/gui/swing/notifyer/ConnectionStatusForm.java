@@ -34,7 +34,7 @@ public final class ConnectionStatusForm {
         return contentPanel;
     }
 
-    void setProgress(final String status) {
+    public void setProgress(final String status) {
         progressLabel.setText(status);
     }
 

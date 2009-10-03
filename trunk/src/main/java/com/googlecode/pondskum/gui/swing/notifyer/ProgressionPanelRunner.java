@@ -81,7 +81,7 @@ public final class ProgressionPanelRunner {
         @Override
         public void actionPerformed(final ActionEvent e) {
             logger.info("Updating information...");
-            BigpondSwingWorker worker = new ProgressionSwingWorker(parentFrame, logProvider);
+            BigpondSwingWorker worker = new ProgressionSwingWorker(parentFrame);
             worker.addFailureListener(new TimerStopper(timer, logProvider));
             worker.execute();
         }

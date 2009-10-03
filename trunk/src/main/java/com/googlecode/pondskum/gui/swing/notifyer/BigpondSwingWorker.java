@@ -106,8 +106,6 @@ public abstract class BigpondSwingWorker extends SwingWorker<BigpondUsageInforma
         }
     }
 
-
-
     /**
      * Method on the <code>StatusUpdatable</code> interface. This is called whenever there is a connection update.
      * @param update The update.
