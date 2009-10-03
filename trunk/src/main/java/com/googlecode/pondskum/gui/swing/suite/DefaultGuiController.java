@@ -109,6 +109,7 @@ public final class DefaultGuiController implements GuiController {
         }
     }
 
+    //This souldn't happen all the time. Creation should be done once.
     private void selectGui() {
         gui = guiFactory.createProgression();
         gui.display(config);
