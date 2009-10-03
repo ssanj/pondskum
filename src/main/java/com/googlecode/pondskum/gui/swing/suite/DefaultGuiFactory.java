@@ -19,6 +19,8 @@ public final class DefaultGuiFactory implements GuiFactory {
 
     @Override
     public GUI createProgression() {
+        //store created gui.
+        //if already created, reset and return.
         return new ProgressionGui();
     }
 
