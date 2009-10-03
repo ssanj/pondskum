@@ -16,7 +16,6 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pondskum.config.ConfigFileLoaderException;
-import com.googlecode.pondskum.logger.LogProvider;
 
 import javax.swing.JFrame;
 import java.util.List;
@@ -31,7 +30,7 @@ public final class ProgressionSwingWorker extends BigpondSwingWorker {
     private final ProgressionPanel progressionPanel;
     private final ConnectionStatusForm connectionStatus;
 
-    public ProgressionSwingWorker(final JFrame frame, final LogProvider logProvider) {
+    public ProgressionSwingWorker(final JFrame frame) {
         this.frame = frame;
         progressionPanel = new ProgressionPanel();
         connectionStatus = new ConnectionStatusForm();
