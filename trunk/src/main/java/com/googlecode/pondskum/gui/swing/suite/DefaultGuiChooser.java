@@ -45,8 +45,6 @@ public final class DefaultGuiChooser implements GuiChooser {
                 return currentGui;
             }
         });
-
-
     }
 
     //TODO: this could be a listener for each statechange. It would then update the currentGui to the next gui.
