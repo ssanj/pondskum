@@ -15,7 +15,11 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
+import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.config.DefaultConfigLoader;
+
+import javax.swing.JWindow;
+import java.util.logging.Logger;
 
 public final class GuiControllerRunner {
 
@@ -24,6 +28,16 @@ public final class GuiControllerRunner {
     }
 
     public static void main(String[] args) {
-        new DefaultGuiController(new DefaultConfigLoader().loadConfig(), new DefaultGuiFactory()).run();
+        createApplicationWindow();
+
+        Config config = new DefaultConfigLoader().loadConfig();
+        Logger lockerLogger = config.getLogProvider().provide(DefaultGuiLocker.class);
+        new DefaultGuiController(config, new DefaultGuiChooser(new DefaultGuiFactory(), new DefaultGuiLocker(lockerLogger))).run();
+    }
+
+    //If the thread is not kept alive, when its execution completes the application exists..
+    private static void createApplicationWindow() {
+        JWindow keepAliveWindow = new JWindow();
+        keepAliveWindow.setVisible(true);
     }
 }

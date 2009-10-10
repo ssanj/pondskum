@@ -16,7 +16,6 @@
 package com.googlecode.pondskum.gui.swing.suite;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.config.ConfigFileLoaderException;
 import com.googlecode.pondskum.gui.swing.notifyer.ConnectionStatusForm;
 import com.googlecode.pondskum.gui.swing.notifyer.DefaultDisplayDetailsPack;
@@ -27,33 +26,28 @@ import javax.swing.JFrame;
 
 public final class ProgressionGui implements GUI {
 
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 90;
+    static final int WIDTH = 600;
+    static final int HEIGHT = 90;
 
-    private JFrame frame;
     private ProgressionPanel progressionPanel;
     private ConnectionStatusForm connectionStatusForm;
+    private JFrame parentFrame;
 
-    public ProgressionGui() {
-        createFrame();
-        setupPanels();
+    public ProgressionGui(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+        resetForReuse();
     }
 
-    private void createFrame() {
-        frame = new JFrame("Progression");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setLocationRelativeTo(null);
-    }
-
-    private void setupPanels() {
+    @Override
+    public void resetForReuse() {
         progressionPanel = new ProgressionPanel();
         connectionStatusForm = new ConnectionStatusForm();
-        frame.getContentPane().add(connectionStatusForm.getContentPanel());
+        parentFrame.getContentPane().removeAll();
+        parentFrame.getContentPane().add(connectionStatusForm.getContentPanel());
     }
 
-    public void display(final Config config) {
-        frame.setVisible(true);
+    public void display() {
+        parentFrame.setVisible(true);
     }
 
     @Override
@@ -61,16 +55,16 @@ public final class ProgressionGui implements GUI {
        connectionStatusForm.setProgress(status);
     }
 
-    private void hideStatusForm() {
-        frame.getContentPane().remove(connectionStatusForm.getContentPanel());
-    }
-
     @Override
     public void connectionSucceeded(final BigpondUsageInformation bigpondUsageInformation) {
         hideStatusForm();
 
-        frame.getContentPane().add(progressionPanel.getContentPanel());
+        parentFrame.getContentPane().add(progressionPanel.getContentPanel());
         progressionPanel.setUsageInfo(bigpondUsageInformation);
+    }
+
+    private void hideStatusForm() {
+        parentFrame.getContentPane().remove(connectionStatusForm.getContentPanel());
     }
 
     @Override
@@ -80,8 +74,8 @@ public final class ProgressionGui implements GUI {
         String errorMessage = exception.getMessage();
         ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
-        frame.getContentPane().add(errorPanel.getContentPanel());
-        frame.setSize(WIDTH, HEIGHT);
-        frame.getContentPane().validate();
+        parentFrame.getContentPane().add(errorPanel.getContentPanel());
+        parentFrame.setSize(WIDTH, HEIGHT);
+        parentFrame.getContentPane().validate();
     }
 }

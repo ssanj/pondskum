@@ -15,15 +15,7 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-public interface GUI extends GuiController {
+public interface GuiLocker {
 
-    /**
-     * Resets components of the gui for reuse, possibly multiple times.
-     */
-    void resetForReuse();
-
-    /**
-     * Displays an implementation of the gui.
-     */
-    void display();
+    GUI performThreadsafeGuiUpdate(Command command);
 }

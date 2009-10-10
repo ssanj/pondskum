@@ -15,15 +15,14 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-public interface GUI extends GuiController {
+/**
+ * Thrown when a thread-safe could not complete successfully.
+ */
+public final class ThreadSafeOperationExecutionException extends RuntimeException {
 
-    /**
-     * Resets components of the gui for reuse, possibly multiple times.
-     */
-    void resetForReuse();
+    private static final long serialVersionUID = -4679730240329973021L;
 
-    /**
-     * Displays an implementation of the gui.
-     */
-    void display();
+    public ThreadSafeOperationExecutionException(final Throwable cause) {
+        super(cause);
+    }
 }
