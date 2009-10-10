@@ -15,15 +15,10 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-public interface GUI extends GuiController {
+/**
+ * Excutes a single command.
+ */
+public interface Command {
 
-    /**
-     * Resets components of the gui for reuse, possibly multiple times.
-     */
-    void resetForReuse();
-
-    /**
-     * Displays an implementation of the gui.
-     */
-    void display();
+    GUI execute() throws Exception;
 }

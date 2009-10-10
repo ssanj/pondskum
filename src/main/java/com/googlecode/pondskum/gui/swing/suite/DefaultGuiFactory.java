@@ -15,13 +15,29 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
+import static com.googlecode.pondskum.gui.swing.suite.ProgressionGui.HEIGHT;
+import static com.googlecode.pondskum.gui.swing.suite.ProgressionGui.WIDTH;
+
+import javax.swing.JFrame;
+
 public final class DefaultGuiFactory implements GuiFactory {
 
+    private JFrame progressionFrame;
+
+    public DefaultGuiFactory() {
+        createProgressionFrame();
+    }
+
+    private void createProgressionFrame() {
+        progressionFrame = new JFrame("Progression");
+        progressionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        progressionFrame.setSize(WIDTH, HEIGHT);
+        progressionFrame.setLocationRelativeTo(null);
+    }
+
     @Override
-    public GUI createProgression() {
-        //store created gui.
-        //if already created, reset and return.
-        return new ProgressionGui();
+    public GUI getProgression() {
+        return new ProgressionGui(progressionFrame);
     }
 
     @Override

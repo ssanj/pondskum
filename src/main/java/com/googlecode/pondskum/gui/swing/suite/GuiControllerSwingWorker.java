@@ -53,15 +53,20 @@ public final class GuiControllerSwingWorker extends BigpondSwingWorker {
                 return;
             }
 
-            showError();
+            handleError();
         } catch (Exception e) {
             setException(e);
-            showError();
+            handleError();
         }
     }
 
     private void showUsage() throws Exception {
         guiController.connectionSucceeded(get());
+    }
+
+    private void handleError() {
+        showError();
+        notifyFailureListeners();
     }
 
     @SuppressWarnings({"ThrowableResultOfMethodCallIgnored"})

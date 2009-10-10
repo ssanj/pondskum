@@ -15,15 +15,12 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-public interface GUI extends GuiController {
+/**
+ * Thrown when a gui component can't be updated.
+ */
+public final class FailedToUpdateGuiException extends RuntimeException {
 
-    /**
-     * Resets components of the gui for reuse, possibly multiple times.
-     */
-    void resetForReuse();
-
-    /**
-     * Displays an implementation of the gui.
-     */
-    void display();
+    public FailedToUpdateGuiException(final Throwable cause) {
+        super(cause);
+    }
 }

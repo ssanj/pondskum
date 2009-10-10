@@ -15,15 +15,19 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-public interface GUI extends GuiController {
+/**
+ * Choose the subsequenty gui to display.
+ */
+public interface GuiChooser {
 
     /**
-     * Resets components of the gui for reuse, possibly multiple times.
+     * Returns the current gui.
+     * @return The current gui.
      */
-    void resetForReuse();
+    GUI getGui();
 
     /**
-     * Displays an implementation of the gui.
+     * Initialises the current gui so it can be reused for reconnection updates.
      */
-    void display();
+    void initialiseGui();
 }
