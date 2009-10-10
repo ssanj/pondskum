@@ -21,6 +21,9 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Depending on the % usage returns a {@Color} that symbolises the usage range.
+ */
 public final class UsageColourChooser {
 
     private static final int PERCENT = 100;
