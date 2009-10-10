@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public final class DefaultGuiLocker implements GuiLocker {
 
-    private static final long LOCK_TIMEOUT = 2l;
+    private static final long LOCK_TIMEOUT = 2L;
     private final ReentrantLock guiLock;
     private Logger logger;
 
