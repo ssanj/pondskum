@@ -39,13 +39,34 @@ public final class DefaultGuiChooser implements GuiChooser {
     public void initialiseGui() {
         guiLocker.performThreadsafeGuiUpdate(new Command() {
             @Override public GUI execute() throws Exception {
-                //find a way to swap guis here.
-                currentGui = guiFactory.getProgression();
+                currentGui = guiFactory.getProgressionBar();//initial gui.
+                currentGui.setStateChangeListener(DefaultGuiChooser.this);
                 currentGui.display();
                 return currentGui;
             }
         });
     }
 
-    //TODO: this could be a listener for each statechange. It would then update the currentGui to the next gui.
+    @Override
+    public void stateChangeOccured(final GUI gui) {
+        guiLocker.performThreadsafeGuiUpdate(new Command() {
+
+            @Override
+            public GUI execute() throws Exception {
+                currentGui.hide();
+                currentGui = chooseNextGui(gui);
+                currentGui.setStateChangeListener(DefaultGuiChooser.this);
+                currentGui.display();
+                return currentGui;
+            }
+        });
+    }
+
+    private GUI chooseNextGui(final GUI gui) {
+        if (gui instanceof ProgressionGui) {
+            return guiFactory.createProgressionIcon();
+        } else {
+            return guiFactory.getProgressionBar();
+        }
+    }
 }

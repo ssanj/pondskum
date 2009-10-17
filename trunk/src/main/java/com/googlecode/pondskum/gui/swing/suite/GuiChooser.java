@@ -18,7 +18,7 @@ package com.googlecode.pondskum.gui.swing.suite;
 /**
  * Choose the subsequenty gui to display.
  */
-public interface GuiChooser {
+public interface GuiChooser extends GUI.StateChangeListener {
 
     /**
      * Returns the current gui.
@@ -30,4 +30,5 @@ public interface GuiChooser {
      * Initialises the current gui so it can be reused for reconnection updates.
      */
     void initialiseGui();
+
 }

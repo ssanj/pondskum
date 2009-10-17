@@ -74,7 +74,6 @@ public final class DefaultGuiController implements GuiController {
         logger.info("Using default timer delay of " + timerDelay.getFrequencyInMinutes() + " minutes.");
     }
 
-
     private final class TimedAction implements ActionListener {
 
         private Logger logger;

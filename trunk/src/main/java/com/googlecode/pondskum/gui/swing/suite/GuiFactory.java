@@ -17,6 +17,6 @@ package com.googlecode.pondskum.gui.swing.suite;
 
 public interface GuiFactory {
 
-    GUI getProgression();
-    GUI createTrayIcon();
+    GUI getProgressionBar();
+    GUI createProgressionIcon();
 }
