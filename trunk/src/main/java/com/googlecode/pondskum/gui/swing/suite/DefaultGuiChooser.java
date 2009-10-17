@@ -51,6 +51,10 @@ public final class DefaultGuiChooser implements GuiChooser {
 
     //TODO: Find a better way to do this.
     private GUI getNewInstanceOfCurrentGui() {
+        if (currentGui != null) {
+            currentGui.resetForReuse();
+        }
+
         if (currentGui instanceof ProgressionGui) {
             return guiFactory.createProgressionBar();
         }
@@ -69,7 +73,7 @@ public final class DefaultGuiChooser implements GuiChooser {
             @Override
             public GUI execute() throws Exception {
                 BigpondUsageInformation usageInfo = currentGui.getUsageInfo();
-                currentGui.hide();
+                currentGui.dispose();
                 currentGui = chooseNextGui(gui);
                 currentGui.updateWithExistingUsage(usageInfo);
                 currentGui.setStateChangeListener(DefaultGuiChooser.this);

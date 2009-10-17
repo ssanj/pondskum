@@ -27,6 +27,7 @@ import com.googlecode.pondskum.util.ImageLoader;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 
+import javax.swing.JOptionPane;
 import java.awt.AWTException;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -57,17 +58,18 @@ public final class ProgressionTrayGui implements GUI {
         unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information",
                 imageLoader.getImage("connection_failed.png"));
         connectingTrayNotification = new ConnectingTrayNotification();
+
+        resetForReuse();
     }
 
     @Override
     public void resetForReuse() {
+        removeTrayIcon();
+        removeActionListeners();
+
         trayIconActionListener = null;
         mouseMotionListener = null;
         bigpondUsageInformation = null;
-    }
-
-    private void removeTrayIcon() {
-        SystemTray.getSystemTray().remove(trayIcon);
     }
 
     @Override
@@ -79,10 +81,13 @@ public final class ProgressionTrayGui implements GUI {
         }
     }
 
+    private void removeTrayIcon() {
+        SystemTray.getSystemTray().remove(trayIcon);
+    }
+
     @Override
-    public void hide() {
-        removeTrayIcon();
-        removeActionListeners();
+    public void dispose() {
+        resetForReuse();
     }
 
     private void removeActionListeners() {
@@ -182,6 +187,7 @@ public final class ProgressionTrayGui implements GUI {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "TrayIcon Actioned");
             stateChangeListener.stateChangeOccured(ProgressionTrayGui.this);
         }
     }

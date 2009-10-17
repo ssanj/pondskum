@@ -30,10 +30,14 @@ public interface GUI extends GuiController {
     void display();
 
     /**
-     * Hides this implementation of the gui. The gui should be resurrectable via {@link #display()}.
+     * Disposes of this implementation of the gui.
      */
-    void hide();
+    void dispose();
 
+    /**
+     * Sets the {@code StateChangeListener} to be notified in the event of an event that warrants a gui change.
+     * @param stateChangeListener The listener.
+     */
     void setStateChangeListener(StateChangeListener stateChangeListener);
 
     /**
