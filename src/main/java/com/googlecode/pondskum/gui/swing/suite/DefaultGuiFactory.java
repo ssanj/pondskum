@@ -48,7 +48,7 @@ public final class DefaultGuiFactory implements GuiFactory {
     }
 
     @Override
-    public GUI getProgressionBar() {
+    public GUI createProgressionBar() {
         return new ProgressionGui(progressionFrame);
     }
 

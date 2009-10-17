@@ -15,6 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
+import com.googlecode.pondskum.client.BigpondUsageInformation;
+
 public interface GUI extends GuiController {
 
     /**
@@ -33,6 +35,18 @@ public interface GUI extends GuiController {
     void hide();
 
     void setStateChangeListener(StateChangeListener stateChangeListener);
+
+    /**
+     * Returns the {@code BigpondUsageInformation} if available or null otherwise.
+     * @return The {@code BigpondUsageInformation} if available or null otherwise.
+     */
+    BigpondUsageInformation getUsageInfo();
+
+    /**
+     * Update the gui with the supplied {@code BigpondUsageInformation}.
+     * @param bigpondUsageInformation The usage information.
+     */
+    void updateWithExistingUsage(BigpondUsageInformation bigpondUsageInformation);
 
     interface StateChangeListener {
 

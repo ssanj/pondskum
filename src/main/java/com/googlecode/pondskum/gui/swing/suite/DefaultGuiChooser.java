@@ -15,6 +15,8 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
+import com.googlecode.pondskum.client.BigpondUsageInformation;
+
 public final class DefaultGuiChooser implements GuiChooser {
 
     private final GuiFactory guiFactory;
@@ -39,12 +41,25 @@ public final class DefaultGuiChooser implements GuiChooser {
     public void initialiseGui() {
         guiLocker.performThreadsafeGuiUpdate(new Command() {
             @Override public GUI execute() throws Exception {
-                currentGui = guiFactory.getProgressionBar();//initial gui.
+                currentGui = getNewInstanceOfCurrentGui();
                 currentGui.setStateChangeListener(DefaultGuiChooser.this);
                 currentGui.display();
                 return currentGui;
             }
         });
+    }
+
+    //TODO: Find a better way to do this.
+    private GUI getNewInstanceOfCurrentGui() {
+        if (currentGui instanceof ProgressionGui) {
+            return guiFactory.createProgressionBar();
+        }
+
+        if (currentGui instanceof ProgressionTrayGui) {
+            return guiFactory.createProgressionIcon();
+        }
+
+        return guiFactory.createProgressionIcon();
     }
 
     @Override
@@ -53,8 +68,10 @@ public final class DefaultGuiChooser implements GuiChooser {
 
             @Override
             public GUI execute() throws Exception {
+                BigpondUsageInformation usageInfo = currentGui.getUsageInfo();
                 currentGui.hide();
                 currentGui = chooseNextGui(gui);
+                currentGui.updateWithExistingUsage(usageInfo);
                 currentGui.setStateChangeListener(DefaultGuiChooser.this);
                 currentGui.display();
                 return currentGui;
@@ -66,7 +83,7 @@ public final class DefaultGuiChooser implements GuiChooser {
         if (gui instanceof ProgressionGui) {
             return guiFactory.createProgressionIcon();
         } else {
-            return guiFactory.getProgressionBar();
+            return guiFactory.createProgressionBar();
         }
     }
 }

@@ -1,18 +1,3 @@
-/*
- * Copyright 2008 Sanjiv Sahayam
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.googlecode.pondskum.gui.swing.suite;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
@@ -23,6 +8,7 @@ import com.googlecode.pondskum.gui.swing.notifyer.ErrorPanel;
 import com.googlecode.pondskum.gui.swing.notifyer.ProgressionPanel;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -36,6 +22,7 @@ public final class ProgressionGui implements GUI {
     private ConnectionStatusForm connectionStatusForm;
     private JFrame parentFrame;
     private WindowStateListener windowStateListener;
+    private BigpondUsageInformation bigpondUsageInformation;
 
     public ProgressionGui(JFrame parentFrame) {
         this.parentFrame = parentFrame;
@@ -50,6 +37,7 @@ public final class ProgressionGui implements GUI {
         parentFrame.getContentPane().add(connectionStatusForm.getContentPanel());
 
         windowStateListener = null;
+        bigpondUsageInformation = null;
     }
 
     private void removeWindowStateListener() {
@@ -73,14 +61,31 @@ public final class ProgressionGui implements GUI {
     }
 
     @Override
+    public BigpondUsageInformation getUsageInfo() {
+        return bigpondUsageInformation;
+    }
+
+    @Override
+    public void updateWithExistingUsage(final BigpondUsageInformation bigpondUsageInformation) {
+        if (bigpondUsageInformation != null) {
+            this.bigpondUsageInformation = bigpondUsageInformation;
+            updateWithUsageInformation();
+        }
+    }
+
+    @Override
     public void notifyStatusChange(final String status) {
        connectionStatusForm.setProgress(status);
     }
 
     @Override
     public void connectionSucceeded(final BigpondUsageInformation bigpondUsageInformation) {
+        this.bigpondUsageInformation = bigpondUsageInformation;
         hideStatusForm();
+        updateWithUsageInformation();
+    }
 
+    private void updateWithUsageInformation() {
         parentFrame.getContentPane().add(progressionPanel.getContentPanel());
         progressionPanel.setUsageInfo(bigpondUsageInformation);
     }
@@ -111,6 +116,7 @@ public final class ProgressionGui implements GUI {
 
         @Override
         public void windowIconified(final WindowEvent e) {
+            JOptionPane.showMessageDialog(parentFrame, "Iconified");
             stateChangeListener.stateChangeOccured(ProgressionGui.this);
         }
     }
