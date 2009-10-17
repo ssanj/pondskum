@@ -59,7 +59,7 @@ public final class DefaultGuiChooser implements GuiChooser {
             return guiFactory.createProgressionIcon();
         }
 
-        return guiFactory.createProgressionIcon();
+        return guiFactory.createProgressionBar();
     }
 
     @Override

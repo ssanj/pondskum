@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
+import java.awt.event.WindowListener;
 
 public final class ProgressionGui implements GUI {
 
@@ -21,7 +21,7 @@ public final class ProgressionGui implements GUI {
     private ProgressionPanel progressionPanel;
     private ConnectionStatusForm connectionStatusForm;
     private JFrame parentFrame;
-    private WindowStateListener windowStateListener;
+    private WindowListener windowListener;
     private BigpondUsageInformation bigpondUsageInformation;
 
     public ProgressionGui(JFrame parentFrame) {
@@ -36,12 +36,12 @@ public final class ProgressionGui implements GUI {
         parentFrame.getContentPane().removeAll();
         parentFrame.getContentPane().add(connectionStatusForm.getContentPanel());
 
-        windowStateListener = null;
+        windowListener = null;
         bigpondUsageInformation = null;
     }
 
     private void removeWindowStateListener() {
-        parentFrame.removeWindowStateListener(windowStateListener);
+        parentFrame.removeWindowListener(windowListener);
     }
 
     public void display() {
@@ -56,8 +56,8 @@ public final class ProgressionGui implements GUI {
 
     @Override
     public void setStateChangeListener(final StateChangeListener stateChangeListener) {
-        windowStateListener = new ProgressionBarWindowStateListener(stateChangeListener);
-        parentFrame.addWindowStateListener(windowStateListener);
+        windowListener = new ProgressionBarWindowStateListener(stateChangeListener);
+        parentFrame.addWindowListener(windowListener);
     }
 
     @Override
