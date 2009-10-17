@@ -35,12 +35,13 @@ public final class ProgressionGui implements GUI {
         connectionStatusForm = new ConnectionStatusForm();
         parentFrame.getContentPane().removeAll();
         parentFrame.getContentPane().add(connectionStatusForm.getContentPanel());
+        removeWindowListener();
 
         windowListener = null;
         bigpondUsageInformation = null;
     }
 
-    private void removeWindowStateListener() {
+    private void removeWindowListener() {
         parentFrame.removeWindowListener(windowListener);
     }
 
@@ -49,9 +50,9 @@ public final class ProgressionGui implements GUI {
     }
 
     @Override
-    public void hide() {
+    public void dispose() {
         parentFrame.setVisible(false);
-        removeWindowStateListener();
+        resetForReuse();
     }
 
     @Override
@@ -70,6 +71,7 @@ public final class ProgressionGui implements GUI {
         if (bigpondUsageInformation != null) {
             this.bigpondUsageInformation = bigpondUsageInformation;
             updateWithUsageInformation();
+            parentFrame.getContentPane().validate();
         }
     }
 
