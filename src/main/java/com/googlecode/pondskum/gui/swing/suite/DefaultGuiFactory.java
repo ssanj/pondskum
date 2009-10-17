@@ -17,15 +17,20 @@ package com.googlecode.pondskum.gui.swing.suite;
 
 import static com.googlecode.pondskum.gui.swing.suite.ProgressionGui.HEIGHT;
 import static com.googlecode.pondskum.gui.swing.suite.ProgressionGui.WIDTH;
+import com.googlecode.pondskum.util.DefaultImageLoader;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import java.awt.TrayIcon;
 
 public final class DefaultGuiFactory implements GuiFactory {
 
     private JFrame progressionFrame;
+    private TrayIcon progressionTrayIcon;
 
     public DefaultGuiFactory() {
         createProgressionFrame();
+        createProgressionTrayIcon();
     }
 
     private void createProgressionFrame() {
@@ -35,13 +40,20 @@ public final class DefaultGuiFactory implements GuiFactory {
         progressionFrame.setLocationRelativeTo(null);
     }
 
+    private void createProgressionTrayIcon() {
+        ImageIcon image = new DefaultImageLoader(getClass()).getImageIcon("pondksum.png");
+        final TrayIcon trayIcon = new TrayIcon(image.getImage());
+        trayIcon.setImageAutoSize(true);
+        progressionTrayIcon = trayIcon;
+    }
+
     @Override
-    public GUI getProgression() {
+    public GUI getProgressionBar() {
         return new ProgressionGui(progressionFrame);
     }
 
     @Override
-    public GUI createTrayIcon() {
-        return null;
+    public GUI createProgressionIcon() {
+        return new ProgressionTrayGui(progressionTrayIcon);
     }
 }

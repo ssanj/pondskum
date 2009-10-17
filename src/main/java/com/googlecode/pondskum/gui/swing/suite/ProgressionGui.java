@@ -23,6 +23,9 @@ import com.googlecode.pondskum.gui.swing.notifyer.ErrorPanel;
 import com.googlecode.pondskum.gui.swing.notifyer.ProgressionPanel;
 
 import javax.swing.JFrame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
 public final class ProgressionGui implements GUI {
 
@@ -32,6 +35,7 @@ public final class ProgressionGui implements GUI {
     private ProgressionPanel progressionPanel;
     private ConnectionStatusForm connectionStatusForm;
     private JFrame parentFrame;
+    private WindowStateListener windowStateListener;
 
     public ProgressionGui(JFrame parentFrame) {
         this.parentFrame = parentFrame;
@@ -44,10 +48,28 @@ public final class ProgressionGui implements GUI {
         connectionStatusForm = new ConnectionStatusForm();
         parentFrame.getContentPane().removeAll();
         parentFrame.getContentPane().add(connectionStatusForm.getContentPanel());
+
+        windowStateListener = null;
+    }
+
+    private void removeWindowStateListener() {
+        parentFrame.removeWindowStateListener(windowStateListener);
     }
 
     public void display() {
         parentFrame.setVisible(true);
+    }
+
+    @Override
+    public void hide() {
+        parentFrame.setVisible(false);
+        removeWindowStateListener();
+    }
+
+    @Override
+    public void setStateChangeListener(final StateChangeListener stateChangeListener) {
+        windowStateListener = new ProgressionBarWindowStateListener(stateChangeListener);
+        parentFrame.addWindowStateListener(windowStateListener);
     }
 
     @Override
@@ -77,5 +99,19 @@ public final class ProgressionGui implements GUI {
         parentFrame.getContentPane().add(errorPanel.getContentPanel());
         parentFrame.setSize(WIDTH, HEIGHT);
         parentFrame.getContentPane().validate();
+    }
+
+    private class ProgressionBarWindowStateListener extends WindowAdapter {
+
+        private final StateChangeListener stateChangeListener;
+
+        public ProgressionBarWindowStateListener(final StateChangeListener stateChangeListener) {
+            this.stateChangeListener = stateChangeListener;
+        }
+
+        @Override
+        public void windowIconified(final WindowEvent e) {
+            stateChangeListener.stateChangeOccured(ProgressionGui.this);
+        }
     }
 }
