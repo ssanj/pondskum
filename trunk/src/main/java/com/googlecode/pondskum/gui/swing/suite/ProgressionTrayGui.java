@@ -32,6 +32,9 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
 
 public final class ProgressionTrayGui implements GUI {
@@ -43,6 +46,8 @@ public final class ProgressionTrayGui implements GUI {
     private final TrayNotification unsuccessfulTrayNotification;
     private final RollingTrayNotification connectingTrayNotification;
     private ActionListener trayIconActionListener;
+    private BigpondUsageInformation bigpondUsageInformation;
+    private MouseMotionListener mouseMotionListener;
 
     public ProgressionTrayGui(final TrayIcon trayIcon) {
         this.trayIcon = trayIcon;
@@ -57,6 +62,8 @@ public final class ProgressionTrayGui implements GUI {
     @Override
     public void resetForReuse() {
         trayIconActionListener = null;
+        mouseMotionListener = null;
+        bigpondUsageInformation = null;
     }
 
     private void removeTrayIcon() {
@@ -80,6 +87,7 @@ public final class ProgressionTrayGui implements GUI {
 
     private void removeActionListeners() {
         trayIcon.removeActionListener(trayIconActionListener);
+        trayIcon.removeMouseMotionListener(mouseMotionListener);
     }
 
     @Override
@@ -88,8 +96,25 @@ public final class ProgressionTrayGui implements GUI {
         trayIcon.addActionListener(trayIconActionListener);
     }
 
+    @Override
+    public BigpondUsageInformation getUsageInfo() {
+        return bigpondUsageInformation;
+    }
+
+    @Override
+    public void updateWithExistingUsage(final BigpondUsageInformation bigpondUsageInformation) {
+        if (bigpondUsageInformation != null) {
+            this.bigpondUsageInformation = bigpondUsageInformation;
+
+            trayIcon.displayMessage("Usage Information:", getUsageInfo(bigpondUsageInformation), TrayIcon.MessageType.INFO);
+            updateNotification(successfulTrayNotification);
+        }
+    }
+
     private void addTrayIcon() throws AWTException {
         SystemTray.getSystemTray().add(trayIcon);
+        mouseMotionListener = new TrayIconMouseMotionListener();
+        trayIcon.addMouseMotionListener(mouseMotionListener);
     }
 
     @Override
@@ -121,6 +146,8 @@ public final class ProgressionTrayGui implements GUI {
     }
 
     private String getUsageInfo(BigpondUsageInformation bigpondUsageInformation) {
+        this.bigpondUsageInformation = bigpondUsageInformation;
+
         return new StringBuilder().
                 append("[").
                 append(bigpondUsageInformation.getAccountInformation().getAccountName()).append(" - ").
@@ -156,6 +183,16 @@ public final class ProgressionTrayGui implements GUI {
         @Override
         public void actionPerformed(final ActionEvent e) {
             stateChangeListener.stateChangeOccured(ProgressionTrayGui.this);
+        }
+    }
+
+    private class TrayIconMouseMotionListener extends MouseMotionAdapter {
+
+        @Override
+        public void mouseMoved(final MouseEvent e) {
+            if (bigpondUsageInformation != null) {
+                trayIcon.setToolTip(getUsageInfo(bigpondUsageInformation));
+            }
         }
     }
 
