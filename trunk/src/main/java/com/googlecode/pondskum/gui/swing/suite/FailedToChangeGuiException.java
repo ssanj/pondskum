@@ -20,6 +20,8 @@ package com.googlecode.pondskum.gui.swing.suite;
  */
 public final class FailedToChangeGuiException extends RuntimeException {
 
+    private static final long serialVersionUID = -1906189412895838814L;
+
     public FailedToChangeGuiException(final Throwable cause) {
         super(cause);
     }
