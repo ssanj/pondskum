@@ -23,7 +23,6 @@ import com.googlecode.pondskum.gui.swing.notifyer.ErrorPanel;
 import com.googlecode.pondskum.gui.swing.notifyer.ProgressionPanel;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -133,7 +132,6 @@ public final class ProgressionGui implements GUI {
 
         @Override
         public void windowIconified(final WindowEvent e) {
-            JOptionPane.showMessageDialog(parentFrame, "Iconified");
             stateChangeListener.stateChangeOccured(ProgressionGui.this);
         }
     }

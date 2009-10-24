@@ -27,7 +27,6 @@ import com.googlecode.pondskum.util.ImageLoader;
 import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 
-import javax.swing.JOptionPane;
 import java.awt.AWTException;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -187,7 +186,6 @@ public final class ProgressionTrayGui implements GUI {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "TrayIcon Actioned");
             stateChangeListener.stateChangeOccured(ProgressionTrayGui.this);
         }
     }
