@@ -20,6 +20,8 @@ package com.googlecode.pondskum.gui.swing.suite;
  */
 public final class TimedActionFailedException extends RuntimeException {
 
+    private static final long serialVersionUID = -6988484449187143793L;
+
     public TimedActionFailedException(final Throwable cause) {
         super(cause);
     }
