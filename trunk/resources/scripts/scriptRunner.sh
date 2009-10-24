@@ -27,6 +27,6 @@ if [ ! -e "$BIGPOND_CONFIG_FILE_LOCATION/bigpond_config.properties" ]; then
     exit 0
 fi
 
-export JAVA_CMD_CP=../etc:../lib/httpclient-4.0-beta2.jar:../lib/httpcore-4.0-beta3.jar:../lib/commons-logging-1.1.1.jar:../lib/commons-codec-1.3.jar:../lib/htmlparser-1.6.jar:../lib/pinthura-core-0.0.2-SNAPSHOT.jar:../lib/cglib-nodep-2.1_3.jar:../lib/slf4j-api-1.5.2.jar:../lib/slf4j-simple-1.5.2.jar:../guice-2.0.jar:../lib/aopalliance-1.0.jar:../lib/guice-2.0.jar:../lib/pondskum-1.0.1.jar
+export JAVA_CMD_CP=../etc:../lib/httpclient-4.0-beta2.jar:../lib/httpcore-4.0-beta3.jar:../lib/commons-logging-1.1.1.jar:../lib/commons-codec-1.3.jar:../lib/htmlparser-1.6.jar:../lib/pinthura-core-0.0.2-SNAPSHOT.jar:../lib/cglib-nodep-2.1_3.jar:../lib/slf4j-api-1.5.2.jar:../lib/slf4j-simple-1.5.2.jar:../guice-2.0.jar:../lib/aopalliance-1.0.jar:../lib/scala-library-2.7.5.jar:../lib/pondskum-1.0.1.jar
 
 ./$1
