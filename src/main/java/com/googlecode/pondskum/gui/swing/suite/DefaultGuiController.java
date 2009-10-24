@@ -63,7 +63,7 @@ public final class DefaultGuiController implements GuiController {
     private void startTimer(final Config config) {
         TimedAction timedAction = new TimedAction();
         RepeatFrequency timerDelay = new TimerDelay(config);
-        SimpleTimer timer = new DefaultTimer(timedAction, 60000/*timerDelay.getFrequencyInMilliSeconds()*/);
+        SimpleTimer timer = new DefaultTimer(timedAction, timerDelay.getFrequencyInMilliSeconds());
         logFrequencyInMinutes(timerDelay, config);
         timerStopper = new TimerStopper(timer, config.getLogProvider());
         timer.start();
