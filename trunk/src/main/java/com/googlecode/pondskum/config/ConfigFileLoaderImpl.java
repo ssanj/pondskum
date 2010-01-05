@@ -15,7 +15,6 @@
  */
 package com.googlecode.pondskum.config;
 
-import com.google.inject.Inject;
 import com.googlecode.pinthura.util.SystemPropertyRetriever;
 
 import java.io.FileInputStream;
@@ -28,7 +27,6 @@ public final class ConfigFileLoaderImpl implements ConfigFileLoader {
 
     private final SystemPropertyRetriever propertyRetriever;
 
-    @Inject
     public ConfigFileLoaderImpl(final SystemPropertyRetriever propertyRetriever) {
         this.propertyRetriever = propertyRetriever;
     }
