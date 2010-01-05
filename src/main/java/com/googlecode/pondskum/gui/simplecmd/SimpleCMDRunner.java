@@ -15,13 +15,10 @@
  */
 package com.googlecode.pondskum.gui.simplecmd;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.googlecode.pondskum.bootstrap.PondskumModule;
+import com.googlecode.pondskum.bootstrap.ClientBuilder;
 import com.googlecode.pondskum.client.BigpondConnectorImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.config.Config;
-import com.googlecode.pondskum.logger.LogProvider;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -36,11 +33,8 @@ public final class SimpleCMDRunner {
     }
 
     public static void main(final String[] args) throws Exception {
-        Injector injector = Guice.createInjector(new PondskumModule());
-        Config config = injector.getInstance(Config.class);
-        Logger logger = injector.getInstance(LogProvider.class).provide(SimpleCMDRunner.class);
-
-        retrieveUsage(config, logger);
+        ClientBuilder builder = new ClientBuilder();
+        retrieveUsage(builder.getConfig(), builder.getLogger(SimpleCMDRunner.class));
     }
 
     private static void retrieveUsage(final Config config, final Logger logger) {
