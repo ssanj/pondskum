@@ -15,42 +15,27 @@
  */
 package com.googlecode.pondskum.bootstrap;
 
-import com.googlecode.pinthura.util.SystemPropertyRetriever;
-import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.config.Config;
-import com.googlecode.pondskum.config.ConfigFileLoader;
-import com.googlecode.pondskum.config.ConfigFileLoaderImpl;
-import com.googlecode.pondskum.config.ConfigurationEnum;
-import com.googlecode.pondskum.config.DefaultConfig;
-import com.googlecode.pondskum.logger.DefaultLogProvider;
+import com.googlecode.pondskum.config.DefaultConfigLoader;
 import com.googlecode.pondskum.logger.LogProvider;
 
-import java.util.Properties;
 import java.util.logging.Logger;
 
 public final class ClientBuilder {
 
+    private final Config config;
+    private LogProvider logProvider;
+
+    public ClientBuilder() {
+        config = new DefaultConfigLoader().loadConfig();
+        logProvider = config.getLogProvider();
+    }
+
     public Config getConfig() {
-        SystemPropertyRetriever propertyRetriever = new SystemPropertyRetrieverImpl();
-        ConfigFileLoader configFileLoader = new ConfigFileLoaderImpl(propertyRetriever);
-        return getConfiguration(configFileLoader, getLogProvider());
+        return config;
     }
 
     public <T> Logger getLogger(Class<T> targetClass) {
-        return getLogProvider().provide(targetClass);
+        return logProvider.provide(targetClass);
     }
-
-    private LogProvider getLogProvider() {
-        return new DefaultLogProvider(ConfigurationEnum.LOG_FILE.getKey());
-    }
-
-    private Config getConfiguration(final ConfigFileLoader configFileLoader, final LogProvider logProvider) {
-        return new DefaultConfig(getConfigurationProperties(configFileLoader), logProvider);
-    }
-
-
-    private Properties getConfigurationProperties(final ConfigFileLoader configFileLoader) {
-        return configFileLoader.loadProperties(ConfigurationEnum.CONFIG_FILE_LOCATION.getKey());
-    }
-
 }

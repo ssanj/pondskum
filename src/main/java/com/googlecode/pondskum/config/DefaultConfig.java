@@ -15,15 +15,12 @@
  */
 package com.googlecode.pondskum.config;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.googlecode.pondskum.logger.DefaultLogProvider;
 import com.googlecode.pondskum.logger.LogProvider;
 
 import java.io.File;
 import java.util.Properties;
 
-@Singleton
 public final class DefaultConfig implements Config {
 
     private static final String TEMP_FILE_NAME = "usage_data.html";
@@ -36,7 +33,6 @@ public final class DefaultConfig implements Config {
         logProvider = new DefaultLogProvider(getPropertyValue(ConfigurationEnum.LOG_FILE));
     }
 
-    @Inject
     public DefaultConfig(final Properties configProperties, final LogProvider logProvider) {
         this.configProperties = configProperties;
         this.logProvider = logProvider;
