@@ -12,6 +12,7 @@
                 <exclude>org.easymock:easymock</exclude>
                 <exclude>org.easymock:easymockclassextension</exclude>
                 <exclude>junit:junit</exclude>
+                <exclude>org.scala-lang:scala-compiler</exclude>
             </excludes>
             <outputDirectory>/lib</outputDirectory>
         </dependencySet>
