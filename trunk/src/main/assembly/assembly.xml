@@ -12,7 +12,6 @@
                 <exclude>org.easymock:easymock</exclude>
                 <exclude>org.easymock:easymockclassextension</exclude>
                 <exclude>junit:junit</exclude>
-                <exclude>org.scala-lang:scala-compiler</exclude>
             </excludes>
             <outputDirectory>/lib</outputDirectory>
         </dependencySet>
@@ -32,7 +31,7 @@
             <outputDirectory>/lib</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/resources/scripts</directory>
+            <directory>${project.build.directory}/scripts</directory>
             <outputDirectory>/bin</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
