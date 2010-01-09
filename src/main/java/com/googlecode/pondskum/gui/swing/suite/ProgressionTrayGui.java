@@ -22,10 +22,10 @@ import com.googlecode.pondskum.gui.swing.notifyer.DefaultTrayNotification;
 import com.googlecode.pondskum.gui.swing.notifyer.ProgressTrayIconInstallationException;
 import com.googlecode.pondskum.gui.swing.notifyer.RollingTrayNotification;
 import com.googlecode.pondskum.gui.swing.notifyer.TrayNotification;
+import com.googlecode.pondskum.gui.swing.notifyer.tray.DefaultQuotaFormatter;
+import com.googlecode.pondskum.gui.swing.notifyer.tray.UsageFormatter;
 import com.googlecode.pondskum.util.DefaultImageLoader;
 import com.googlecode.pondskum.util.ImageLoader;
-import com.googlecode.pondskum.util.NumericUtil;
-import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import java.awt.AWTException;
 import java.awt.SystemTray;
@@ -39,8 +39,6 @@ import java.util.Calendar;
 
 public final class ProgressionTrayGui implements GUI {
 
-    private static final double GIGABYTES = 1000.0d;
-
     private final TrayIcon trayIcon;
     private final TrayNotification successfulTrayNotification;
     private final TrayNotification unsuccessfulTrayNotification;
@@ -48,6 +46,7 @@ public final class ProgressionTrayGui implements GUI {
     private ActionListener trayIconActionListener;
     private BigpondUsageInformation bigpondUsageInformation;
     private MouseMotionListener mouseMotionListener;
+    private UsageFormatter usageFormatter;
 
     public ProgressionTrayGui(final TrayIcon trayIcon) {
         this.trayIcon = trayIcon;
@@ -57,6 +56,7 @@ public final class ProgressionTrayGui implements GUI {
         unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information",
                 imageLoader.getImage("connection_failed.png"));
         connectingTrayNotification = new ConnectingTrayNotification();
+        usageFormatter = new UsageFormatter(new DefaultQuotaFormatter());
 
         resetForReuse();
     }
@@ -151,29 +151,13 @@ public final class ProgressionTrayGui implements GUI {
 
     private String getUsageInfo(BigpondUsageInformation bigpondUsageInformation) {
         this.bigpondUsageInformation = bigpondUsageInformation;
-
-        return new StringBuilder().
-                append("[").
-                append(bigpondUsageInformation.getAccountInformation().getAccountName()).append(" - ").
-                append(getQuota(bigpondUsageInformation.getTotalUsage().getUploadUsage())).append("/").
-                append(getQuota(bigpondUsageInformation.getTotalUsage().getDownloadUsage())).append("/").
-                append(getQuota(bigpondUsageInformation.getTotalUsage().getTotalUsage())).
-                append("]").toString();
+        return usageFormatter.formatUsage(bigpondUsageInformation);
     }
 
     @Override
     public void connectionFailed(final Exception exception) {
         trayIcon.displayMessage("Connection Information", exception.getMessage(), TrayIcon.MessageType.ERROR);
         updateNotification(unsuccessfulTrayNotification);
-    }
-
-    private String getQuota(final String quota) {
-        NumericUtil numericUtil = new NumericUtilImpl();
-        if (numericUtil.isNumber(quota)) {
-            return String.format("%1$5.2g GB", numericUtil.getNumber(quota) / GIGABYTES);
-        }
-
-        return "NAN";
     }
 
     private class TrayIconActionListener implements ActionListener {
