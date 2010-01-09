@@ -26,7 +26,7 @@ public final class BigpondInformationFiller implements InformationFiller {
 
     @SuppressWarnings({"InstanceVariableOfConcreteClass"})
     @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
-    private final BigpondUsageInfomationBuilder infomationBuilder;
+    private final BigpondUsageInformationBuilder informationBuilder;
 
     public BigpondInformationFiller() {
         accountInfoMap = new HashMap<String, String>();
@@ -36,7 +36,7 @@ public final class BigpondInformationFiller implements InformationFiller {
         accountInfoMap.put("Monthly Plan Allowance:", "N/A");
         accountInfoMap.put("Monthly Plan Fee:", "N/A");
 
-        infomationBuilder = new BigpondUsageInfomationBuilder();
+        informationBuilder = new BigpondUsageInformationBuilder();
     }
 
     public void fillAccountInfo(final String[] data, final int index) {
@@ -48,7 +48,7 @@ public final class BigpondInformationFiller implements InformationFiller {
     public void fillUsageInfo(final String[] data, final int index) {
         int copyOfIndex = index;
 
-        infomationBuilder.withAccountInformation().
+        informationBuilder.withAccountInformation().
                             havingAccountName(accountInfoMap.get("Account Name:")).
                             withAccountNumber(accountInfoMap.get("Billing Account Number:")).
                             onCurrentPlan(accountInfoMap.get("Current Plan:")).
@@ -56,7 +56,7 @@ public final class BigpondInformationFiller implements InformationFiller {
                             forAPlanFeeOf(accountInfoMap.get("Monthly Plan Fee:")).done();
 
         while (!data[++copyOfIndex].equals("Total")) {
-            infomationBuilder.addMonthlyUsage().
+            informationBuilder.addMonthlyUsage().
                                 forMonth(data[copyOfIndex]).
                                 havingDownloadUsageOf(data[++copyOfIndex]).
                                 havingUploadUsageOf(data[++copyOfIndex]).
@@ -65,7 +65,7 @@ public final class BigpondInformationFiller implements InformationFiller {
                                 done();
         }
 
-        infomationBuilder.withTotalUsage().
+        informationBuilder.withTotalUsage().
                             havingDownloadUsageOf(data[++copyOfIndex]).
                             havingUploadUsageOf(data[++copyOfIndex]).
                             withTotalUsageOf(data[++copyOfIndex]).
@@ -73,6 +73,6 @@ public final class BigpondInformationFiller implements InformationFiller {
     }
 
     public BigpondUsageInformation getFilledInformation() {
-        return infomationBuilder.build();
+        return informationBuilder.build();
     }
 }
