@@ -16,35 +16,29 @@
 package com.googlecode.pondskum.gui.swing.notifyer;
 
 import com.googlecode.pondskum.client.BigpondUsageInformation;
+import com.googlecode.pondskum.gui.swing.notifyer.tray.DefaultQuotaFormatter;
+import com.googlecode.pondskum.gui.swing.notifyer.tray.UsageFormatter;
 import com.googlecode.pondskum.util.DefaultImageLoader;
 import com.googlecode.pondskum.util.ImageLoader;
-import com.googlecode.pondskum.util.NumericUtil;
-import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import java.awt.TrayIcon;
 
 public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
 
-    private static final double GIGABYTES = 1000.0d;
-
     private BigpondUsageInformation bigpondUsageInformation;
     private TrayIcon trayIcon;
-    private NumericUtil numericUtil;
     private TrayNotification successfulTrayNotification;
     private TrayNotification unsuccessfulTrayNotification;
     private RollingTrayNotification connectingTrayNotification;
+    private UsageFormatter usageFormatter;
 
     public BigpondTrayIconUsageUpdater() {
-        numericUtil = new NumericUtilImpl();
         ImageLoader imageLoader = new DefaultImageLoader(getClass());
         successfulTrayNotification = new DefaultTrayNotification("Connection Successful", imageLoader.getImage("pondksum.png"));
         unsuccessfulTrayNotification = new DefaultTrayNotification("Connection Information",
                 imageLoader.getImage("connection_failed.png"));
         connectingTrayNotification = new ConnectingTrayNotification();
-    }
-
-    public BigpondUsageInformation getBigpondUsageInformation() {
-        return bigpondUsageInformation;
+        usageFormatter = new UsageFormatter(new DefaultQuotaFormatter());
     }
 
     public void setBigpondUsageInformation(final BigpondUsageInformation bigpondUsageInformation) {
@@ -90,23 +84,6 @@ public final class BigpondTrayIconUsageUpdater implements TrayIconUsageUpdater {
     }
 
     private String createUsageMessage() {
-        if (bigpondUsageInformation == null) {
-            return "No usage information available.";
-        }
-
-        return new StringBuilder().append("[").
-                append(bigpondUsageInformation.getAccountInformation().getAccountName()).append(" - ").
-                append(getQuota(bigpondUsageInformation.getTotalUsage().getUploadUsage())).append("/").
-                append(getQuota(bigpondUsageInformation.getTotalUsage().getDownloadUsage())).append("/").
-                append(getQuota(bigpondUsageInformation.getTotalUsage().getTotalUsage())).
-                append("]").toString();
-    }
-
-    private String getQuota(final String quota) {
-        if (numericUtil.isNumber(quota)) {
-            return String.format("%1$5.2g GB", numericUtil.getNumber(quota) / GIGABYTES);
-        }
-
-        return "NAN";
+        return usageFormatter.formatUsage(bigpondUsageInformation);
     }
 }

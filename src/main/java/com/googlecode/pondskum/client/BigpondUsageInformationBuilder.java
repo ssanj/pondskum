@@ -24,13 +24,13 @@ import java.util.List;
 
 @SuppressWarnings({"InstanceVariableOfConcreteClass", "MethodReturnOfConcreteClass", "MethodParameterOfConcreteClass"})
 @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
-public final class BigpondUsageInfomationBuilder {
+public final class BigpondUsageInformationBuilder {
 
     private final List<BigpondMonthlyUsageBuilder> monthlyUsageBuilderList;
     private BigpondUsageBuilderImpl totalUsageBuilder;
     private BigpondAccountInformationBuilder informationBuilder;
 
-    public BigpondUsageInfomationBuilder() {
+    public BigpondUsageInformationBuilder() {
         monthlyUsageBuilderList = new ArrayList<BigpondMonthlyUsageBuilder>();
     }
 
@@ -92,7 +92,7 @@ public final class BigpondUsageInfomationBuilder {
             return telstraUsageBuilder.havingUmeteredUsageOf(unmeteredUsage);
         }
 
-        public BigpondUsageInfomationBuilder done() {
+        public BigpondUsageInformationBuilder done() {
             return telstraUsageBuilder.done();
         }
 
@@ -111,12 +111,12 @@ public final class BigpondUsageInfomationBuilder {
 
         BigpondUsageBuilder havingUmeteredUsageOf(String unmeteredUsage);
 
-        BigpondUsageInfomationBuilder done();
+        BigpondUsageInformationBuilder done();
     }
 
     public static final class BigpondUsageBuilderImpl implements BigpondUsageBuilder {
 
-        private final BigpondUsageInfomationBuilder parent;
+        private final BigpondUsageInformationBuilder parent;
         private String downloadUsage;
         private String uploadUsage;
         private String totalUsage;
@@ -124,7 +124,7 @@ public final class BigpondUsageInfomationBuilder {
 
         @SuppressWarnings({"MethodParameterOfConcreteClass"})
         @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
-        public BigpondUsageBuilderImpl(final BigpondUsageInfomationBuilder parent) {
+        public BigpondUsageBuilderImpl(final BigpondUsageInformationBuilder parent) {
             this.parent = parent;
         }
 
@@ -148,7 +148,7 @@ public final class BigpondUsageInfomationBuilder {
             return this;
         }
 
-        public BigpondUsageInfomationBuilder done() {
+        public BigpondUsageInformationBuilder done() {
             return parent;
         }
 
@@ -164,18 +164,18 @@ public final class BigpondUsageInfomationBuilder {
 
     public static final class BigpondAccountInformationBuilder {
 
-        private final BigpondUsageInfomationBuilder parent;
+        private final BigpondUsageInformationBuilder parent;
         private String accountName;
         private String accountNumber;
         private String currentPlan;
         private String monthlyAllowanceShaping;
         private String monthlyPlanFee;
-        private Integer monthlyAllowance;
+        private Integer monthlyAllowance = 0;
         private NumericUtil numericUtil;
 
         @SuppressWarnings({"MethodParameterOfConcreteClass"})
         @SuppressionReason(SuppressionReason.Reason.BUILDER_PATTERN)
-        public BigpondAccountInformationBuilder(final BigpondUsageInfomationBuilder parent) {
+        public BigpondAccountInformationBuilder(final BigpondUsageInformationBuilder parent) {
             this.parent = parent;
             numericUtil = new NumericUtilImpl();
         }
@@ -212,12 +212,12 @@ public final class BigpondUsageInfomationBuilder {
             return this;
         }
 
-        public BigpondUsageInfomationBuilder done() {
+        public BigpondUsageInformationBuilder done() {
             return parent;
         }
 
-        private BigpondAccountInformationImpl build() {
-            final BigpondAccountInformationImpl accountInformation = new BigpondAccountInformationImpl();
+        public BigpondAccountInformation build() {
+            final BigpondAccountInformation accountInformation = new BigpondAccountInformationImpl();
             accountInformation.setAccountName(accountName);
             accountInformation.setAccountNumber(accountNumber);
             accountInformation.setCurrentPlan(currentPlan);
