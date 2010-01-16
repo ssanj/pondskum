@@ -37,6 +37,7 @@ public final class ProgressionGui implements GUI {
     private JFrame parentFrame;
     private WindowListener windowListener;
     private BigpondUsageInformation bigpondUsageInformation;
+    private String currentStatus;
 
     public ProgressionGui(JFrame parentFrame) {
         this.parentFrame = parentFrame;
@@ -53,6 +54,7 @@ public final class ProgressionGui implements GUI {
 
         windowListener = null;
         bigpondUsageInformation = null;
+        currentStatus = "";
     }
 
     private void removeWindowListener() {
@@ -81,6 +83,11 @@ public final class ProgressionGui implements GUI {
     }
 
     @Override
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    @Override
     public void updateWithExistingUsage(final BigpondUsageInformation bigpondUsageInformation) {
         if (bigpondUsageInformation != null) {
             this.bigpondUsageInformation = bigpondUsageInformation;
@@ -90,7 +97,13 @@ public final class ProgressionGui implements GUI {
     }
 
     @Override
+    public void updateWithCurrentStatus(final String currentStatus) {
+        notifyStatusChange(currentStatus);
+    }
+
+    @Override
     public void notifyStatusChange(final String status) {
+       currentStatus = status;
        connectionStatusForm.setProgress(status);
     }
 
