@@ -47,10 +47,22 @@ public interface GUI extends GuiController {
     BigpondUsageInformation getUsageInfo();
 
     /**
+     * Returns the last status update if one exists, or an empty String otherwise.
+     * @return The last status update or an empty String.
+     */
+    String getCurrentStatus();
+
+    /**
      * Update the gui with the supplied {@code BigpondUsageInformation}.
      * @param bigpondUsageInformation The usage information.
      */
     void updateWithExistingUsage(BigpondUsageInformation bigpondUsageInformation);
+
+    /**
+     * Updates the gui with the current status.
+     * @param currentStatus The status to update the gui with.
+     */
+    void updateWithCurrentStatus(String currentStatus);
 
     interface StateChangeListener {
 

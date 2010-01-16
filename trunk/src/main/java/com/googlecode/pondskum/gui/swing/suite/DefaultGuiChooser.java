@@ -73,8 +73,10 @@ public final class DefaultGuiChooser implements GuiChooser {
             @Override
             public GUI execute() throws Exception {
                 BigpondUsageInformation usageInfo = currentGui.getUsageInfo();
+                String currentStatus = currentGui.getCurrentStatus();
                 currentGui.dispose();
                 currentGui = chooseNextGui(gui);
+                currentGui.updateWithCurrentStatus(currentStatus);
                 currentGui.updateWithExistingUsage(usageInfo);
                 currentGui.setStateChangeListener(DefaultGuiChooser.this);
                 currentGui.display();

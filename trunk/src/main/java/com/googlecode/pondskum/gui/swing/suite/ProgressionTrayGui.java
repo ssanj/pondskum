@@ -47,6 +47,7 @@ public final class ProgressionTrayGui implements GUI {
     private BigpondUsageInformation bigpondUsageInformation;
     private MouseMotionListener mouseMotionListener;
     private UsageFormatter usageFormatter;
+    private String currentStatus;
 
     public ProgressionTrayGui(final TrayIcon trayIcon) {
         this.trayIcon = trayIcon;
@@ -69,6 +70,7 @@ public final class ProgressionTrayGui implements GUI {
         trayIconActionListener = null;
         mouseMotionListener = null;
         bigpondUsageInformation = null;
+        currentStatus = "";
     }
 
     @Override
@@ -106,6 +108,11 @@ public final class ProgressionTrayGui implements GUI {
     }
 
     @Override
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    @Override
     public void updateWithExistingUsage(final BigpondUsageInformation bigpondUsageInformation) {
         if (bigpondUsageInformation != null) {
             this.bigpondUsageInformation = bigpondUsageInformation;
@@ -113,6 +120,11 @@ public final class ProgressionTrayGui implements GUI {
             trayIcon.displayMessage("Usage Information:", getUsageInfo(bigpondUsageInformation), TrayIcon.MessageType.INFO);
             updateNotification(successfulTrayNotification);
         }
+    }
+
+    @Override
+    public void updateWithCurrentStatus(final String currentStatus) {
+        notifyStatusChange(currentStatus);
     }
 
     private void addTrayIcon() throws AWTException {
@@ -123,6 +135,7 @@ public final class ProgressionTrayGui implements GUI {
 
     @Override
     public void notifyStatusChange(final String status) {
+        currentStatus = status;
         updateNotification(connectingTrayNotification.getNotification(status));
     }
 
