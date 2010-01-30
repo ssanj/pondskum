@@ -68,6 +68,7 @@ public final class ProgressionGui implements GUI {
     }
 
     public void display() {
+        parentFrame.setLocationRelativeTo(null);
         parentFrame.setVisible(true);
     }
 

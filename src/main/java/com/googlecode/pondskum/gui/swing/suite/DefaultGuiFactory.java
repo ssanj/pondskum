@@ -30,7 +30,7 @@ public final class DefaultGuiFactory implements GuiFactory {
     static final int PROGRESSION_HEIGHT = 90;
 
     static final int TABLET_WIDTH = 600;
-    static final int TABLET_HEIGHT = 90;
+    static final int TABLET_HEIGHT = 400;
 
     private JFrame progressionFrame;
     private TrayIcon progressionTrayIcon;
