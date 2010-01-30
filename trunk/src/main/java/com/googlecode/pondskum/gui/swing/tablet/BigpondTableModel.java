@@ -23,7 +23,7 @@ import com.googlecode.pondskum.util.NumericUtilImpl;
 
 import javax.swing.table.AbstractTableModel;
 
-public final class BigpondTableModel extends AbstractTableModel {
+public class BigpondTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID  = 550659947871203828L;
     private static final int DOWNLOAD_USAGE     = 1;

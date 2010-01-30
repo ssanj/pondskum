@@ -23,19 +23,23 @@ import com.googlecode.pondskum.gui.swing.notifyer.ErrorPanel;
 import com.googlecode.pondskum.gui.swing.notifyer.ProgressionPanel;
 
 import javax.swing.JFrame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public final class ProgressionGui implements GUI {
+import static com.googlecode.pondskum.gui.swing.suite.DefaultGuiFactory.PROGRESSION_HEIGHT;
+import static com.googlecode.pondskum.gui.swing.suite.DefaultGuiFactory.PROGRESSION_WIDTH;
 
-    static final int WIDTH = 600;
-    static final int HEIGHT = 90;
+public final class ProgressionGui implements GUI {
 
     private ProgressionPanel progressionPanel;
     private ConnectionStatusForm connectionStatusForm;
     private JFrame parentFrame;
     private WindowListener windowListener;
+    private MouseListener mouseListener;
     private BigpondUsageInformation bigpondUsageInformation;
     private String currentStatus;
 
@@ -50,15 +54,17 @@ public final class ProgressionGui implements GUI {
         connectionStatusForm = new ConnectionStatusForm();
         parentFrame.getContentPane().removeAll();
         parentFrame.getContentPane().add(connectionStatusForm.getContentPanel());
-        removeWindowListener();
+        removeListener();
 
         windowListener = null;
+        mouseListener = null;
         bigpondUsageInformation = null;
         currentStatus = "";
     }
 
-    private void removeWindowListener() {
+    private void removeListener() {
         parentFrame.removeWindowListener(windowListener);
+        progressionPanel.getContentPanel().removeMouseListener(mouseListener);
     }
 
     public void display() {
@@ -74,7 +80,9 @@ public final class ProgressionGui implements GUI {
     @Override
     public void setStateChangeListener(final StateChangeListener stateChangeListener) {
         windowListener = new ProgressionBarWindowStateListener(stateChangeListener);
+        mouseListener = new ProgressionBarMouseListener(stateChangeListener);
         parentFrame.addWindowListener(windowListener);
+        progressionPanel.getContentPanel().addMouseListener(mouseListener);
     }
 
     @Override
@@ -131,7 +139,7 @@ public final class ProgressionGui implements GUI {
         ErrorPanel errorPanel = new ErrorPanel(new DefaultDisplayDetailsPack(), errorMessage);
         errorPanel.showSeeLogsMessage(!ConfigFileLoaderException.class.isAssignableFrom(exception.getClass()));
         parentFrame.getContentPane().add(errorPanel.getContentPanel());
-        parentFrame.setSize(WIDTH, HEIGHT);
+        parentFrame.setSize(PROGRESSION_WIDTH, PROGRESSION_HEIGHT);
         parentFrame.getContentPane().validate();
     }
 
@@ -145,7 +153,23 @@ public final class ProgressionGui implements GUI {
 
         @Override
         public void windowIconified(final WindowEvent e) {
-            stateChangeListener.stateChangeOccured(ProgressionGui.this);
+            stateChangeListener.stateChangeOccured(ProgressionGui.this, GuiEnumeration.PROGRESS_TRAY);
+        }
+    }
+
+    private class ProgressionBarMouseListener extends MouseAdapter {
+
+        private final StateChangeListener stateChangeListener;
+
+        public ProgressionBarMouseListener(final StateChangeListener stateChangeListener) {
+            this.stateChangeListener = stateChangeListener;
+        }
+
+        @Override
+        public void mouseClicked(final MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                stateChangeListener.stateChangeOccured(ProgressionGui.this, GuiEnumeration.PROGRESSION_TABLET);
+            }
         }
     }
 }

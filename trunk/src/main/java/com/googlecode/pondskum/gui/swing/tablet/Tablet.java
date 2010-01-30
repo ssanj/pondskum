@@ -58,25 +58,34 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     private JTextArea notificationTextArea;
     private JLabel monthlyAllowanceLabel;
     private SystemPropertyRetriever propertyRetriever;
+    private final Color totalsColor;
 
     public Tablet() {
         propertyRetriever = new SystemPropertyRetrieverImpl();
-        setTitle("Bigpond Connection Tablet");
-        setContentPane(contentPane);
-        setModal(true);
-        getRootPane().setDefaultButton(exitButton);
+        totalsColor = new Color(RED, GREEN, BLUE);
+        setDefaults();
+    }
 
+    public void resetForReuse() {
+        notificationTextArea.setText("");
+        usageTable.setModel(new NullBigpondTableModel());
+    }
+
+    public void setDefaults() {
+        setTitle("Bigpond Connection Tablet");
+        setModal(true);
+        setContentPane(contentPane);
+        getRootPane().setDefaultButton(exitButton);
         addEventListeners();
     }
 
     @Override
     public void setTabletData(final BigpondUsageInformation usageInformation) {
         BigpondTableModel bigpondTableModel = new BigpondTableModel(usageInformation);
-        Color totalsColor = new Color(RED, GREEN, BLUE);
+
         usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer(bigpondTableModel.getRowCount(), totalsColor));
         usageTable.setDefaultRenderer(String.class, new UsageStringRenderer(bigpondTableModel.getRowCount(), totalsColor));
         usageTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
-
         setAccountInfo(usageInformation);
         usageTable.setModel(bigpondTableModel);
     }
@@ -89,6 +98,7 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         monthlyPlanFeeLabel.setText(usageInformation.getAccountInformation().getMonthlyPlanFee());
     }
 
+    //TODO: Remove this
     private void addEventListeners() {
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {

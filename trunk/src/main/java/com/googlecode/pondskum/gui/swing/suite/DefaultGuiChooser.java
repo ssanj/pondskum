@@ -52,7 +52,7 @@ public final class DefaultGuiChooser implements GuiChooser {
     //TODO: Find a better way to do this.
     private GUI getNewInstanceOfCurrentGui() {
         if (currentGui != null) {
-            currentGui.resetForReuse();
+            currentGui.resetForReuse();//this is done directly in each contructor..so it may not be needed.
         }
 
         if (currentGui instanceof ProgressionGui) {
@@ -63,11 +63,15 @@ public final class DefaultGuiChooser implements GuiChooser {
             return guiFactory.createProgressionIcon();
         }
 
+        if (currentGui instanceof ProgressionTabletGui) {
+            return guiFactory.createProgressionTablet();
+        }
+
         return guiFactory.createProgressionBar();
     }
 
     @Override
-    public void stateChangeOccured(final GUI gui) {
+    public void stateChangeOccured(final GUI gui, final GuiEnumeration nextGui) {
         guiLocker.performThreadsafeGuiUpdate(new Command() {
 
             @Override
@@ -75,7 +79,7 @@ public final class DefaultGuiChooser implements GuiChooser {
                 BigpondUsageInformation usageInfo = currentGui.getUsageInfo();
                 String currentStatus = currentGui.getCurrentStatus();
                 currentGui.dispose();
-                currentGui = chooseNextGui(gui);
+                currentGui = chooseNextGui(nextGui);
                 currentGui.updateWithCurrentStatus(currentStatus);
                 currentGui.updateWithExistingUsage(usageInfo);
                 currentGui.setStateChangeListener(DefaultGuiChooser.this);
@@ -85,11 +89,12 @@ public final class DefaultGuiChooser implements GuiChooser {
         });
     }
 
-    private GUI chooseNextGui(final GUI gui) {
-        if (gui instanceof ProgressionGui) {
-            return guiFactory.createProgressionIcon();
-        } else {
-            return guiFactory.createProgressionBar();
+    private GUI chooseNextGui(final GuiEnumeration nextGui) {
+        switch(nextGui) {
+            case PROGRESSION_BAR: return guiFactory.createProgressionBar();
+            case PROGRESS_TRAY: return guiFactory.createProgressionIcon();
+            case PROGRESSION_TABLET: return guiFactory.createProgressionTablet();
+            default: return guiFactory.createProgressionBar();
         }
     }
 }
