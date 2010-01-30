@@ -15,9 +15,7 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-public interface GuiFactory {
+public enum GuiEnumeration {
 
-    GUI createProgressionBar();
-    GUI createProgressionIcon();
-    GUI createProgressionTablet();
+    PROGRESSION_BAR, PROGRESS_TRAY, PROGRESSION_TABLET
 }

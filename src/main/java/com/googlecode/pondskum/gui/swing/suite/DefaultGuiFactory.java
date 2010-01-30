@@ -15,28 +15,37 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
-import static com.googlecode.pondskum.gui.swing.suite.ProgressionGui.HEIGHT;
-import static com.googlecode.pondskum.gui.swing.suite.ProgressionGui.WIDTH;
+
+import com.googlecode.pondskum.gui.swing.tablet.Tablet;
 import com.googlecode.pondskum.util.DefaultImageLoader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import java.awt.Dimension;
 import java.awt.TrayIcon;
 
 public final class DefaultGuiFactory implements GuiFactory {
 
+    static final int PROGRESSION_WIDTH = 600;
+    static final int PROGRESSION_HEIGHT = 90;
+
+    static final int TABLET_WIDTH = 600;
+    static final int TABLET_HEIGHT = 90;
+
     private JFrame progressionFrame;
     private TrayIcon progressionTrayIcon;
+    private Tablet tablet;
 
     public DefaultGuiFactory() {
         createProgressionFrame();
         createProgressionTrayIcon();
+        createTablet();
     }
 
     private void createProgressionFrame() {
         progressionFrame = new JFrame("Progression");
         progressionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        progressionFrame.setSize(WIDTH, HEIGHT);
+        progressionFrame.setSize(PROGRESSION_WIDTH, PROGRESSION_HEIGHT);
         progressionFrame.setLocationRelativeTo(null);
     }
 
@@ -47,6 +56,13 @@ public final class DefaultGuiFactory implements GuiFactory {
         progressionTrayIcon = trayIcon;
     }
 
+    private void createTablet() {
+        tablet = new Tablet();
+        tablet.setSize(new Dimension(TABLET_WIDTH, TABLET_HEIGHT));
+        tablet.setResizable(true);
+        tablet.setLocationRelativeTo(null);
+    }
+
     @Override
     public GUI createProgressionBar() {
         return new ProgressionGui(progressionFrame);
@@ -55,5 +71,10 @@ public final class DefaultGuiFactory implements GuiFactory {
     @Override
     public GUI createProgressionIcon() {
         return new ProgressionTrayGui(progressionTrayIcon);
+    }
+
+    @Override
+    public GUI createProgressionTablet() {
+        return new ProgressionTabletGui(tablet);
     }
 }

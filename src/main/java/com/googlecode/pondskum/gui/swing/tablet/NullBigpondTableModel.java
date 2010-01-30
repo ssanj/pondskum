@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.gui.swing.suite;
+package com.googlecode.pondskum.gui.swing.tablet;
 
-public interface GuiFactory {
 
-    GUI createProgressionBar();
-    GUI createProgressionIcon();
-    GUI createProgressionTablet();
+public final class NullBigpondTableModel extends BigpondTableModel {
+
+    private static final long serialVersionUID = 4192423608002389245L;
+
+    public NullBigpondTableModel() {
+        super(null);
+    }
+
+    @Override
+    public int getRowCount() {
+        return 0;
+    }
 }

@@ -66,6 +66,6 @@ public interface GUI extends GuiController {
 
     interface StateChangeListener {
 
-        void stateChangeOccured(GUI gui);
+        void stateChangeOccured(GUI gui, final GuiEnumeration nextGui);
     }
 }

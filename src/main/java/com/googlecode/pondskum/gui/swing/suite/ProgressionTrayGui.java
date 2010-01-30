@@ -37,6 +37,8 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
 
+import static com.googlecode.pondskum.gui.swing.suite.GuiEnumeration.PROGRESSION_BAR;
+
 public final class ProgressionTrayGui implements GUI {
 
     private final TrayIcon trayIcon;
@@ -183,7 +185,7 @@ public final class ProgressionTrayGui implements GUI {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            stateChangeListener.stateChangeOccured(ProgressionTrayGui.this);
+            stateChangeListener.stateChangeOccured(ProgressionTrayGui.this, PROGRESSION_BAR);
         }
     }
 
