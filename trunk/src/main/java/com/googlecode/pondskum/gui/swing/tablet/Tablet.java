@@ -27,6 +27,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -63,6 +64,8 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     public Tablet() {
         propertyRetriever = new SystemPropertyRetrieverImpl();
         totalsColor = new Color(RED, GREEN, BLUE);
+        setUndecorated(true);
+        getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         setDefaults();
     }
 
@@ -72,7 +75,7 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     }
 
     public void setDefaults() {
-        setTitle("Bigpond Connection Tablet");
+        setTitle("Pondskum Tablet");
         setModal(true);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(exitButton);

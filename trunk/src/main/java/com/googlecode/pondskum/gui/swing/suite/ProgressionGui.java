@@ -25,8 +25,6 @@ import com.googlecode.pondskum.gui.swing.notifyer.ProgressionPanel;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -66,10 +64,10 @@ public final class ProgressionGui implements GUI {
     private void createContextMenu(final StateChangeListener stateChangeListener) {
         contextMenu = new JPopupMenu();
         JMenuItem menuItem = new JMenuItem("Minimize to tray");
-        menuItem.addActionListener(new MinimizeToTrayAction(stateChangeListener));
+        menuItem.addActionListener(ContextMenuActions.createMinimizeToTrayTransition(this, stateChangeListener));
         contextMenu.add(menuItem);
-        menuItem = new JMenuItem("Tabulate usage");
-        menuItem.addActionListener(new ShowTabletAction(stateChangeListener));
+        menuItem = new JMenuItem("Show Pondskum Tablet");
+        menuItem.addActionListener(ContextMenuActions.createTabletTransition(this, stateChangeListener));
         contextMenu.add(menuItem);
     }
 
@@ -151,34 +149,6 @@ public final class ProgressionGui implements GUI {
         parentFrame.getContentPane().add(errorPanel.getContentPanel());
         parentFrame.setSize(PROGRESSION_WIDTH, PROGRESSION_HEIGHT);
         parentFrame.getContentPane().validate();
-    }
-
-    private class MinimizeToTrayAction implements ActionListener {
-
-        private StateChangeListener stateChangeListener;
-
-        public MinimizeToTrayAction(final StateChangeListener stateChangeListener) {
-            this.stateChangeListener = stateChangeListener;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            stateChangeListener.stateChangeOccured(ProgressionGui.this, GuiEnumeration.PROGRESS_TRAY);
-        }
-    }
-
-    private class ShowTabletAction implements ActionListener {
-
-        private StateChangeListener stateChangeListener;
-
-        public ShowTabletAction(final StateChangeListener stateChangeListener) {
-            this.stateChangeListener = stateChangeListener;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            stateChangeListener.stateChangeOccured(ProgressionGui.this, GuiEnumeration.PROGRESSION_TABLET);
-        }
     }
 
     private class ContextMenuMouseListener extends MouseAdapter {

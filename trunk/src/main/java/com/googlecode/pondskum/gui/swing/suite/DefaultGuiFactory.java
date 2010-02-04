@@ -44,7 +44,7 @@ public final class DefaultGuiFactory implements GuiFactory {
     }
 
     private void createProgressionFrame() {
-        progressionFrame = new JFrame("Progression");
+        progressionFrame = new JFrame("Pondskum Progression");
         progressionFrame.setUndecorated(true);
         progressionFrame.getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         progressionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

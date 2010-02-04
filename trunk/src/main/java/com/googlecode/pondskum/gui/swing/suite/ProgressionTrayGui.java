@@ -28,16 +28,15 @@ import com.googlecode.pondskum.util.DefaultImageLoader;
 import com.googlecode.pondskum.util.ImageLoader;
 
 import java.awt.AWTException;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
-
-import static com.googlecode.pondskum.gui.swing.suite.GuiEnumeration.PROGRESSION_BAR;
 
 public final class ProgressionTrayGui implements GUI {
 
@@ -50,6 +49,7 @@ public final class ProgressionTrayGui implements GUI {
     private MouseMotionListener mouseMotionListener;
     private UsageFormatter usageFormatter;
     private String currentStatus;
+    private PopupMenu contextMenu;
 
     public ProgressionTrayGui(final TrayIcon trayIcon) {
         this.trayIcon = trayIcon;
@@ -67,12 +67,18 @@ public final class ProgressionTrayGui implements GUI {
     @Override
     public void resetForReuse() {
         removeTrayIcon();
-        removeActionListeners();
+        removeListeners();
+        removeContextMenu();
 
+        contextMenu = null;
         trayIconActionListener = null;
         mouseMotionListener = null;
         bigpondUsageInformation = null;
         currentStatus = "";
+    }
+
+    private void removeContextMenu() {
+        trayIcon.setPopupMenu(null);
     }
 
     @Override
@@ -93,15 +99,29 @@ public final class ProgressionTrayGui implements GUI {
         resetForReuse();
     }
 
-    private void removeActionListeners() {
+    private void removeListeners() {
         trayIcon.removeActionListener(trayIconActionListener);
         trayIcon.removeMouseMotionListener(mouseMotionListener);
     }
 
     @Override
     public void setStateChangeListener(final StateChangeListener stateChangeListener) {
-        trayIconActionListener = new TrayIconActionListener(stateChangeListener);
-        trayIcon.addActionListener(trayIconActionListener);
+        createContextMenu(stateChangeListener);
+    }
+
+    private void createContextMenu(final StateChangeListener stateChangeListener) {
+        contextMenu = new PopupMenu();
+        MenuItem menuItem = new MenuItem("Show Pondskum Bar");
+        menuItem.addActionListener(ContextMenuActions.createBarTransition(this, stateChangeListener));
+        contextMenu.add(menuItem);
+        menuItem = new MenuItem("Show Pondskum Tablet");
+        menuItem.addActionListener(ContextMenuActions.createTabletTransition(this, stateChangeListener));
+        contextMenu.add(menuItem);
+        contextMenu.addSeparator();
+        menuItem = new MenuItem("Exit");
+        menuItem.addActionListener(ContextMenuActions.createExitTransition());
+        contextMenu.add(menuItem);
+        trayIcon.setPopupMenu(contextMenu);
     }
 
     @Override
@@ -175,28 +195,12 @@ public final class ProgressionTrayGui implements GUI {
         updateNotification(unsuccessfulTrayNotification);
     }
 
-    private class TrayIconActionListener implements ActionListener {
-
-        private final StateChangeListener stateChangeListener;
-
-        public TrayIconActionListener(final StateChangeListener stateChangeListener) {
-            this.stateChangeListener = stateChangeListener;
-        }
-
-        @Override
-        public void actionPerformed(final ActionEvent e) {
-            stateChangeListener.stateChangeOccured(ProgressionTrayGui.this, PROGRESSION_BAR);
-        }
-    }
-
     private class TrayIconMouseMotionListener extends MouseMotionAdapter {
 
-        @Override
-        public void mouseMoved(final MouseEvent e) {
+        @Override public void mouseMoved(final MouseEvent e) {
             if (bigpondUsageInformation != null) {
                 trayIcon.setToolTip(getUsageInfo(bigpondUsageInformation));
             }
         }
     }
-
 }

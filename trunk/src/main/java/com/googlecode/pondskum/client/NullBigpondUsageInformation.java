@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.gui.swing.tablet;
+package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.NullBigpondUsageInformation;
+import java.util.ArrayList;
+import java.util.List;
 
+public final class NullBigpondUsageInformation implements BigpondUsageInformation {
 
-public final class NullBigpondTableModel extends BigpondTableModel {
-
-    private static final long serialVersionUID = 4192423608002389245L;
-
-    public NullBigpondTableModel() {
-        super(new NullBigpondUsageInformation());
+    @Override
+    public BigpondAccountInformation getAccountInformation() {
+        return new NullBigpondAccountInformation();
     }
 
     @Override
-    public int getRowCount() {
-        return 0;
+    public List<BigpondMonthlyUsage> getMonthlyUsageList() {
+        return new ArrayList<BigpondMonthlyUsage>();
+    }
+
+    @Override
+    public BigpondUsage getTotalUsage() {
+        return new NullBigpondUsage();
     }
 }
