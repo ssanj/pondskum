@@ -18,16 +18,19 @@ package com.googlecode.pondskum.gui.swing.suite;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.gui.swing.tablet.Tablet;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import java.awt.event.MouseListener;
+
+import static com.googlecode.pondskum.gui.swing.suite.ContextMenuActions.createContextMenuPopup;
 
 public final class ProgressionTabletGui implements GUI {
 
     private final Tablet parentDialog;
     private BigpondUsageInformation bigpondUsageInformation;
     private String currentStatus;
-    private WindowListener windowListener;
+    private JPopupMenu contextMenu;
+    private MouseListener contextMenuListener;
 
     public ProgressionTabletGui(final Tablet parentDialog) {
         this.parentDialog = parentDialog;
@@ -37,15 +40,25 @@ public final class ProgressionTabletGui implements GUI {
     @Override
     public void resetForReuse() {
         parentDialog.resetForReuse();
-        removeWindowListener();
+        removeListeners();
 
-        windowListener = null;
+        contextMenu = null;
         bigpondUsageInformation = null;
         currentStatus = "";
     }
 
-    private void removeWindowListener() {
-        parentDialog.removeWindowListener(windowListener);
+    private void removeListeners() {
+        parentDialog.removeMouseListener(contextMenuListener);
+    }
+
+    private void createContextMenu(final StateChangeListener stateChangeListener) {
+        contextMenu = new JPopupMenu();
+        JMenuItem menuItem = new JMenuItem("Minimize to tray");
+        menuItem.addActionListener(ContextMenuActions.createMinimizeToTrayTransition(this, stateChangeListener));
+        contextMenu.add(menuItem);
+        menuItem = new JMenuItem("Show Pondskum Bar");
+        menuItem.addActionListener(ContextMenuActions.createBarTransition(this, stateChangeListener));
+        contextMenu.add(menuItem);
     }
 
     @Override
@@ -61,8 +74,9 @@ public final class ProgressionTabletGui implements GUI {
 
     @Override
     public void setStateChangeListener(final StateChangeListener stateChangeListener) {
-        windowListener = new TabletWindowStateListener(stateChangeListener);
-        parentDialog.addWindowListener(windowListener);
+        createContextMenu(stateChangeListener);
+        contextMenuListener = createContextMenuPopup(contextMenu, parentDialog);
+        parentDialog.addMouseListener(contextMenuListener);
     }
 
     @Override
@@ -107,19 +121,4 @@ public final class ProgressionTabletGui implements GUI {
     private void updateConsoleWithStatus(String status) {
         parentDialog.updateStatus(status);
     }
-
-    private class TabletWindowStateListener extends WindowAdapter {
-
-        private final StateChangeListener stateChangeListener;
-
-        public TabletWindowStateListener(final StateChangeListener stateChangeListener) {
-            this.stateChangeListener = stateChangeListener;
-        }
-
-        @Override
-        public void windowClosed(final WindowEvent e) {
-            stateChangeListener.stateChangeOccured(ProgressionTabletGui.this, GuiEnumeration.PROGRESSION_BAR);
-        }
-    }
-
 }
