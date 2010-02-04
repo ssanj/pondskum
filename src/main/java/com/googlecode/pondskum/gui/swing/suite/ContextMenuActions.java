@@ -15,11 +15,23 @@
  */
 package com.googlecode.pondskum.gui.swing.suite;
 
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public final class ContextMenuActions {
+
+    public static MouseListener createContextMenuPopup(final JPopupMenu contextMenu, final Component component) {
+        return new ContextMenuMouseListener(contextMenu, component);
+    }
 
     public static ActionListener createBarTransition(final GUI activeGui, final GUI.StateChangeListener stateChangeListener) {
         return new ShowBarAction(activeGui, stateChangeListener);
@@ -34,6 +46,10 @@ public final class ContextMenuActions {
     }
 
     public static ActionListener createExitTransition() {
+        return new ExitSystemAction();
+    }
+
+    public static WindowListener createExitWindowTransition() {
         return new ExitSystemAction();
     }
 
@@ -91,9 +107,42 @@ public final class ContextMenuActions {
         }
     }
 
-    private static class ExitSystemAction implements ActionListener {
+    private static class ExitSystemAction extends WindowAdapter implements ActionListener {
         @Override public void actionPerformed(final ActionEvent e) {
             System.exit(0);
         }
+
+        @Override public void windowClosing(final WindowEvent e) {
+            actionPerformed(null);
+        }
     }
+
+    private static class ContextMenuMouseListener extends MouseAdapter {
+
+        private final JPopupMenu contextMenu;
+        private Component component;
+
+        private ContextMenuMouseListener(final JPopupMenu contextMenu, final Component component) {
+            this.contextMenu = contextMenu;
+
+            this.component = component;
+        }
+
+        @Override
+        public void mousePressed(final MouseEvent e) {
+            showContextMenu(e);
+        }
+
+        @Override
+        public void mouseReleased(final MouseEvent e) {
+            showContextMenu(e);
+        }
+
+        private void showContextMenu(final MouseEvent e) {
+            if (e.isPopupTrigger()) {
+                contextMenu.show(component, e.getX(), e.getY());
+            }
+        }
+    }
+
 }
