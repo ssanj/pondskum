@@ -21,6 +21,7 @@ import com.googlecode.pondskum.util.DefaultImageLoader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JRootPane;
 import java.awt.Dimension;
 import java.awt.TrayIcon;
 
@@ -44,8 +45,11 @@ public final class DefaultGuiFactory implements GuiFactory {
 
     private void createProgressionFrame() {
         progressionFrame = new JFrame("Progression");
+        progressionFrame.setUndecorated(true);
+        progressionFrame.getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         progressionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         progressionFrame.setSize(PROGRESSION_WIDTH, PROGRESSION_HEIGHT);
+        progressionFrame.setResizable(false);
         progressionFrame.setLocationRelativeTo(null);
     }
 

@@ -52,7 +52,7 @@ public final class DefaultGuiChooser implements GuiChooser {
     //TODO: Find a better way to do this.
     private GUI getNewInstanceOfCurrentGui() {
         if (currentGui != null) {
-            currentGui.resetForReuse();//this is done directly in each contructor..so it may not be needed.
+            currentGui.resetForReuse();
         }
 
         if (currentGui instanceof ProgressionGui) {
