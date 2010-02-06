@@ -27,6 +27,7 @@ import com.googlecode.pondskum.gui.swing.notifyer.tray.UsageFormatter;
 import com.googlecode.pondskum.util.DefaultImageLoader;
 import com.googlecode.pondskum.util.ImageLoader;
 
+import javax.swing.JOptionPane;
 import java.awt.AWTException;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -86,12 +87,22 @@ public final class ProgressionTrayGui implements GUI {
         try {
             addTrayIcon();
         } catch (Exception e) {
-            throw new ProgressTrayIconInstallationException(e);
+            handleTrayInstallationError(e);
         }
     }
 
+    private void handleTrayInstallationError(final Exception e) {
+        JOptionPane.showMessageDialog(null, "There was an error creating the tray icon.\nPondskum will now exit.",
+                "TrayIcon Installation Error", JOptionPane.ERROR_MESSAGE);
+        throw new ProgressTrayIconInstallationException(e);
+    }
+
     private void removeTrayIcon() {
-        SystemTray.getSystemTray().remove(trayIcon);
+        try {
+            SystemTray.getSystemTray().remove(trayIcon);
+        } catch (Exception e) {
+            handleTrayInstallationError(e);
+        }
     }
 
     @Override
