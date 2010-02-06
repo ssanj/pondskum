@@ -19,6 +19,8 @@ import com.googlecode.pondskum.config.Config;
 import com.googlecode.pondskum.config.DefaultConfigLoader;
 
 import javax.swing.JWindow;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 public final class GuiControllerRunner {
@@ -29,10 +31,12 @@ public final class GuiControllerRunner {
 
     public static void main(String[] args) {
         createApplicationWindow();
-
         Config config = new DefaultConfigLoader().loadConfig();
         Logger lockerLogger = config.getLogProvider().provide(DefaultGuiLocker.class);
-        new DefaultGuiController(config, new DefaultGuiChooser(new DefaultGuiFactory(), new DefaultGuiLocker(lockerLogger))).run();
+        final DefaultGuiController controller = new DefaultGuiController(config, new DefaultGuiChooser(new DefaultGuiFactory(),
+                new DefaultGuiLocker(lockerLogger)));
+        ActionListener listener = new ActionListener() { @Override public void actionPerformed(final ActionEvent e) { controller.run(); }};
+        new SplashInThePond.SplashDisplayer(listener).execute();
     }
 
     //If the thread is not kept alive, when its execution completes the application exists..
