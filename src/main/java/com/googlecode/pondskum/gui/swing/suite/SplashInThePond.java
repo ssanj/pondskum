@@ -27,6 +27,8 @@ import java.awt.event.ActionListener;
 
 public final class SplashInThePond extends JWindow {
 
+    private static final long serialVersionUID = 4671640954589173355L;
+
     public SplashInThePond() {
         ImageLoader imageLoader = new DefaultImageLoader(getClass());
         ImageIcon icon = imageLoader.getImageIcon("splash.jpg");
