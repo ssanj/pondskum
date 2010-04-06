@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
+@Deprecated
 public final class TotalsRenderer extends DefaultTableCellRenderer {
 
     private static final long serialVersionUID = 1858148660255313682L;

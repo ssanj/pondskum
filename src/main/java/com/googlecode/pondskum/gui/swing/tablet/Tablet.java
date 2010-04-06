@@ -19,6 +19,10 @@ import com.googlecode.pinthura.util.SystemPropertyRetriever;
 import com.googlecode.pinthura.util.SystemPropertyRetrieverImpl;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.gui.swing.suite.ContextMenuActions;
+import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
+import com.googlecode.pondskum.util.DefaultUsageConverter;
+import com.googlecode.pondskum.util.NumericUtilImpl;
+import com.googlecode.pondskum.util.UsageConverter;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -55,12 +59,13 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     private JTable usageTable;
     private JTextArea notificationTextArea;
     private JLabel monthlyAllowanceLabel;
+    private JLabel totalUsageLabel;
     private SystemPropertyRetriever propertyRetriever;
-    private final Color totalsColor;
+    private UsageConverter usageConverter;
 
     public Tablet() {
         propertyRetriever = new SystemPropertyRetrieverImpl();
-        totalsColor = new Color(RED, GREEN, BLUE);
+        usageConverter = new DefaultUsageConverter(new NumericUtilImpl());
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         setDefaults();
@@ -80,17 +85,22 @@ public final class Tablet extends JDialog implements UpdatableTablet {
 
     @Override
     public void setTabletData(final BigpondUsageInformation usageInformation) {
-        BigpondTableModel bigpondTableModel = new BigpondTableModel(usageInformation);
+        BigpondTableModel bigpondTableModel = new BigpondTableModel(usageInformation, usageConverter);
 
-        usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer(bigpondTableModel.getRowCount(), totalsColor));
-        usageTable.setDefaultRenderer(String.class, new UsageStringRenderer(bigpondTableModel.getRowCount(), totalsColor));
+        usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer());
+        usageTable.setDefaultRenderer(String.class, new UsageDateRenderer());
         usageTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
         setAccountInfo(usageInformation);
         usageTable.setModel(bigpondTableModel);
-        scrollToTotalUsage();
+        scrollLastRow();
+        updateTotalUsage(usageInformation);
     }
 
-    private void scrollToTotalUsage() {
+    private void updateTotalUsage(final BigpondUsageInformation usageInformation) {
+        totalUsageLabel.setText("Total Usage: " + usageConverter.toString(usageInformation.getTotalUsage().getTotalUsage()));
+    }
+
+    private void scrollLastRow() {
         int lastIndex = usageTable.getModel().getRowCount() - 1;
         usageTable.setRowSelectionInterval(lastIndex, lastIndex);
         usageTable.scrollRectToVisible(usageTable.getCellRect(lastIndex, 0, true));
@@ -116,6 +126,15 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         contentPane.registerKeyboardAction(
                 ContextMenuActions.createExitTransition(),
         KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, BLUE), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    public static void main(String[] args) {
+        Tablet tablet = new Tablet();
+        tablet.setTabletData(new StubbyBigpondUsageInformationBuilder().build());
+        tablet.pack();
+        tablet.setResizable(true);
+        tablet.setLocationRelativeTo(null);
+        tablet.setVisible(true);
     }
 
     @Override

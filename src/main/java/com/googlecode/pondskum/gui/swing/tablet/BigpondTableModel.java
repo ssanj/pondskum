@@ -18,8 +18,7 @@ package com.googlecode.pondskum.gui.swing.tablet;
 import com.googlecode.pondskum.client.BigpondMonthlyUsage;
 import com.googlecode.pondskum.client.BigpondUsage;
 import com.googlecode.pondskum.client.BigpondUsageInformation;
-import com.googlecode.pondskum.util.NumericUtil;
-import com.googlecode.pondskum.util.NumericUtilImpl;
+import com.googlecode.pondskum.util.UsageConverter;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -29,36 +28,26 @@ public class BigpondTableModel extends AbstractTableModel {
     private static final int DOWNLOAD_USAGE     = 1;
     private static final int UPLOAD_USAGE       = 2;
     private static final int UMETERED_USAGE     = 3;
-    private static final int TOTAL_USAFE        = 4;
+    private static final int TOTAL_USAGE = 4;
 
     private final BigpondUsageInformation bigpondUsageInformation;
+    private UsageConverter usageConverter;
     private final String[] columnNames;
-    private final NumericUtil numericUtil;
 
-    public BigpondTableModel(final BigpondUsageInformation bigpondUsageInformation) {
+    public BigpondTableModel(final BigpondUsageInformation bigpondUsageInformation, final UsageConverter usageConverter) {
         this.bigpondUsageInformation = bigpondUsageInformation;
+        this.usageConverter = usageConverter;
         columnNames = new String[]{"Month", "Download", "Upload", "Unmetered", "Total"};
-        numericUtil = new NumericUtilImpl();
     }
 
     @Override
     public Object getValueAt(final int row, final int column) {
-        if (isLastRow(row)) {
-            BigpondUsage usage = bigpondUsageInformation.getTotalUsage();
-            return (column == 0) ?  "Total" : getUsageValue(column, usage);
-        }
-
         BigpondMonthlyUsage usage = bigpondUsageInformation.getMonthlyUsageList().get(row);
         return (column == 0) ? usage.getMonth() : getUsageValue(column, usage.getBigpondUsage());
     }
 
-    private boolean isLastRow(final int row) {
-        return row == bigpondUsageInformation.getMonthlyUsageList().size();
-    }
-
     private Object getUsageValue(final int column, final BigpondUsage usage) {
         String usageValue = "-1";
-
         switch (column) {
             case DOWNLOAD_USAGE:
                 usageValue = usage.getDownloadUsage();
@@ -69,13 +58,13 @@ public class BigpondTableModel extends AbstractTableModel {
             case UMETERED_USAGE:
                 usageValue = usage.getUnmeteredUsage();
                 break;
-            case TOTAL_USAFE:
+            case TOTAL_USAGE:
                 usageValue = usage.getTotalUsage();
                 break;
             default: break; //use default value.
         }
 
-        return new UsageTableValue(numericUtil.getNumber(usageValue));
+        return usageConverter.toUsageTableValue(usageValue);
     }
 
     @Override
@@ -95,7 +84,7 @@ public class BigpondTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return bigpondUsageInformation.getMonthlyUsageList().size() + DOWNLOAD_USAGE;
+        return bigpondUsageInformation.getMonthlyUsageList().size();
     }
 }
 

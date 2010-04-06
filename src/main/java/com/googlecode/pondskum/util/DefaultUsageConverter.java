@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.gui.swing.tablet;
+package com.googlecode.pondskum.util;
 
-import com.googlecode.pondskum.client.NullBigpondUsageInformation;
-import com.googlecode.pondskum.util.DefaultUsageConverter;
-import com.googlecode.pondskum.util.NumericUtilImpl;
+import com.googlecode.pondskum.gui.swing.tablet.UsageTableValue;
 
+public final class DefaultUsageConverter implements UsageConverter {
 
-public final class NullBigpondTableModel extends BigpondTableModel {
+    private final NumericUtil numericUtil;
 
-    private static final long serialVersionUID = 4192423608002389245L;
-
-    public NullBigpondTableModel() {
-        super(new NullBigpondUsageInformation(), new DefaultUsageConverter(new NumericUtilImpl()));
+    public DefaultUsageConverter(final NumericUtil numericUtil) {
+        this.numericUtil = numericUtil;
     }
 
-    @Override
-    public int getRowCount() {
-        return 0;
+    @Override public String toString(final String usageValue) {
+        return toUsageTableValue(usageValue).getValue();
+    }
+
+    @Override public UsageTableValue toUsageTableValue(final String usageValue) {
+        return new UsageTableValue(numericUtil.getNumber(usageValue));
     }
 }
