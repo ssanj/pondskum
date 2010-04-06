@@ -113,11 +113,11 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     private void setSortingOrder(final BigpondTableModel bigpondTableModel) {
         TableRowSorter<BigpondTableModel> sorter = new TableRowSorter<BigpondTableModel>(bigpondTableModel);
         usageTable.setRowSorter(sorter);
+        usageTable.getTableHeader().setReorderingAllowed(false);
 
         int columns = bigpondTableModel.getColumnCount();
         for (int index = 0; index  < columns; index++) {
             if (bigpondTableModel.getColumnClass(index) == UsageTableValue.class) {
-                System.out.println("setting comparator for column "+ index);
                 sorter.setComparator(index, usageComparator);
             }
         }

@@ -37,7 +37,7 @@ public final class UsageTableValueComparator implements Comparator<UsageTableVal
             return (sizeUnits1 - sizeUnits2) * -1; //G is before M but > M for our purposes.
         }
 
-        return ((Double) (getUsage(value1) - getUsage(value2))).intValue();
+        return ((Double) Math.signum(getUsage(value1) - getUsage(value2))).intValue();
     }
 
     private double getUsage(final String value) {

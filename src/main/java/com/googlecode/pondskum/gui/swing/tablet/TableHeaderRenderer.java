@@ -39,7 +39,7 @@ public final class TableHeaderRenderer extends DefaultTableCellRenderer implemen
     private Toggle toggle;
 
     public TableHeaderRenderer() {
-        toggle = new Toggle(false);
+        toggle = new Toggle(true);
     }
 
     @Override
