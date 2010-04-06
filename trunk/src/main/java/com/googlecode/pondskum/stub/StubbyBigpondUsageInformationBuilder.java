@@ -49,8 +49,9 @@ public final class StubbyBigpondUsageInformationBuilder {
         bigpondUsageList.add(new BigpondMonthlyUsageImpl("01 Jan 2009", informationCreator.createUsage("1000", "500", "250", "1750")));
         bigpondUsageList.add(new BigpondMonthlyUsageImpl("22 Feb 2009", informationCreator.createUsage("-", "-", "-", "-")));
         bigpondUsageList.add(new BigpondMonthlyUsageImpl("14 Mar 2009", informationCreator.createUsage("5000", "1000", "50", "6050")));
+        bigpondUsageList.add(new BigpondMonthlyUsageImpl("15 Mar 2009", informationCreator.createUsage("5125", "1010", "52", "6090")));
 
-        BigpondUsage totalUsage = informationCreator.createUsage("6000", "1500", "300", "78000");
+        BigpondUsage totalUsage = informationCreator.createUsage("11125", "7010", "302", "13890");
 
         return new BigpondUsageInformationImpl(accountInformation, bigpondUsageList, totalUsage);
     }
