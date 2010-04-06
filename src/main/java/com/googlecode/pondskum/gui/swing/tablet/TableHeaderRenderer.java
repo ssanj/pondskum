@@ -23,8 +23,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public final class TableHeaderRenderer extends DefaultTableCellRenderer {
+public final class TableHeaderRenderer extends DefaultTableCellRenderer implements MouseListener {
 
     private static final long serialVersionUID = -5922036445853578030L;
     private static final int FONT_SIZE = 16;
@@ -34,6 +36,12 @@ public final class TableHeaderRenderer extends DefaultTableCellRenderer {
     private static final int GREEN = 203;
     private static final int BLUE = 146;
 
+    private Toggle toggle;
+
+    public TableHeaderRenderer() {
+        toggle = new Toggle(false);
+    }
+
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus,
                                                    final int row, final int column) {
@@ -42,6 +50,40 @@ public final class TableHeaderRenderer extends DefaultTableCellRenderer {
         component.setBackground(new Color(RED, GREEN, BLUE));
         component.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
         component.setHorizontalAlignment(SwingConstants.CENTER);
+        component.setIcon(UIManager.getIcon(toggle.isSet() ? "Table.ascendingSortIcon" :  "Table.descendingSortIcon"));
         return component;
+    }
+
+    @Override
+    public void mouseClicked(final MouseEvent e) {
+        toggle = toggle.toggle();
+    }
+
+    @Override
+    public void mousePressed(final MouseEvent e) { }
+
+    @Override
+    public void mouseReleased(final MouseEvent e) { }
+
+    @Override
+    public void mouseEntered(final MouseEvent e) { }
+
+    @Override
+    public void mouseExited(final MouseEvent e) { }
+
+    private static final class Toggle {
+        private final boolean state;
+
+        private Toggle(final boolean state) {
+            this.state = state;
+        }
+
+        private Toggle toggle() {
+           return new Toggle(!state);
+        }
+
+        private boolean isSet() {
+            return state;
+        }
     }
 }
