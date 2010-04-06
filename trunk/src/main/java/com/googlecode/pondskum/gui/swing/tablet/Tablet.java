@@ -23,7 +23,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -49,7 +48,6 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     private static final int BLUE = 0;
 
     private JPanel contentPane;
-    private JButton exitButton;
     private JLabel accountNameLabel;
     private JLabel accountNumberLabel;
     private JLabel currentPlanLabel;
@@ -77,7 +75,6 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         setTitle("Pondskum Tablet");
         setModal(true);
         setContentPane(contentPane);
-        getRootPane().setDefaultButton(exitButton);
         addEventListeners();
     }
 
@@ -151,9 +148,6 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(1, 2, new Insets(BLUE, BLUE, BLUE, BLUE), -1, -1, true, false));
         panel1.add(panel2, new GridConstraints(BLUE, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, BLUE, false));
-        exitButton = new JButton();
-        exitButton.setText("Exit");
-        panel2.add(exitButton, new GridConstraints(BLUE, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, BLUE, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(3, 1, new Insets(BLUE, BLUE, BLUE, BLUE), -1, -1));
         contentPane.add(panel3, new GridConstraints(BLUE, BLUE, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, BLUE, false));
