@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 Copy the bigpond_config.sample file to bigpond_config.properties. Update your user information
  and then run the suitable executable from the bin directory.
