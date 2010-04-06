@@ -161,7 +161,7 @@
               <horizontalAlignment value="4"/>
               <horizontalTextPosition value="4"/>
               <opaque value="true"/>
-              <text value="Total Usage: 17GB"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
