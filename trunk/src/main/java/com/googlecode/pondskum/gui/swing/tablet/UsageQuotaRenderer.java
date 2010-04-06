@@ -18,31 +18,16 @@ package com.googlecode.pondskum.gui.swing.tablet;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import java.awt.Color;
 import java.awt.Component;
 
 public final class UsageQuotaRenderer extends DefaultTableCellRenderer {
 
     private static final long serialVersionUID = 7098504244957971708L;
 
-    private final int rowCount;
-    private final TableCellRenderer totalsRenderer;
-
-    public UsageQuotaRenderer(final int rowCount, final Color totalsColour) {
-        this.rowCount = rowCount;
-        totalsRenderer = new TotalsRenderer(totalsColour, RIGHT);
-    }
-
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus,
                                                    final int row, final int column) {
         if (UsageTableValue.class.isAssignableFrom(value.getClass())) {
-            if (row == (rowCount - 1)) {
-                return totalsRenderer.getTableCellRendererComponent(table, ((UsageTableValue) value).getValue(), isSelected, hasFocus,
-                        row, column);
-            }
-
             JLabel component = (JLabel) super.getTableCellRendererComponent(table, ((UsageTableValue) value).getValue(), isSelected,
                     hasFocus, row, column);
             component.setHorizontalAlignment(RIGHT);

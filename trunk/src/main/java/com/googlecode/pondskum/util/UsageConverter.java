@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.pondskum.gui.swing.tablet;
+package com.googlecode.pondskum.util;
 
-@Deprecated
-public interface TabletUpateListener {
+import com.googlecode.pondskum.gui.swing.tablet.UsageTableValue;
 
-    void updateClicked(UpdatableTablet tablet);
+public interface UsageConverter {
+
+    String toString(String usageValue);
+    
+    UsageTableValue toUsageTableValue(String usageValue);
 }
