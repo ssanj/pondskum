@@ -21,6 +21,7 @@ import com.googlecode.pondskum.client.BigpondUsageInformation;
 import com.googlecode.pondskum.gui.swing.suite.ContextMenuActions;
 import com.googlecode.pondskum.stub.StubbyBigpondUsageInformationBuilder;
 import com.googlecode.pondskum.util.DefaultUsageConverter;
+import com.googlecode.pondskum.util.NumericUtil;
 import com.googlecode.pondskum.util.NumericUtilImpl;
 import com.googlecode.pondskum.util.UsageConverter;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -36,11 +37,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.table.TableRowSorter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 
 import static com.googlecode.pondskum.gui.swing.suite.ContextMenuActions.createExitWindowTransition;
 
@@ -62,10 +65,14 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     private JLabel totalUsageLabel;
     private SystemPropertyRetriever propertyRetriever;
     private UsageConverter usageConverter;
+    private NumericUtil numericUtil;
+    private Comparator<UsageTableValue> usageComparator;
 
     public Tablet() {
         propertyRetriever = new SystemPropertyRetrieverImpl();
-        usageConverter = new DefaultUsageConverter(new NumericUtilImpl());
+        numericUtil = new NumericUtilImpl();
+        usageConverter = new DefaultUsageConverter(numericUtil);
+        usageComparator = new UsageTableValueComparator(numericUtil);
         setUndecorated(true);
         getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         setDefaults();
@@ -87,13 +94,33 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     public void setTabletData(final BigpondUsageInformation usageInformation) {
         BigpondTableModel bigpondTableModel = new BigpondTableModel(usageInformation, usageConverter);
 
-        usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer());
-        usageTable.setDefaultRenderer(String.class, new UsageDateRenderer());
-        usageTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
+        setRenderers();
         setAccountInfo(usageInformation);
         usageTable.setModel(bigpondTableModel);
+        setSortingOrder(bigpondTableModel);
         scrollLastRow();
         updateTotalUsage(usageInformation);
+    }
+
+    private void setRenderers() {
+        usageTable.setDefaultRenderer(UsageTableValue.class, new UsageQuotaRenderer());
+        usageTable.setDefaultRenderer(String.class, new UsageDateRenderer());
+        TableHeaderRenderer headerRenderer = new TableHeaderRenderer();
+        usageTable.getTableHeader().setDefaultRenderer(headerRenderer);
+        usageTable.getTableHeader().addMouseListener(headerRenderer);
+    }
+
+    private void setSortingOrder(final BigpondTableModel bigpondTableModel) {
+        TableRowSorter<BigpondTableModel> sorter = new TableRowSorter<BigpondTableModel>(bigpondTableModel);
+        usageTable.setRowSorter(sorter);
+
+        int columns = bigpondTableModel.getColumnCount();
+        for (int index = 0; index  < columns; index++) {
+            if (bigpondTableModel.getColumnClass(index) == UsageTableValue.class) {
+                System.out.println("setting comparator for column "+ index);
+                sorter.setComparator(index, usageComparator);
+            }
+        }
     }
 
     private void updateTotalUsage(final BigpondUsageInformation usageInformation) {
@@ -101,7 +128,7 @@ public final class Tablet extends JDialog implements UpdatableTablet {
     }
 
     private void scrollLastRow() {
-        int lastIndex = usageTable.getModel().getRowCount() - 1;
+        int lastIndex = usageTable.convertRowIndexToView(usageTable.getModel().getRowCount() - 1);
         usageTable.setRowSelectionInterval(lastIndex, lastIndex);
         usageTable.scrollRectToVisible(usageTable.getCellRect(lastIndex, 0, true));
     }
