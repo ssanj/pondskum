@@ -27,4 +27,4 @@ New features and Fixes
 7. The tablet now automatically scrolls to the latest row.
 8. Removed superfluous exist button from tablet.
 9. Tablet data can now be sorted.
-10. Moved totals of the tablet gui into it's own more visible panel.
+10. Moved totals of the tablet gui into its own more visible panel.
