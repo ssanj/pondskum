@@ -90,6 +90,13 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         usageTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
         setAccountInfo(usageInformation);
         usageTable.setModel(bigpondTableModel);
+        scrollToTotalUsage();
+    }
+
+    private void scrollToTotalUsage() {
+        int lastIndex = usageTable.getModel().getRowCount() - 1;
+        usageTable.setRowSelectionInterval(lastIndex, lastIndex);
+        usageTable.scrollRectToVisible(usageTable.getCellRect(lastIndex, 0, true));
     }
 
     private void setAccountInfo(final BigpondUsageInformation usageInformation) {
