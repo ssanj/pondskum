@@ -26,6 +26,14 @@ public final class UsageTableValue {
 
     public String getValue() {
         //TODO: format such that 1.0G is 1 G.
-        return (value >= GIGABYTE) ? (value / GIGABYTE) + " G" : value + " M";
+        return formatValue();
+    }
+
+    private String formatValue() {
+        if (value >= GIGABYTE) {
+            return String.format("%1$5.2f G", (value / GIGABYTE));
+        }
+
+        return String.format("%1$5.0f M", value.doubleValue());
     }
 }
