@@ -37,10 +37,8 @@ public final class BigpondConnectorImpl implements BigpondConnector {
     private static final String ON                          = "on";
 
     //Urls used when connecting to bigpond.
-    private static final String HOME_URL = "http://www.bigpond.com/internet/mybigpond/?ref=Net-Head-MyBigPond";
     private static final String LOGIN_URL = "https://signon.bigpond.com/login";
     private static final String USAGE_URL = "https://my.bigpond.com/mybigpond/myaccount/myusage/daily/default.do";
-    private static final String LOGOUT_URL = "https://my.bigpond.com/mybigpond/logout.do";
     private static final String GOTO_URL =
             "https://my.bigpond.com/cdaredirector.do?auth_redir=https://my.bigpond.com/mybigpond/myaccount/default.do/";
 
@@ -74,11 +72,8 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
             //TODO: Move this into a builder.
 
-            ConnectionListener details = new NullConnectionListener();
-
-            if (config.isLoggingRequested()) {
-                details = new DetailedConnectionListener(config.getLogProvider()); //logging is turned on.
-            }
+            ConnectionListener details = (config.isLoggingRequested()) ?
+                    new DetailedConnectionListener(config.getLogProvider()) : new NullConnectionListener();
 
             //default listener chain.
             ConnectionListener defaultCompositeConnectionListeners = new CompositeConnectionListener(
@@ -89,12 +84,11 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             ConnectionListener usageWritingListener = createFileWriterWithUserListeners(details, tempFileName,
                     userConnectionListeners);
 
-            linkTraverser.traverse(HOME_URL, defaultCompositeConnectionListeners);
             formSubmitter.submit(LOGIN_URL, defaultCompositeConnectionListeners, getNameValuePairs());
             linkTraverser.traverse(USAGE_URL, usageWritingListener);//the usage info is dumped.
-            linkTraverser.traverse(LOGOUT_URL, defaultCompositeConnectionListeners);
-            httpClient.getConnectionManager().shutdown();
 
+            //shutdown in a separate thread.
+            new ShutdownConnection(config, linkTraverser, defaultCompositeConnectionListeners, httpClient).execute();
             return new BigpondInformationParser(tempFileName).parse();
         } catch (Exception e) {
             throw new BigpondConnectorException(e);
