@@ -249,7 +249,7 @@ public final class Tablet extends JDialog implements UpdatableTablet {
         totalUsageLabel.setHorizontalAlignment(4);
         totalUsageLabel.setHorizontalTextPosition(4);
         totalUsageLabel.setOpaque(true);
-        totalUsageLabel.setText("Total Usage: 17GB");
+        totalUsageLabel.setText("");
         panel1.add(totalUsageLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
