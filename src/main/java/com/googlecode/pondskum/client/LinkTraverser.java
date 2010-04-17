@@ -19,5 +19,5 @@ import com.googlecode.pondskum.client.listener.ConnectionListener;
 
 public interface LinkTraverser {
 
-    void traverse(String url, ConnectionListener logger) throws LinkTraverserException;
+    void traverse(String url, StageHolder stageHolder, ConnectionListener logger) throws LinkTraverserException;
 }

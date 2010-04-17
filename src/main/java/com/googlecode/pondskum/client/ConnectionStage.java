@@ -15,9 +15,12 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.listener.ConnectionListener;
-
-public interface FormSubmitter {
-
-    void submit(String url, ConnectionListener listener, StageHolder stageHolder, NameValuePairBuilder nameValuePairBuilder);
+public enum ConnectionStage {
+    OPEN_REQUEST_FOR_LOGIN,
+    SUBMIT_REQUEST_FOR_LOGIN,
+    CLOSE_REQUEST_FOR_LOGIN,
+    OPEN_REQUEST_FOR_USAGE,
+    CLOSE_REQUEST_FOR_USAGE,
+    OPEN_REQUEST_FOR_LOGOUT,
+    CLOSE_REQUEST_FOR_LOGOUT
 }

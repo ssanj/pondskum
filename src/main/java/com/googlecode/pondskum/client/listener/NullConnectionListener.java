@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.client.listener;
 
+import com.googlecode.pondskum.client.ConnectionStage;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -24,13 +25,11 @@ public final class NullConnectionListener implements ConnectionListener {
         //do nothing.
     }
 
-    @Override
-    public void onError(final String error, final Exception e) {
+    @Override public void onError(final ConnectionStage stage, final String error, final Exception e) {
         //do nothing.
     }
 
-    @Override
-    public void updateStatus(final String statusMessage) {
+    @Override public void updateStatus(final ConnectionStage stage, final String statusMessage) {
         //do nothing.
     }
 }

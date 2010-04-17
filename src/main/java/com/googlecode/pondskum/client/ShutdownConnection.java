@@ -17,37 +17,29 @@ package com.googlecode.pondskum.client;
 
 import com.googlecode.pondskum.client.listener.ConnectionListener;
 import com.googlecode.pondskum.config.Config;
-import org.apache.http.client.HttpClient;
 
-import javax.swing.SwingWorker;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class ShutdownConnection extends SwingWorker<Void, Void> {
+public final class ShutdownConnection {
 
     private static final String LOGOUT_URL = "https://my.bigpond.com/mybigpond/logout.do";
     private final LinkTraverser linkTraverser;
     private final ConnectionListener connectionListener;
-    private final HttpClient httpClient;
     private final Logger logger;
 
-    public ShutdownConnection(final Config config, final LinkTraverser linkTraverser, final ConnectionListener connectionListener,
-                              final HttpClient httpClient) {
+    public ShutdownConnection(final Config config, final LinkTraverser linkTraverser, final ConnectionListener connectionListener) {
         this.connectionListener = connectionListener;
-        this.httpClient = httpClient;
         this.linkTraverser = linkTraverser;
         logger = config.getLogProvider().provide(ShutdownConnection.class);
     }
 
-    @Override protected Void doInBackground() throws Exception {
-        try {
-            logger.log(Level.INFO, "Logging out of Bigpond.");
-            linkTraverser.traverse(LOGOUT_URL, connectionListener);
-            logger.log(Level.INFO, "Closing HttpClient.");
-            httpClient.getConnectionManager().shutdown();
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Could not shutdown connection properly. See exception for details.", e);
-        }
-        return null;
+    public void logout() {
+        logger.log(Level.INFO, "Logging out of Bigpond.");
+        linkTraverser.traverse(LOGOUT_URL, createStages(), connectionListener);
+    }
+
+    private StageHolder createStages() {
+        return new StageHolder(ConnectionStage.OPEN_REQUEST_FOR_LOGOUT, ConnectionStage.CLOSE_REQUEST_FOR_LOGOUT);
     }
 }

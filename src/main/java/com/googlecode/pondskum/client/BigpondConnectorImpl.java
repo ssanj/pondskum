@@ -27,6 +27,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.googlecode.pondskum.client.ConnectionStage.CLOSE_REQUEST_FOR_LOGIN;
+import static com.googlecode.pondskum.client.ConnectionStage.CLOSE_REQUEST_FOR_USAGE;
+import static com.googlecode.pondskum.client.ConnectionStage.OPEN_REQUEST_FOR_LOGIN;
+import static com.googlecode.pondskum.client.ConnectionStage.OPEN_REQUEST_FOR_USAGE;
+import static com.googlecode.pondskum.client.ConnectionStage.SUBMIT_REQUEST_FOR_LOGIN;
+
 /**
  * Connects to Bigpond and retrieves all account and usage information. Username, password and various other values are read from the
  * <code>Properties</code> instance supplied.
@@ -84,15 +90,38 @@ public final class BigpondConnectorImpl implements BigpondConnector {
             ConnectionListener usageWritingListener = createFileWriterWithUserListeners(details, tempFileName,
                     userConnectionListeners);
 
-            formSubmitter.submit(LOGIN_URL, defaultCompositeConnectionListeners, getNameValuePairs());
-            linkTraverser.traverse(USAGE_URL, usageWritingListener);//the usage info is dumped.
+            login(formSubmitter, defaultCompositeConnectionListeners);
+            getUsage(linkTraverser, usageWritingListener);
+            closeConnections(httpClient, linkTraverser, defaultCompositeConnectionListeners);
 
-            //shutdown in a separate thread.
-            new ShutdownConnection(config, linkTraverser, defaultCompositeConnectionListeners, httpClient).execute();
             return new BigpondInformationParser(tempFileName).parse();
         } catch (Exception e) {
             throw new BigpondConnectorException(e);
         }
+    }
+
+    private void getUsage(final LinkTraverser linkTraverser, final ConnectionListener usageWritingListener) {
+        linkTraverser.traverse(USAGE_URL, createUsageStages(), usageWritingListener);//the usage info is dumped.
+    }
+
+    private void login(final FormSubmitter formSubmitter, final ConnectionListener defaultCompositeConnectionListeners) {
+        formSubmitter.submit(LOGIN_URL, defaultCompositeConnectionListeners, createUsageStages(), getNameValuePairs());
+    }
+
+    private void closeConnections(final DefaultHttpClient httpClient, final LinkTraverser linkTraverser,
+                                  final ConnectionListener defaultCompositeConnectionListeners) {
+        //shutdown connection.
+        new ShutdownConnection(config, linkTraverser, defaultCompositeConnectionListeners).logout();
+        //shutdown httpclient in a separate thread.
+        new ShutdownHttpClient(config, httpClient).execute();
+    }
+
+    private StageHolder createUsageStages() {
+        return new StageHolder(OPEN_REQUEST_FOR_USAGE, CLOSE_REQUEST_FOR_USAGE);
+    }
+
+    private StageHolder createLoginStages() {
+        return new StageHolder(OPEN_REQUEST_FOR_LOGIN, SUBMIT_REQUEST_FOR_LOGIN, CLOSE_REQUEST_FOR_LOGIN);
     }
 
     /**

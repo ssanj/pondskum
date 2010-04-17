@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.client.listener;
 
+import com.googlecode.pondskum.client.ConnectionStage;
 import com.googlecode.pondskum.logger.LogProvider;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -52,13 +53,11 @@ public final class DetailedConnectionListener implements ConnectionListener {
         }
     }
 
-    @Override
-    public void onError(final String error, final Exception e) {
+    @Override public void onError(final ConnectionStage stage, final String error, final Exception e) {
         logger.log(Level.SEVERE, error, e);
     }
 
-    @Override
-    public void updateStatus(final String statusMessage) {
+    @Override public void updateStatus(final ConnectionStage stage, final String statusMessage) {
         logger.info(statusMessage);
     }
 

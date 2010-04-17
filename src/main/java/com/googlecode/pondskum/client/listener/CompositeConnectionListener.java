@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.client.listener;
 
+import com.googlecode.pondskum.client.ConnectionStage;
 import com.googlecode.pondskum.client.HttpResponseInvocationHandler;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -48,17 +49,15 @@ public final class CompositeConnectionListener implements ConnectionListener {
         }
     }
 
-    @Override
-    public void onError(final String error, final Exception e) {
+    @Override public void onError(final ConnectionStage stage, final String error, final Exception e) {
         for (ConnectionListener connectionListener : connectionListeners) {
-            connectionListener.onError(error, e);
+            connectionListener.onError(stage, error, e);
         }
     }
 
-    @Override
-    public void updateStatus(final String statusMessage) {
+    @Override public void updateStatus(final ConnectionStage stage, final String statusMessage) {
         for (ConnectionListener connectionListener : connectionListeners) {
-            connectionListener.updateStatus(statusMessage);
+            connectionListener.updateStatus(stage, statusMessage);
         }
     }
 }
