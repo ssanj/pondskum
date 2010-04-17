@@ -15,9 +15,31 @@
  */
 package com.googlecode.pondskum.client;
 
-import com.googlecode.pondskum.client.listener.ConnectionListener;
+import java.util.Arrays;
 
-public interface FormSubmitter {
+public final class StageHolder {
 
-    void submit(String url, ConnectionListener listener, StageHolder stageHolder, NameValuePairBuilder nameValuePairBuilder);
+    private ConnectionStage[] stages;
+
+    public StageHolder(final ConnectionStage... stage) {
+        if (stage.length < 2) {
+            throw new IllegalArgumentException("The minimum size of a StateHolder is 2.");
+        }
+
+        stages = stage.clone();
+    }
+
+    public void nextState() {
+        if (hasMoreStates()) {
+            stages = Arrays.copyOfRange(stages, 1, stages.length);
+        }
+    }
+
+    public ConnectionStage getState() {
+        return stages[0];
+    }
+
+    private boolean hasMoreStates() {
+        return stages.length > 1;
+    }
 }

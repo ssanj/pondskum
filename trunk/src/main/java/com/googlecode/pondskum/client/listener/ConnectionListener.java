@@ -15,6 +15,7 @@
  */
 package com.googlecode.pondskum.client.listener;
 
+import com.googlecode.pondskum.client.ConnectionStage;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -22,7 +23,7 @@ public interface ConnectionListener {
 
     void handleEvent(DefaultHttpClient httpClient, HttpResponse response) throws ConnectionListenerException;
 
-    void onError(String error, Exception e);
+    void onError(ConnectionStage stage, String error, Exception e);
 
-    void updateStatus(String statusMessage);
+    void updateStatus(ConnectionStage stage, String statusMessage);
 }

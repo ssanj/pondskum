@@ -18,6 +18,7 @@ package com.googlecode.pondskum.client.listener;
 import com.googlecode.pinthura.io.FileTextWriter;
 import com.googlecode.pinthura.io.FileTextWriterImpl;
 import com.googlecode.pinthura.io.FileWriterFactoryImpl;
+import com.googlecode.pondskum.client.ConnectionStage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -50,12 +51,12 @@ public final class FileWritingConnectionListener implements ConnectionListener {
     }
 
     @Override
-    public void onError(final String error, final Exception e) {
+    public void onError(final ConnectionStage stage, final String error, final Exception e) {
         //do nothing.
     }
 
     @Override
-    public void updateStatus(final String statusMessage) {
+    public void updateStatus(final ConnectionStage stage, final String statusMessage) {
         //do nothing.
     }
 

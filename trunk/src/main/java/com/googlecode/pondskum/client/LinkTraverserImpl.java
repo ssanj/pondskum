@@ -31,16 +31,17 @@ public final class LinkTraverserImpl implements LinkTraverser {
         this.httpClient = httpClient;
     }
 
-    public void traverse(final String url, final ConnectionListener listener) throws LinkTraverserException {
+    public void traverse(final String url, final StageHolder stageHolder, final ConnectionListener listener) throws LinkTraverserException {
         try {
-            listener.updateStatus("Connecting to url -> " + url);
+            listener.updateStatus(stageHolder.getState(), "Connecting to url -> " + url);
+            stageHolder.nextState();
             HttpResponse response = openConnection(httpClient, url);
             listener.handleEvent(httpClient, response);
-            listener.updateStatus("closing connection to url -> " + url);
+            listener.updateStatus(stageHolder.getState(), "closing connection to url -> " + url);
             closeConnection(response);
         } catch (Exception e) {
             String error = "There was an error connecting to url -> " + url;
-            listener.onError(error, e);
+            listener.onError(stageHolder.getState(), error, e);
             throw new LinkTraverserException(error, e);
         }
     }

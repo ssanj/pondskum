@@ -15,11 +15,15 @@
  */
 package com.googlecode.pondskum.gui.swing.tablet;
 
+import com.googlecode.pondskum.client.ConnectionStage;
 import com.googlecode.pondskum.client.listener.ConnectionListener;
 import com.googlecode.pondskum.client.listener.ConnectionListenerException;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import static com.googlecode.pondskum.client.ConnectionStage.CLOSE_REQUEST_FOR_USAGE;
+
+//TODO: REnamed this to SwingConnectionListener as it is not used on the Console.
 public final class ConsoleConnectionListener implements ConnectionListener {
 
     private final StatusUpdatable statusUpdatable;
@@ -33,13 +37,15 @@ public final class ConsoleConnectionListener implements ConnectionListener {
         //do nothing.
     }
 
-    @Override
-    public void onError(final String error, final Exception e) {
-        statusUpdatable.updateStatus(error);
+    @Override public void onError(final ConnectionStage stage, final String error, final Exception e) {
+        if (stage.ordinal() <= CLOSE_REQUEST_FOR_USAGE.ordinal()) {
+            statusUpdatable.updateStatus(error);
+        }
     }
 
-    @Override
-    public void updateStatus(final String statusMessage) {
-        statusUpdatable.updateStatus(statusMessage);
+    @Override public void updateStatus(final ConnectionStage stage, final String statusMessage) {
+        if (stage.ordinal() <= CLOSE_REQUEST_FOR_USAGE.ordinal()) {
+            statusUpdatable.updateStatus(statusMessage);
+        }
     }
 }
