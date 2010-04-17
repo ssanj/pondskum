@@ -23,6 +23,7 @@ import com.googlecode.pondskum.client.listener.NullConnectionListener;
 import com.googlecode.pondskum.config.Config;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import javax.swing.SwingUtilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -110,10 +111,15 @@ public final class BigpondConnectorImpl implements BigpondConnector {
 
     private void closeConnections(final DefaultHttpClient httpClient, final LinkTraverser linkTraverser,
                                   final ConnectionListener defaultCompositeConnectionListeners) {
-        //shutdown connection.
-        new ShutdownConnection(config, linkTraverser, defaultCompositeConnectionListeners).logout();
-        //shutdown httpclient in a separate thread.
-        new ShutdownHttpClient(config, httpClient).execute();
+        SwingUtilities.invokeLater(new Runnable(){
+
+            @Override public void run() {
+                //shutdown connection. This is done is a separate thread as we don't want to to affect the current gui thread.
+                new ShutdownConnection(config, linkTraverser, defaultCompositeConnectionListeners).logout();
+                //shutdown httpclient in a separate thread. This must run AFTER the above....hence the inclusion here.
+                new ShutdownHttpClient(config, httpClient).execute();
+            }
+        });
     }
 
     private StageHolder createUsageStages() {
